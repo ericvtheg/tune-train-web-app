@@ -12,4 +12,5 @@ export class CreateUserDto {
   readonly tikTok: string;
   readonly youtube: string;
   readonly twitter: string;
+  readonly beatPort: string;
 }

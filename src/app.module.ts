@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SongsModule } from './songs/songs.module';
 import { UsersModule } from './users/users.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [SongsModule, UsersModule],
+  imports: [SongsModule, UsersModule, TypeOrmModule.forRoot()],
   controllers: [AppController],
   providers: [AppService],
 })
