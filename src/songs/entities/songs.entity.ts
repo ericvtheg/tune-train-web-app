@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { User } from '../../users/entities/user.entity';
+import { UsersEntity } from '../../users/entities/users.entity';
 
-@Entity()
-export class Song {
+@Entity('songs')
+export class SongsEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -19,5 +19,5 @@ export class Song {
   userId: number;
 
   // TODO: this probably needs work
-  @ManyToOne((type) => Song, (song) => song.userId) User: User;
+  @ManyToOne((type) => SongsEntity, (song) => song.userId) User: UsersEntity;
 }

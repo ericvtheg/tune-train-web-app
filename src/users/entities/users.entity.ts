@@ -1,7 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Song } from '../../songs/entities/song.entity';
-@Entity()
-export class User {
+import { SongsEntity } from '../../songs/entities/songs.entity';
+
+@Entity('users')
+export class UsersEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -47,5 +48,5 @@ export class User {
   @Column({ nullable: true })
   beatPort: string;
 
-  @OneToMany((type) => User, (user) => user.id) Song: Song[];
+  @OneToMany((type) => UsersEntity, (user) => user.id) Song: SongsEntity[];
 }
