@@ -12,6 +12,9 @@ export class User {
   isArtist: boolean;
 
   @Column()
+  stageName: string;
+
+  @Column()
   bio: string;
 
   @Column()
@@ -19,6 +22,9 @@ export class User {
 
   @Column()
   spotify: string;
+
+  @Column()
+  appleMusic: string;
 
   @Column()
   soundCloud: string;
