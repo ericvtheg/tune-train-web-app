@@ -6,8 +6,11 @@ export class UsersEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
+
+  @Column({ unique: true })
+  username: string;
 
   @Column()
   isArtist: boolean;

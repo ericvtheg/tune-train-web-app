@@ -1,4 +1,4 @@
-import { IsString, IsEmail, IsUrl, IsBoolean } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CreateSongDto {
   @IsString()
