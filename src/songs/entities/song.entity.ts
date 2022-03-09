@@ -12,7 +12,7 @@ export class Song {
   @Column()
   fileName: string;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
   @Column()

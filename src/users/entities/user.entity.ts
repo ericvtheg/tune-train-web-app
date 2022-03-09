@@ -11,40 +11,40 @@ export class User {
   @Column()
   isArtist: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   stageName: string;
 
-  @Column()
+  @Column({ nullable: true })
   bio: string;
 
-  @Column()
+  @Column({ nullable: true })
   image: string;
 
-  @Column()
+  @Column({ nullable: true })
   spotify: string;
 
-  @Column()
+  @Column({ nullable: true })
   appleMusic: string;
 
-  @Column()
+  @Column({ nullable: true })
   soundCloud: string;
 
-  @Column()
+  @Column({ nullable: true })
   patreon: string;
 
-  @Column()
+  @Column({ nullable: true })
   instagram: string;
 
-  @Column()
+  @Column({ nullable: true })
   tikTok: string;
 
-  @Column()
+  @Column({ nullable: true })
   youtube: string;
 
-  @Column()
+  @Column({ nullable: true })
   twitter: string;
 
-  @Column()
+  @Column({ nullable: true })
   beatPort: string;
 
   @OneToMany((type) => User, (user) => user.id) Song: Song[];
