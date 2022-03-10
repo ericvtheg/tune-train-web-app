@@ -2,7 +2,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
+import { CreateListenDto } from './dto/create-listen.dto';
 import { SongsEntity } from './entities/songs.entity';
+import { ListensEntity } from './entities/listens.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -10,6 +12,8 @@ export class SongsService {
   constructor(
     @InjectRepository(SongsEntity)
     private readonly songRepository: Repository<SongsEntity>,
+    @InjectRepository(ListensEntity)
+    private readonly listenRepository: Repository<ListensEntity>,
   ) {}
 
   async create(createSongDto: CreateSongDto) {
@@ -37,6 +41,11 @@ export class SongsService {
       .orderBy('RANDOM()')
       .limit(1)
       .getOne();
+  }
+
+  async listen(createListenDto: CreateListenDto) {
+    const listen = this.listenRepository.create(createListenDto);
+    return this.listenRepository.save(listen);
   }
 
   async update(id: number, updateSongDto: UpdateSongDto) {

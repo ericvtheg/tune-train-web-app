@@ -4,8 +4,10 @@ import {
   Post,
   Body,
   Patch,
-  Param,
+  Put,
   Delete,
+  Param,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -36,6 +38,16 @@ export class SongsController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.songsService.findOne(+id);
+  }
+
+  @Put('listen/:userId/:id')
+  @UsePipes(new ValidationPipe({ transform: true }))
+  listen(
+    @Param('id') id: string,
+    @Param('userId') userId: string,
+    @Query('liked') liked: boolean,
+  ) {
+    return this.songsService.listen({ songId: +id, userId: +userId, liked });
   }
 
   @Patch(':id')
