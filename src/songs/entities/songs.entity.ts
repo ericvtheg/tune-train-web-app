@@ -1,7 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { UsersEntity } from '../../users/entities/users.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  Unique,
+} from 'typeorm';
+import { ArtistsEntity } from '../../artists/entities/artists.entity';
 
 @Entity('songs')
+@Unique(['title', 'artistId'])
 export class SongsEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -12,12 +20,13 @@ export class SongsEntity {
   @Column()
   fileName: string;
 
-  @Column({ nullable: true })
+  @Column()
   description: string;
 
   @Column()
-  userId: number;
+  artistId: number;
 
-  // TODO: this probably needs work
-  @ManyToOne((type) => SongsEntity, (song) => song.userId) User: UsersEntity;
+  @ManyToOne(() => ArtistsEntity, { nullable: false })
+  @JoinColumn()
+  Artist: ArtistsEntity;
 }

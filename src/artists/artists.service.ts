@@ -81,6 +81,11 @@ export class ArtistsService {
 
   async remove(id: number) {
     const artist = await this.artistRepository.findOne(id);
+    if (!artist) {
+      throw new NotFoundException(
+        `Artist #${id} not found. Are you sure the user is an artist?`,
+      );
+    }
     return this.artistRepository.remove(artist);
   }
 }

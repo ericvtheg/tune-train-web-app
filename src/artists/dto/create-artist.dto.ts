@@ -4,6 +4,7 @@ import {
   IsBoolean,
   IsEmail,
   IsNotEmpty,
+  IsOptional,
 } from 'class-validator';
 
 import { CreateUserDto } from '../../users/dto/create-user.dto';
@@ -12,10 +13,10 @@ import { CreateUserDto } from '../../users/dto/create-user.dto';
 // should some of the urls just be strings maybe?
 export class CreateArtistDto extends CreateUserDto {
   @IsString()
-  readonly username: string;
+  username: string;
 
   @IsEmail()
-  readonly email: string;
+  email: string;
 
   @IsNotEmpty()
   password: string;
@@ -26,40 +27,50 @@ export class CreateArtistDto extends CreateUserDto {
   isArtist: boolean;
 
   @IsString()
-  readonly stageName: string;
+  stageName: string;
 
   @IsString()
-  readonly bio: string;
+  bio: string;
 
   @IsUrl()
-  readonly image: string;
+  @IsOptional()
+  image: string;
 
-  @IsUrl({ nullable: true })
-  readonly spotify?: string;
+  @IsUrl()
+  @IsOptional()
+  spotify?: string;
 
-  @IsUrl({ nullable: true })
-  readonly appleMusic?: string;
+  @IsUrl()
+  @IsOptional()
+  appleMusic?: string;
 
-  @IsUrl({ nullable: true })
-  readonly soundCloud?: string;
+  @IsUrl()
+  @IsOptional()
+  soundCloud?: string;
 
-  @IsUrl({ nullable: true })
-  readonly patreon?: string;
+  @IsUrl()
+  @IsOptional()
+  patreon?: string;
 
-  @IsUrl({ nullable: true })
-  readonly instagram?: string;
+  @IsUrl()
+  @IsOptional()
+  instagram?: string;
 
-  @IsUrl({ nullable: true })
-  readonly tikTok?: string;
+  @IsUrl()
+  @IsOptional()
+  tikTok?: string;
 
-  @IsUrl({ nullable: true })
-  readonly youtube?: string;
+  @IsUrl()
+  @IsOptional()
+  youtube?: string;
 
-  @IsUrl({ nullable: true })
-  readonly twitter?: string;
+  @IsUrl()
+  @IsOptional()
+  twitter?: string;
 
-  @IsUrl({ nullable: true })
-  readonly beatPort?: string;
+  @IsUrl()
+  @IsOptional()
+  beatPort?: string;
 }
 
 export { CreateUserDto };

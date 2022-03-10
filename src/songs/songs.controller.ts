@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDto } from './dto/create-song.dto';
@@ -16,6 +18,7 @@ export class SongsController {
   constructor(private readonly songsService: SongsService) {}
 
   @Post()
+  @UsePipes(new ValidationPipe())
   create(@Body() createSongDto: CreateSongDto) {
     return this.songsService.create(createSongDto);
   }
@@ -28,6 +31,11 @@ export class SongsController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.songsService.findOne(+id);
+  }
+
+  @Get('random')
+  findRandom() {
+    return this.songsService.findRandom();
   }
 
   @Patch(':id')
