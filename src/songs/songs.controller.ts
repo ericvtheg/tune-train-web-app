@@ -28,14 +28,14 @@ export class SongsController {
     return this.songsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.songsService.findOne(+id);
-  }
-
   @Get('random')
   findRandom() {
     return this.songsService.findRandom();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.songsService.findOne(+id);
   }
 
   @Patch(':id')
