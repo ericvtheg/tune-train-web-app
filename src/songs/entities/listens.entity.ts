@@ -28,7 +28,7 @@ export class ListensEntity {
   @JoinColumn()
   User: UsersEntity;
 
-  @ManyToOne(() => SongsEntity, { nullable: false })
-  @JoinColumn()
-  Song: SongsEntity;
+  @ManyToOne(() => SongsEntity, (song) => song.listens, { nullable: false })
+  // @JoinColumn()
+  song: SongsEntity;
 }

@@ -30,9 +30,10 @@ export class SongsController {
     return this.songsService.findAll();
   }
 
-  @Get('random')
-  findRandom() {
-    return this.songsService.findRandom();
+  // add validation here
+  @Get('random/:userId')
+  findRandom(@Param('userId') userId: string) {
+    return this.songsService.findRandom(+userId);
   }
 
   @Get(':id')
@@ -40,14 +41,15 @@ export class SongsController {
     return this.songsService.findOne(+id);
   }
 
+  // idk if validation is working here
   @Put('listen/:userId/:id')
   @UsePipes(new ValidationPipe({ transform: true }))
   listen(
-    @Param('id') id: string,
-    @Param('userId') userId: string,
+    @Param('id') id: number,
+    @Param('userId') userId: number,
     @Query('liked') liked: boolean,
   ) {
-    return this.songsService.listen({ songId: +id, userId: +userId, liked });
+    return this.songsService.listen({ songId: id, userId, liked });
   }
 
   @Patch(':id')

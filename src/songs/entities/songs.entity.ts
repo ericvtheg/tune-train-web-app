@@ -3,10 +3,12 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
+  OneToMany,
   JoinColumn,
   Unique,
 } from 'typeorm';
 import { ArtistsEntity } from '../../artists/entities/artists.entity';
+import { ListensEntity } from './listens.entity';
 
 @Entity('songs')
 @Unique(['title', 'artistId'])
@@ -29,4 +31,8 @@ export class SongsEntity {
   @ManyToOne(() => ArtistsEntity, { nullable: false })
   @JoinColumn()
   Artist: ArtistsEntity;
+
+  @OneToMany(() => ListensEntity, (listen) => listen.song)
+  // @JoinColumn()
+  listens: ListensEntity[];
 }

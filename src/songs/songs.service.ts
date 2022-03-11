@@ -35,9 +35,13 @@ export class SongsService {
   }
 
   /** @description returns random song that user has not listened to */
-  async findRandom() {
-    return this.songRepository
-      .createQueryBuilder()
+  async findRandom(userId: number) {
+    return await this.songRepository
+      .createQueryBuilder('songs')
+      .leftJoin('songs.listens', 'listens', 'listens.userId = :userId', {
+        userId,
+      })
+      .where('listens.id IS NULL')
       .orderBy('RANDOM()')
       .limit(1)
       .getOne();
