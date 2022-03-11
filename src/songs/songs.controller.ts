@@ -9,18 +9,17 @@ import {
   Param,
   Query,
   UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
+import { CreateListenDto } from './dto/create-listen.dto';
 
 @Controller('songs')
 export class SongsController {
   constructor(private readonly songsService: SongsService) {}
 
   @Post()
-  @UsePipes(new ValidationPipe())
   create(@Body() createSongDto: CreateSongDto) {
     return this.songsService.create(createSongDto);
   }
@@ -42,8 +41,8 @@ export class SongsController {
   }
 
   // idk if validation is working here
+  // also need to handle unique constraint error
   @Put('listen/:userId/:id')
-  @UsePipes(new ValidationPipe({ transform: true }))
   listen(
     @Param('id') id: number,
     @Param('userId') userId: number,

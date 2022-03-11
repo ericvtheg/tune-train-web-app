@@ -32,7 +32,9 @@ export class SongsEntity {
   @JoinColumn()
   Artist: ArtistsEntity;
 
-  @OneToMany(() => ListensEntity, (listen) => listen.song)
+  @OneToMany(() => ListensEntity, (listen) => listen.song, {
+    onDelete: 'CASCADE',
+  })
   // @JoinColumn()
   listens: ListensEntity[];
 }

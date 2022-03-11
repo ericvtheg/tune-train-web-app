@@ -51,11 +51,15 @@ export class ArtistsEntity {
   beatPort: string;
 
   // this is wrong, look into doing bidirectional w/e
-  @OneToMany(() => ArtistsEntity, (artist) => artist.id)
+  @OneToMany(() => ArtistsEntity, (artist) => artist.id, {
+    onDelete: 'CASCADE',
+  })
   Song: SongsEntity[];
 
   // this is wrong, look into doing bidirectional w/e
-  @OneToOne(() => UsersEntity)
+  @OneToOne(() => UsersEntity, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   user: UsersEntity;
 }
