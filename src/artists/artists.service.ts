@@ -9,15 +9,14 @@ import { CreateArtistDto } from './dto/create-artist.dto';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 import { ArtistsEntity } from './entities/artists.entity';
-import { UsersEntity } from '../users/entities/users.entity';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class ArtistsService {
   constructor(
     @InjectRepository(ArtistsEntity)
     private readonly artistRepository: Repository<ArtistsEntity>,
-    @InjectRepository(UsersEntity)
-    private readonly userRepository: Repository<UsersEntity>,
+    private readonly userService: UsersService,
   ) {}
 
   /**
@@ -36,17 +35,13 @@ export class ArtistsService {
       username: createArtistDto.username,
       isArtist: createArtistDto.isArtist,
     };
-    let user = this.userRepository.create(createUserDto);
+
+    let user;
     let artist = this.artistRepository.create(createArtistDto);
 
     try {
-      user = await this.userRepository.save(user);
+      user = await this.userService.create(createUserDto);
       artist = await this.artistRepository.save({ id: user.id, ...artist });
-
-      return {
-        ...user,
-        ...artist,
-      };
     } catch (err) {
       if (err.detail.includes('email')) {
         throw new BadRequestException('email already exists');
@@ -54,6 +49,11 @@ export class ArtistsService {
         throw new BadRequestException('username already exists');
       }
       throw err;
+    } finally {
+      return {
+        ...user,
+        ...artist,
+      };
     }
   }
 
@@ -72,11 +72,11 @@ export class ArtistsService {
   }
 
   async update(id: number, updateArtistDto: UpdateArtistDto) {
-    const artist = await this.userRepository.preload({
+    const artist = await this.artistRepository.preload({
       id,
       ...updateArtistDto,
     });
-    return this.userRepository.save(artist);
+    return this.artistRepository.save(artist);
   }
 
   async remove(id: number) {
