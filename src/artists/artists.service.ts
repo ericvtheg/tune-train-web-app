@@ -40,6 +40,7 @@ export class ArtistsService {
     let artist = this.artistRepository.create(createArtistDto);
 
     try {
+      // need a transaction here
       user = await this.userService.create(createUserDto);
       artist = await this.artistRepository.save({ id: user.id, ...artist });
     } catch (err) {
