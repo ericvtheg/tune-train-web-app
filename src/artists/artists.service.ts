@@ -48,8 +48,9 @@ export class ArtistsService {
         throw new BadRequestException('email already exists');
       } else if (err.detail.includes('username')) {
         throw new BadRequestException('username already exists');
+      } else {
+        throw err;
       }
-      throw err;
     } finally {
       return {
         ...user,

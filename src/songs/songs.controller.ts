@@ -14,6 +14,7 @@ import { SongsService } from './songs.service';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
 import { CreateListenDto } from './dto/create-listen.dto';
+import { Public } from '../common/decorators/public.decorator';
 
 @Controller('songs')
 export class SongsController {
@@ -30,6 +31,7 @@ export class SongsController {
   }
 
   // add validation here
+  @Public()
   @Get('random/:userId')
   findRandom(@Param('userId') userId: string) {
     return this.songsService.findRandom(+userId);
