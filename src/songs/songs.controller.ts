@@ -44,6 +44,7 @@ export class SongsController {
 
   // idk if validation is working here
   // also need to handle unique constraint error
+  // this should maybe return the result of fetching a new random song as well
   @Put('listen/:userId/:id')
   listen(
     @Param('id') id: number,

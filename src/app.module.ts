@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ArtistsModule } from './artists/artists.module';
 import { ConfigModule } from '@nestjs/config';
+import { CommonModule } from './common/common.module';
 import * as Joi from '@hapi/joi';
 
 @Module({
@@ -23,6 +24,7 @@ import * as Joi from '@hapi/joi';
         DATABASE_PASSWORD: Joi.required(),
       }),
     }),
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [AppService],
