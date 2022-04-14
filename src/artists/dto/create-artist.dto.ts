@@ -6,26 +6,12 @@ import {
   IsNotEmpty,
   IsOptional,
 } from 'class-validator';
-
+import { IntersectionType } from '@nestjs/swagger';
 import { CreateUserDto } from '../../users/dto/create-user.dto';
 
 // TODO: match url host names
 // should some of the urls just be strings maybe?
 export class CreateArtistDto extends CreateUserDto {
-  @IsString()
-  username: string;
-
-  @IsEmail()
-  email: string;
-
-  @IsNotEmpty()
-  password: string;
-
-  @IsBoolean({
-    message: 'isArtist must be true in order to create Artist entity',
-  })
-  isArtist: boolean;
-
   @IsString()
   stageName: string;
 
