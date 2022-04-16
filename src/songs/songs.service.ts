@@ -19,7 +19,7 @@ export class SongsService {
   async create(createSongDto: CreateSongDto) {
     const song = this.songRepository.create(createSongDto);
     return this.songRepository.save(song);
-    // TODO need to handle foreign key failure and unique constraint failure
+    // TODO: need to handle foreign key failure and unique constraint failure
   }
 
   findAll() {

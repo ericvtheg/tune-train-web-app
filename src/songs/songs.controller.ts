@@ -43,9 +43,10 @@ export class SongsController {
   }
 
   // idk if validation is working here
-  // also need to handle unique constraint error
+  // TODO: also need to handle unique constraint error
   // this should maybe return the result of fetching a new random song as well
   // add parseint pipe
+  // use DTO object here CreateListenDto
   @Put('listen/:userId/:id')
   listen(
     @Param('id') id: number,
