@@ -24,9 +24,10 @@ async function bootstrap() {
     new TimeoutInterceptor(),
   );
 
+  // Swagger Module
   const options = new DocumentBuilder()
     .setTitle('TuneTrain')
-    .setDescription('Find unknown artists')
+    .setDescription('Find up and coming artists')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, options);

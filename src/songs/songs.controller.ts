@@ -22,6 +22,9 @@ export class SongsController {
 
   @Post()
   create(@Body() createSongDto: CreateSongDto) {
+    // https://docs.nestjs.com/techniques/file-upload
+    // https://stackoverflow.com/questions/61402054/nestjs-how-to-upload-image-to-aws-s3
+    // use s3 to store
     return this.songsService.create(createSongDto);
   }
 
@@ -34,6 +37,7 @@ export class SongsController {
   @Public()
   @Get('random/:userId')
   findRandom(@Param('userId') userId: string) {
+    // should pull user off authentication token
     return this.songsService.findRandom(+userId);
   }
 
