@@ -9,23 +9,28 @@ import {
   Param,
   Query,
   UsePipes,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
 import { CreateListenDto } from './dto/create-listen.dto';
 import { Public } from '../common/decorators/public.decorator';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('songs')
 export class SongsController {
   constructor(private readonly songsService: SongsService) {}
 
   @Post()
-  create(@Body() createSongDto: CreateSongDto) {
-    // https://docs.nestjs.com/techniques/file-upload
-    // https://stackoverflow.com/questions/61402054/nestjs-how-to-upload-image-to-aws-s3
-    // use s3 to store
-    return this.songsService.create(createSongDto);
+  @UseInterceptors(FileInterceptor('file'))
+  create(
+    @Body() createSongDto: CreateSongDto,
+    @UploadedFile() songFile: Express.Multer.File,
+  ) {
+    // TODO: need to handle foreign key failure and unique constraint failure
+    return this.songsService.create(createSongDto, songFile);
   }
 
   @Get()

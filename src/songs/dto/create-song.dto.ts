@@ -13,4 +13,6 @@ export class CreateSongDto {
 
   @IsString()
   description: string;
+
+  file: Express.Multer.File;
 }

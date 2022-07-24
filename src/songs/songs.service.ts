@@ -1,11 +1,12 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
 import { CreateListenDto } from './dto/create-listen.dto';
 import { SongsEntity } from './entities/songs.entity';
 import { ListensEntity } from './entities/listens.entity';
 import { Repository } from 'typeorm';
+import { FileStorageService } from '../common/services/fileStorage/fileStorage.service';
 
 @Injectable()
 export class SongsService {
@@ -14,12 +15,19 @@ export class SongsService {
     private readonly songRepository: Repository<SongsEntity>,
     @InjectRepository(ListensEntity)
     private readonly listenRepository: Repository<ListensEntity>,
+    @Inject(FileStorageService)
+    private readonly fileStorageService: FileStorageService,
   ) {}
 
-  async create(createSongDto: CreateSongDto) {
+  async create(createSongDto: CreateSongDto, songFile: Express.Multer.File) {
     const song = this.songRepository.create(createSongDto);
-    return this.songRepository.save(song);
-    // TODO: need to handle foreign key failure and unique constraint failure
+    const songEntity = await this.songRepository.save(song);
+    await this.fileStorageService.upload(
+      `${createSongDto.artistId}/${songEntity.id}`,
+      songFile.buffer,
+    );
+    // if upload fails delete song entry
+    return songEntity;
   }
 
   findAll() {
