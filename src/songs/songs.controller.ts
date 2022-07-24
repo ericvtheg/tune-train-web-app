@@ -29,6 +29,7 @@ export class SongsController {
     @Body() createSongDto: CreateSongDto,
     @UploadedFile() songFile: Express.Multer.File,
   ) {
+    // TODO: handle validating file type as mp3
     // TODO: need to handle foreign key failure and unique constraint failure
     return this.songsService.create(createSongDto, songFile);
   }

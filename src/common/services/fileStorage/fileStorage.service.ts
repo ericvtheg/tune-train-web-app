@@ -14,4 +14,12 @@ export class FileStorageService {
       .upload({ Bucket: this.bucketName, Key: key, Body: file })
       .promise();
   }
+
+  async generateDownloadLink(key: string) {
+    return this.s3.getSignedUrlPromise('getObject', {
+      Bucket: this.bucketName,
+      Key: key,
+      Expires: 300,
+    });
+  }
 }

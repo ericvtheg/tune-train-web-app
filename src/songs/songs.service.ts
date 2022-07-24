@@ -8,6 +8,10 @@ import { ListensEntity } from './entities/listens.entity';
 import { Repository } from 'typeorm';
 import { FileStorageService } from '../common/services/fileStorage/fileStorage.service';
 
+function buildKey(artistId: number, songId: number) {
+  return `${artistId}/${songId}.mp3`;
+}
+
 @Injectable()
 export class SongsService {
   constructor(
@@ -22,11 +26,15 @@ export class SongsService {
   async create(createSongDto: CreateSongDto, songFile: Express.Multer.File) {
     const song = this.songRepository.create(createSongDto);
     const songEntity = await this.songRepository.save(song);
-    await this.fileStorageService.upload(
-      `${createSongDto.artistId}/${songEntity.id}`,
-      songFile.buffer,
-    );
-    // if upload fails delete song entry
+    try {
+      await this.fileStorageService.upload(
+        buildKey(song.artistId, song.id),
+        songFile.buffer,
+      );
+    } catch (error) {
+      this.songRepository.delete(songEntity.id);
+      throw error;
+    }
     return songEntity;
   }
 
@@ -39,12 +47,15 @@ export class SongsService {
     if (!song) {
       throw new NotFoundException(`Song #${id} not found`);
     }
-    return song;
+    const downloadLink = await this.fileStorageService.generateDownloadLink(
+      buildKey(song.artistId, song.id),
+    );
+    return { ...song, downloadLink };
   }
 
   /** @description returns random song that user has not listened to */
   async findRandom(userId: number) {
-    return await this.songRepository
+    const song = await this.songRepository
       .createQueryBuilder('songs')
       .leftJoin('songs.listens', 'listens', 'listens.userId = :userId', {
         userId,
@@ -53,6 +64,10 @@ export class SongsService {
       .orderBy('RANDOM()')
       .limit(1)
       .getOne();
+    const downloadLink = await this.fileStorageService.generateDownloadLink(
+      buildKey(song.artistId, song.id),
+    );
+    return { ...song, downloadLink };
   }
 
   async listen(createListenDto: CreateListenDto) {
