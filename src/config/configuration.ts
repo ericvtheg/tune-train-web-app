@@ -14,4 +14,10 @@ export const configuration = () => ({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     region: process.env.AWS_REGION,
   },
+  jwt: {
+    accessTokenSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
+    accessTokenExpirationTime: process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME,
+    refreshTokenSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
+    refreshTokenExpirationTime: process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME,
+  },
 });
