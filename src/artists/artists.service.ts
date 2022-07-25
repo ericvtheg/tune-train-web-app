@@ -42,6 +42,7 @@ export class ArtistsService {
 
       let artist = this.artistRepository.create(createArtistDto);
       artist = await this.artistRepository.save({ id: user.id, ...artist });
+
       return {
         ...user,
         ...artist,
