@@ -13,7 +13,9 @@ class AuthHashDTO {
 
 /** Converts plain text password to hash using bcrypt */
 @Injectable()
-export class HashPipe implements PipeTransform<AuthHashDTO, Promise<AuthHashDTO>> {
+export class HashPipe
+  implements PipeTransform<AuthHashDTO, Promise<AuthHashDTO>>
+{
   constructor(@Inject(CryptService) private cryptService: CryptService) {}
 
   async transform(value: AuthHashDTO, metadata: ArgumentMetadata) {

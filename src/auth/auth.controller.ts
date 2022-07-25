@@ -7,9 +7,9 @@ import {
   Inject,
   Body,
 } from '@nestjs/common';
-import { LocalAuthGuard } from './local-auth.guard';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { HashPipe } from '../common/pipes/hash.pipe';
 import { LoginDTO } from './dto/login.dto';
 
