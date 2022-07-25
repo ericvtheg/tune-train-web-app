@@ -8,6 +8,8 @@ import { ListensEntity } from './entities/listens.entity';
 import { Repository } from 'typeorm';
 import { FileStorageService } from '../common/services/fileStorage/fileStorage.service';
 
+// TODO: think more about what the song filename should be
+
 function buildKey(artistId: number, songId: number) {
   return `${artistId}/${songId}.mp3`;
 }
@@ -32,7 +34,7 @@ export class SongsService {
         songFile.buffer,
       );
     } catch (error) {
-      this.songRepository.delete(songEntity.id);
+      await this.songRepository.delete(songEntity.id);
       throw error;
     }
     return songEntity;

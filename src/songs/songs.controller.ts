@@ -57,6 +57,7 @@ export class SongsController {
   // this should maybe return the result of fetching a new random song as well
   // add parseint pipe
   // use DTO object here CreateListenDto
+  // should pull userId off request
   @Put('listen/:userId/:id')
   listen(
     @Param('id') id: number,
