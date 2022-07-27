@@ -1,6 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthModule } from 'src/auth/auth.module';
+import { AuthModule } from '../auth/auth.module';
 import { GlobalGuard } from './guards/global.guard';
 import { LoggingMiddleware } from './middleware/logging.middleware';
 import { HashPipe } from './pipes/hash.pipe';

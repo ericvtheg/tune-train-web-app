@@ -10,7 +10,7 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 import { ArtistsEntity } from './entities/artists.entity';
 import { UsersService } from '../users/users.service';
-import { UsersEntity } from 'src/users/entities/users.entity';
+import { UsersEntity } from '../users/entities/users.entity';
 
 @Injectable()
 export class ArtistsService {

@@ -1,6 +1,6 @@
 # compiled output
-/dist
-/node_modules
+dist/
+node_modules/
 
 # Logs
 logs
@@ -16,11 +16,11 @@ lerna-debug.log*
 *.icloud
 
 # Tests
-/coverage
-/.nyc_output
+coverage/
+.nyc_output/
 
 # IDEs and editors
-/.idea
+.idea/
 .project
 .classpath
 .c9/
@@ -37,7 +37,7 @@ lerna-debug.log*
 
 .env
 
-data
+data/
 
 # Local .terraform directories
 **/.terraform/*
