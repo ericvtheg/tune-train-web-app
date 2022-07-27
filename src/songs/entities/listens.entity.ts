@@ -15,7 +15,7 @@ export class ListensEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false })
+  @Column()
   liked: boolean;
 
   @Column()

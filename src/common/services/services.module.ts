@@ -5,7 +5,7 @@ import { BUCKET_NAME } from '../symbols';
 import { ConfigService } from '@nestjs/config';
 
 const s3Provider: FactoryProvider = {
-  provide: 's3',
+  provide: S3,
   inject: [ConfigService],
   useFactory: (configService: ConfigService) => {
     const stage = configService.get<string>('stage');

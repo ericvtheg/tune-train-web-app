@@ -8,9 +8,10 @@ import {
   Delete,
   Param,
   Query,
-  UsePipes,
+  UseGuards,
   UploadedFile,
   UseInterceptors,
+  Request,
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDto } from './dto/create-song.dto';
@@ -18,11 +19,13 @@ import { UpdateSongDto } from './dto/update-song.dto';
 import { CreateListenDto } from './dto/create-listen.dto';
 import { Public } from '../common/decorators/public.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('songs')
 export class SongsController {
   constructor(private readonly songsService: SongsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   create(
@@ -34,19 +37,23 @@ export class SongsController {
     return this.songsService.create(createSongDto, songFile);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
+    // this should be an admin endpoint
     return this.songsService.findAll();
   }
 
   // add validation here
-  @Public()
+  // should I make this endpoint public?
+  @UseGuards(JwtAuthGuard)
   @Get('random/:userId')
   findRandom(@Param('userId') userId: string) {
     // should pull user off authentication token
     return this.songsService.findRandom(+userId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.songsService.findOne(+id);
@@ -58,22 +65,27 @@ export class SongsController {
   // add parseint pipe
   // use DTO object here CreateListenDto
   // should pull userId off request
-  @Put('listen/:userId/:id')
+  @UseGuards(JwtAuthGuard)
+  @Put('listen/:id')
   listen(
     @Param('id') id: number,
-    @Param('userId') userId: number,
     @Query('liked') liked: boolean,
+    @Request() req,
   ) {
+    const userId = req.user.id;
     return this.songsService.listen({ songId: id, userId, liked });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSongDto: UpdateSongDto) {
     return this.songsService.update(+id, updateSongDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
+    // use userId as well here from auth token?
     return this.songsService.remove(+id);
   }
 }

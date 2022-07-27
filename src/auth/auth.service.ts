@@ -13,11 +13,11 @@ import { CryptService } from './crypt.service';
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
-    @Inject(CryptService) private cryptService: CryptService,
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
+    @Inject(CryptService) private readonly cryptService: CryptService,
   ) {}
-  // why do i not need to use injecatable decorator here?
+  // why do i not need to use injectable decorators here?
 
   async validateUser(
     email: string,
