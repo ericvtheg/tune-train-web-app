@@ -2,6 +2,8 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 
+export const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAZW1haWwuY29tIiwic3ViIjoxLCJpYXQiOjE2NTg5NzI1MjEsImV4cCI6MTY1OTA1ODkyMX0.CClkEr67yxt3KKA144OFanBcyaOML_jHdhBDlOWoxvU";
+
 function App() {
   const [count, setCount] = useState(0)
 
@@ -19,6 +21,21 @@ function App() {
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
+        </button>
+        <button
+          onClick={() => {
+            fetch("http://localhost:3000/songs/random", {
+              method: 'GET',
+              credentials: 'include',
+              headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+          }})
+              .then((response) => response.json())
+              .then((data) => console.log(data));
+          }}
+        >
+          GET SOME DATA
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
