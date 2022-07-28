@@ -91,7 +91,7 @@ export class SongsService {
   async listen(createListenDto: CreateListenDto) {
     try {
       const listen = this.listenRepository.create(createListenDto);
-      return this.listenRepository.save(listen);
+      return await this.listenRepository.save(listen);
     } catch (error) {
       if (error.constraint === 'userId_songId_unique_constraint') {
         throw new BadRequestException(

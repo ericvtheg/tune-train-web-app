@@ -19,7 +19,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     try {
       const user = this.userRepository.create(createUserDto);
-      return this.userRepository.save(user);
+      return await this.userRepository.save(user);
     } catch (error) {
       if (error.constraint === 'email_index_unique_constraint') {
         throw new BadRequestException('email already exists');

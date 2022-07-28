@@ -32,8 +32,9 @@ export class AuthService {
   }
 
   async login(user: UsersEntity) {
+    // TODO: figure out why email isn't included in token
     const payload = {
-      username: user.email,
+      email: user.email,
       sub: user.id,
       id: user.id,
       isArtist: user.isArtist,
