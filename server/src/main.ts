@@ -35,6 +35,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 
+  const stage = config.get<string>('stage');
+  if (stage === 'local') {
+    app.enableCors({ credentials: true, origin: true });
+  }
+
   const port = config.get<number>('port');
   await app.listen(port);
 }

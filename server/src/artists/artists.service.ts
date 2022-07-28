@@ -37,26 +37,15 @@ export class ArtistsService {
       isArtist: createArtistDto.isArtist,
     };
 
-    try {
-      const user: UsersEntity = await this.userService.create(createUserDto);
+    const user: UsersEntity = await this.userService.create(createUserDto);
 
-      let artist = this.artistRepository.create(createArtistDto);
-      artist = await this.artistRepository.save({ id: user.id, ...artist });
+    let artist = this.artistRepository.create(createArtistDto);
+    artist = await this.artistRepository.save({ id: user.id, ...artist });
 
-      return {
-        ...user,
-        ...artist,
-      };
-    } catch (err) {
-      console.log(err);
-      if (err.detail.includes('email')) {
-        throw new BadRequestException('email already exists');
-      } else if (err.detail.includes('username')) {
-        throw new BadRequestException('username already exists');
-      } else {
-        throw err;
-      }
-    }
+    return {
+      ...user,
+      ...artist,
+    };
   }
 
   findAll() {

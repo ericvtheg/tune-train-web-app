@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -13,8 +17,17 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const user = this.userRepository.create(createUserDto);
-    return this.userRepository.save(user);
+    try {
+      const user = this.userRepository.create(createUserDto);
+      return this.userRepository.save(user);
+    } catch (error) {
+      if (error.constraint === 'email_index_unique_constraint') {
+        throw new BadRequestException('email already exists');
+      } else if (error.detail.includes('username')) {
+        throw new BadRequestException('username already exists');
+      }
+      throw error;
+    }
   }
 
   findAll() {

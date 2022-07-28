@@ -10,7 +10,7 @@ import { SongsEntity } from './songs.entity';
 import { UsersEntity } from '../../users/entities/users.entity';
 
 @Entity('listens')
-@Unique(['userId', 'songId'])
+@Unique('userId_songId_unique_constraint', ['userId', 'songId'])
 export class ListensEntity {
   @PrimaryGeneratedColumn()
   id: number;

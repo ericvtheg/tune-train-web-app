@@ -10,8 +10,9 @@ import {
 import { ArtistsEntity } from '../../artists/entities/artists.entity';
 import { ListensEntity } from './listens.entity';
 
+// TODO: make unique name a constant
 @Entity('songs')
-@Unique(['title', 'artistId'])
+@Unique('title_artistId_unique_constraint', ['title', 'artistId'])
 export class SongsEntity {
   @PrimaryGeneratedColumn()
   id: number;

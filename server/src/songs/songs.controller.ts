@@ -34,6 +34,9 @@ export class SongsController {
   ) {
     // TODO: handle validating file type as mp3
     // TODO: need to handle foreign key failure and unique constraint failure
+    // TODO: remove fileName?
+    // TODO: increase timeout for this endpoint?
+    // TODO: verify if artist?
     return this.songsService.create(createSongDto, songFile);
   }
 
@@ -47,9 +50,10 @@ export class SongsController {
   // add validation here
   // should I make this endpoint public?
   @UseGuards(JwtAuthGuard)
-  @Get('random/:userId')
-  findRandom(@Param('userId') userId: string) {
+  @Get('random')
+  findRandom(@Request() req) {
     // should pull user off authentication token
+    const userId = req.user.id;
     return this.songsService.findRandom(+userId);
   }
 

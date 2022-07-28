@@ -1,5 +1,10 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  Inject,
+  BadRequestException,
+} from '@nestjs/common';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
 import { CreateListenDto } from './dto/create-listen.dto';
@@ -26,18 +31,29 @@ export class SongsService {
   ) {}
 
   async create(createSongDto: CreateSongDto, songFile: Express.Multer.File) {
-    const song = this.songRepository.create(createSongDto);
-    const songEntity = await this.songRepository.save(song);
     try {
-      await this.fileStorageService.upload(
-        buildKey(song.artistId, song.id),
-        songFile.buffer,
-      );
+      const song = this.songRepository.create(createSongDto);
+      const songEntity = await this.songRepository.save(song);
+
+      try {
+        await this.fileStorageService.upload(
+          buildKey(songEntity.artistId, songEntity.id),
+          songFile.buffer,
+        );
+      } catch (error) {
+        await this.songRepository.delete(songEntity.id);
+        throw error;
+      }
+
+      return songEntity;
     } catch (error) {
-      await this.songRepository.delete(songEntity.id);
+      if (error.constraint === 'title_artistId_unique_constraint') {
+        throw new BadRequestException(
+          'You have already uploaded a song with this title.',
+        );
+      }
       throw error;
     }
-    return songEntity;
   }
 
   findAll() {
@@ -73,8 +89,17 @@ export class SongsService {
   }
 
   async listen(createListenDto: CreateListenDto) {
-    const listen = this.listenRepository.create(createListenDto);
-    return this.listenRepository.save(listen);
+    try {
+      const listen = this.listenRepository.create(createListenDto);
+      return this.listenRepository.save(listen);
+    } catch (error) {
+      if (error.constraint === 'userId_songId_unique_constraint') {
+        throw new BadRequestException(
+          'This song has already been listened to.',
+        );
+      }
+      throw error;
+    }
   }
 
   async update(id: number, updateSongDto: UpdateSongDto) {
