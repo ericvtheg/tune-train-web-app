@@ -5,13 +5,11 @@ import {
   Get,
   UseGuards,
   Inject,
-  Body,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { AuthService } from './auth.service';
+import { AuthService, UserPayload, IJWTResponse } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { HashPipe } from '../common/pipes/hash.pipe';
-import { LoginDTO } from './dto/login.dto';
+import { IUserRequest } from '../common/types';
 
 @Controller()
 export class AuthController {
@@ -19,13 +17,13 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Body(HashPipe) body: LoginDTO, @Request() req) {
+  async login(@Request() req: IUserRequest): Promise<IJWTResponse> {
     return this.authService.login(req.user);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  getProfile(@Request() req) {
+  getProfile(@Request() req: IUserRequest): UserPayload {
     return req.user;
   }
 }

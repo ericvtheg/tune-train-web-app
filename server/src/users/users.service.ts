@@ -16,7 +16,7 @@ export class UsersService {
     private readonly userRepository: Repository<UsersEntity>,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<UsersEntity> {
     try {
       const user = this.userRepository.create(createUserDto);
       return await this.userRepository.save(user);
@@ -30,11 +30,11 @@ export class UsersService {
     }
   }
 
-  findAll() {
+  findAll(): Promise<UsersEntity[]> {
     return this.userRepository.find();
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<UsersEntity> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
@@ -42,7 +42,7 @@ export class UsersService {
     return user;
   }
 
-  async findOneUsingEmail(email: string) {
+  async findOneUsingEmail(email: string): Promise<UsersEntity> {
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user) {
       throw new NotFoundException(`User ${email} not found`);
@@ -50,12 +50,12 @@ export class UsersService {
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<UsersEntity> {
     const user = await this.userRepository.preload({ id, ...updateUserDto });
     return this.userRepository.save(user);
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<UsersEntity> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);

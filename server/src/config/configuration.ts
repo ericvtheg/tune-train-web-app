@@ -1,4 +1,4 @@
-export const configuration = () => ({
+export const configuration = (): Record<string, any> => ({
   port: parseInt(process.env.PORT, 10) || 3000,
   songsBucket: process.env.SONGS_BUCKET,
   stage: process.env.STAGE,

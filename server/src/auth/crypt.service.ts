@@ -9,6 +9,7 @@ export class CryptService {
     return bcrypt.hash(password, this.saltRounds);
   }
 
+  /** @warning MUST BE AWAITED */
   async validatePassword(password: string, hash: string): Promise<boolean> {
     return bcrypt.compare(password, hash);
   }

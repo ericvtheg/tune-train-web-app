@@ -1,12 +1,8 @@
 import {
   IsString,
   IsUrl,
-  IsBoolean,
-  IsEmail,
-  IsNotEmpty,
   IsOptional,
 } from 'class-validator';
-import { IntersectionType } from '@nestjs/swagger';
 import { CreateUserDto } from '../../users/dto/create-user.dto';
 
 // TODO: match url host names

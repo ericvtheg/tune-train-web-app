@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 
 @Injectable()
 export class LoggingMiddleware implements NestMiddleware {
-  use(req: Request, res: Response, next: () => void) {
+  use(req: Request, res: Response, next: () => void): void {
     const nanoId = nanoid(5);
     const timeString = `Request-response time ${nanoId} ${req.method} - ${req.originalUrl}`;
     console.time(timeString);

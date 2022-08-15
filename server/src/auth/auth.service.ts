@@ -1,5 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { UsersEntity } from '../users/entities/users.entity';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { CryptService } from './crypt.service';
@@ -9,6 +8,17 @@ import { CryptService } from './crypt.service';
 // TODO: add other authentication strategies google, facebook, etc
 // TODO: enable authentication on all(?) endpoints. and set few to public as necessary
 // TODO: organize this directory. where should auth guard strategies live?
+
+export interface UserPayload {
+  email: string;
+  username: string;
+  id: number;
+  isArtist: boolean;
+}
+
+export interface IJWTResponse {
+  accessToken: string;
+}
 
 @Injectable()
 export class AuthService {
@@ -22,25 +32,24 @@ export class AuthService {
   async validateUser(
     email: string,
     password: string,
-  ): Promise<Partial<UsersEntity>> {
-    const user = await this.usersService.findOneUsingEmail(email);
-    if (user && this.cryptService.validatePassword(password, user.password)) {
-      const { password, ...result } = user;
-      return result;
+  ): Promise<UserPayload> {
+    try {
+      const user = await this.usersService.findOneUsingEmail(email);
+      if (user && true === await this.cryptService.validatePassword(password, user.password)) {
+        const { password, ...result } = user;
+        return result;
+      }
+    } catch (error) {
+      if (!(error instanceof NotFoundException)) {
+        throw error;
+      }
     }
     return null;
   }
 
-  async login(user: UsersEntity) {
-    // TODO: figure out why email isn't included in token
-    const payload = {
-      email: user.email,
-      sub: user.id,
-      id: user.id,
-      isArtist: user.isArtist,
-    };
+  async login(user: UserPayload): Promise<IJWTResponse> {
     return {
-      access_token: this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign(user),
     };
   }
 }

@@ -23,7 +23,7 @@ export class ArtistsService {
   /**
    * @description If creating artist, artist still needs corresponding user attributes
    **/
-  async create(createArtistDto: CreateArtistDto) {
+  async create(createArtistDto: CreateArtistDto): Promise<ArtistsEntity> {
     if (!createArtistDto.isArtist) {
       throw new BadRequestException(
         'isArtist must be true in order to create Artist entity',
@@ -48,11 +48,11 @@ export class ArtistsService {
     };
   }
 
-  findAll() {
+  findAll(): Promise<ArtistsEntity[]> {
     return this.artistRepository.find();
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<ArtistsEntity> {
     const artist = await this.artistRepository.findOne(id);
     if (!artist) {
       throw new NotFoundException(
@@ -62,7 +62,7 @@ export class ArtistsService {
     return artist;
   }
 
-  async update(id: number, updateArtistDto: UpdateArtistDto) {
+  async update(id: number, updateArtistDto: UpdateArtistDto): Promise<ArtistsEntity> {
     const artist = await this.artistRepository.preload({
       id,
       ...updateArtistDto,
@@ -70,7 +70,7 @@ export class ArtistsService {
     return this.artistRepository.save(artist);
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<ArtistsEntity> {
     const artist = await this.artistRepository.findOne(id);
     if (!artist) {
       throw new NotFoundException(

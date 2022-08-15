@@ -9,13 +9,13 @@ export class FileStorageService {
     @Inject(BUCKET_NAME) private readonly bucketName: string,
   ) {}
 
-  async upload(key: string, file: Buffer): Promise<any> {
+  async upload(key: string, file: Buffer): Promise<S3.ManagedUpload.SendData> {
     return this.s3
       .upload({ Bucket: this.bucketName, Key: key, Body: file })
       .promise();
   }
 
-  async generateDownloadLink(key: string) {
+  async generateDownloadLink(key: string): Promise<string> {
     return this.s3.getSignedUrlPromise('getObject', {
       Bucket: this.bucketName,
       Key: key,

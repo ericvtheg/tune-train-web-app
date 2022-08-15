@@ -13,10 +13,14 @@ import { ListensEntity } from './entities/listens.entity';
 import { Repository } from 'typeorm';
 import { FileStorageService } from '../common/services/fileStorage/fileStorage.service';
 
-// TODO: think more about what the song filename should be
+export interface ISongResponse extends SongsEntity {
+  /** @description link to s3 mp3 object */
+  downloadLink: string;
+}
 
-function buildKey(artistId: number, songId: number) {
-  return `${artistId}/${songId}.mp3`;
+// TODO: think more about what the song filename should be
+function buildKey(artistId: number, songId: number): string {
+  return `${artistId.toString()[0]}/${artistId}/${songId}.mp3`;
 }
 
 @Injectable()
@@ -30,7 +34,7 @@ export class SongsService {
     private readonly fileStorageService: FileStorageService,
   ) {}
 
-  async create(createSongDto: CreateSongDto, songFile: Express.Multer.File) {
+  async create(createSongDto: CreateSongDto, songFile: Express.Multer.File): Promise<SongsEntity> {
     try {
       const song = this.songRepository.create(createSongDto);
       const songEntity = await this.songRepository.save(song);
@@ -56,11 +60,11 @@ export class SongsService {
     }
   }
 
-  findAll() {
+  findAll(): Promise<SongsEntity[]> {
     return this.songRepository.find();
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<ISongResponse> {
     const song = await this.songRepository.findOne(id);
     if (!song) {
       throw new NotFoundException(`Song #${id} not found`);
@@ -72,7 +76,7 @@ export class SongsService {
   }
 
   /** @description returns random song that user has not listened to */
-  async findRandom(userId: number) {
+  async findRandom(userId: number): Promise<ISongResponse> {
     const song = await this.songRepository
       .createQueryBuilder('songs')
       .leftJoin('songs.listens', 'listens', 'listens.userId = :userId', {
@@ -88,7 +92,7 @@ export class SongsService {
     return { ...song, downloadLink };
   }
 
-  async listen(createListenDto: CreateListenDto) {
+  async listen(createListenDto: CreateListenDto): Promise<ListensEntity> {
     try {
       const listen = this.listenRepository.create(createListenDto);
       return await this.listenRepository.save(listen);
@@ -102,12 +106,12 @@ export class SongsService {
     }
   }
 
-  async update(id: number, updateSongDto: UpdateSongDto) {
+  async update(id: number, updateSongDto: UpdateSongDto): Promise<SongsEntity> {
     const song = await this.songRepository.preload({ id, ...updateSongDto });
     return this.songRepository.save(song);
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<SongsEntity> {
     const song = await this.songRepository.findOne(id);
     if (!song) {
       throw new NotFoundException(`Song #${id} not found`);

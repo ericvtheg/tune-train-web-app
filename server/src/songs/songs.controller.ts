@@ -13,13 +13,15 @@ import {
   UseInterceptors,
   Request,
 } from '@nestjs/common';
-import { SongsService } from './songs.service';
+import { SongsService , ISongResponse } from './songs.service';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
-import { CreateListenDto } from './dto/create-listen.dto';
-import { Public } from '../common/decorators/public.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { SongsEntity } from './entities/songs.entity';
+import { ListensEntity } from './entities/listens.entity';
+import { IUserRequest } from '../common/types';
+
 
 @Controller('songs')
 export class SongsController {
@@ -30,8 +32,8 @@ export class SongsController {
   @UseInterceptors(FileInterceptor('file'))
   create(
     @Body() createSongDto: CreateSongDto,
-    @UploadedFile() songFile: Express.Multer.File,
-  ) {
+      @UploadedFile() songFile: Express.Multer.File,
+  ): Promise<SongsEntity> {
     // TODO: handle validating file type as mp3
     // TODO: need to handle foreign key failure and unique constraint failure
     // TODO: remove fileName?
@@ -42,7 +44,7 @@ export class SongsController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
+  findAll(): Promise<SongsEntity[]> {
     // this should be an admin endpoint
     return this.songsService.findAll();
   }
@@ -51,7 +53,7 @@ export class SongsController {
   // should I make this endpoint public?
   @UseGuards(JwtAuthGuard)
   @Get('random')
-  findRandom(@Request() req) {
+  findRandom(@Request() req: IUserRequest): Promise<ISongResponse> {
     // should pull user off authentication token
     const userId = req.user.id;
     return this.songsService.findRandom(+userId);
@@ -59,7 +61,7 @@ export class SongsController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<ISongResponse> {
     return this.songsService.findOne(+id);
   }
 
@@ -73,22 +75,22 @@ export class SongsController {
   @Put('listen/:id')
   listen(
     @Param('id') id: number,
-    @Query('liked') liked: boolean,
-    @Request() req,
-  ) {
+      @Query('liked') liked: boolean,
+      @Request() req: IUserRequest,
+  ): Promise<ListensEntity> {
     const userId = req.user.id;
     return this.songsService.listen({ songId: id, userId, liked });
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSongDto: UpdateSongDto) {
+  update(@Param('id') id: string, @Body() updateSongDto: UpdateSongDto): Promise<SongsEntity> {
     return this.songsService.update(+id, updateSongDto);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<SongsEntity> {
     // use userId as well here from auth token?
     return this.songsService.remove(+id);
   }

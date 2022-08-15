@@ -10,7 +10,7 @@ import { HashPipe } from './pipes/hash.pipe';
   providers: [{ provide: APP_GUARD, useClass: GlobalGuard }, HashPipe],
 })
 export class CommonModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
+  configure(consumer: MiddlewareConsumer): void {
     consumer.apply(LoggingMiddleware).forRoutes('*');
   }
 }
