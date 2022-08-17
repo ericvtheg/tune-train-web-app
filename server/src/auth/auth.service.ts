@@ -3,7 +3,6 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { CryptService } from './crypt.service';
 
-// TODO: use bcrypt to store hash or something for password
 // TODO: refresh token if expired
 // TODO: add other authentication strategies google, facebook, etc
 // TODO: enable authentication on all(?) endpoints. and set few to public as necessary

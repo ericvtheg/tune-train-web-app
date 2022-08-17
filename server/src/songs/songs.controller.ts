@@ -22,12 +22,11 @@ import { SongsEntity } from './entities/songs.entity';
 import { ListensEntity } from './entities/listens.entity';
 import { IUserRequest } from '../common/types';
 
-
+@UseGuards(JwtAuthGuard)
 @Controller('songs')
 export class SongsController {
   constructor(private readonly songsService: SongsService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   create(
@@ -42,24 +41,20 @@ export class SongsController {
     return this.songsService.create(createSongDto, songFile);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(): Promise<SongsEntity[]> {
     // this should be an admin endpoint
     return this.songsService.findAll();
   }
 
-  // add validation here
   // should I make this endpoint public?
-  @UseGuards(JwtAuthGuard)
   @Get('random')
   findRandom(@Request() req: IUserRequest): Promise<ISongResponse> {
     // should pull user off authentication token
     const userId = req.user.id;
-    return this.songsService.findRandom(+userId);
+    return this.songsService.findRandom(userId);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string): Promise<ISongResponse> {
     return this.songsService.findOne(+id);
@@ -68,10 +63,6 @@ export class SongsController {
   // idk if validation is working here
   // TODO: also need to handle unique constraint error
   // this should maybe return the result of fetching a new random song as well
-  // add parseint pipe
-  // use DTO object here CreateListenDto
-  // should pull userId off request
-  @UseGuards(JwtAuthGuard)
   @Put('listen/:id')
   listen(
     @Param('id') id: number,
@@ -82,16 +73,13 @@ export class SongsController {
     return this.songsService.listen({ songId: id, userId, liked });
   }
 
-  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSongDto: UpdateSongDto): Promise<SongsEntity> {
     return this.songsService.update(+id, updateSongDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string): Promise<SongsEntity> {
-    // use userId as well here from auth token?
     return this.songsService.remove(+id);
   }
 }

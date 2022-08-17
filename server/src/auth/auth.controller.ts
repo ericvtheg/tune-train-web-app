@@ -7,8 +7,8 @@ import {
   Inject,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { AuthService, UserPayload, IJWTResponse } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { AuthService, UserPayload, IJWTResponse } from './auth.service';
 import { IUserRequest } from '../common/types';
 
 @Controller()

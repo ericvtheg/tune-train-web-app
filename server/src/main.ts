@@ -28,7 +28,7 @@ async function bootstrap() {
 
   // Swagger Module
   const options = new DocumentBuilder()
-    .setTitle('TuneTrain')
+    .setTitle('FindArtists')
     .setDescription('Find up and coming artists')
     .setVersion('1.0')
     .build();
