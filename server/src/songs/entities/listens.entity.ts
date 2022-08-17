@@ -1,7 +1,7 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   ManyToOne,
   JoinColumn,
   Unique,
@@ -12,17 +12,14 @@ import { UsersEntity } from '../../users/entities/users.entity';
 @Entity('listens')
 @Unique('userId_songId_unique_constraint', ['userId', 'songId'])
 export class ListensEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  userId: number;
+
+  @PrimaryColumn()
+  songId: number;
 
   @Column()
   liked: boolean;
-
-  @Column()
-  userId: number;
-
-  @Column()
-  songId: number;
 
   @ManyToOne(() => UsersEntity, { nullable: false })
   @JoinColumn()

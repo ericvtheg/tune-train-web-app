@@ -36,6 +36,5 @@ export class SongsEntity {
   @OneToMany(() => ListensEntity, (listen) => listen.song, {
     onDelete: 'CASCADE',
   })
-  // @JoinColumn()
   listens: ListensEntity[];
 }
