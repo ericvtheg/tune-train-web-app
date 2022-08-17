@@ -71,7 +71,6 @@ export class SongsController {
     return this.songsService.findOne(id);
   }
 
-  // idk if validation is working here
   // TODO: also need to handle unique constraint error
   // this should maybe return the result of fetching a new random song as well
   @Put('listen/:id')

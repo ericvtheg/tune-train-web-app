@@ -22,9 +22,8 @@ interface ICreateSongPayload extends CreateSongDto {
   artistId: number;
 }
 
-// TODO: think more about what the song filename should be
 function buildKey(artistId: number, songId: number): string {
-  return `${artistId.toString()[0]}/${artistId}/${songId}.mp3`;
+  return `${artistId.toString().slice(-1)}/${artistId}/${songId}.mp3`;
 }
 
 @Injectable()
@@ -38,9 +37,9 @@ export class SongsService {
     private readonly fileStorageService: FileStorageService,
   ) {}
 
-  async create(createSongDto: ICreateSongPayload, songFile: Express.Multer.File): Promise<SongsEntity> {
+  async create(createSongPayload: ICreateSongPayload, songFile: Express.Multer.File): Promise<SongsEntity> {
     try {
-      const song = this.songRepository.create(createSongDto);
+      const song = this.songRepository.create(createSongPayload);
       const songEntity = await this.songRepository.save(song);
 
       try {
@@ -56,9 +55,7 @@ export class SongsService {
       return songEntity;
     } catch (error) {
       if (error.constraint === 'title_artistId_unique_constraint') {
-        throw new BadRequestException(
-          'You have already uploaded a song with this title.',
-        );
+        throw new BadRequestException('You have already uploaded a song with this title.');
       }
       throw error;
     }
@@ -81,6 +78,7 @@ export class SongsService {
 
   /** @description returns random song that user has not listened to */
   async findRandom(userId: number): Promise<ISongResponse> {
+    // TODO: optimize query
     const song = await this.songRepository
       .createQueryBuilder('songs')
       .leftJoin('songs.listens', 'listens', 'listens.userId = :userId', {
@@ -102,9 +100,7 @@ export class SongsService {
       return await this.listenRepository.save(listen);
     } catch (error) {
       if (error.constraint === 'userId_songId_unique_constraint') {
-        throw new BadRequestException(
-          'This song has already been listened to.',
-        );
+        throw new BadRequestException('This song has already been listened to.');
       }
       throw error;
     }
