@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { WrapResponseInterceptor } from './common/interceptors/wrap-response.interceptor';
@@ -26,7 +26,7 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(
     new WrapResponseInterceptor(),
-    new TimeoutInterceptor(),
+    new TimeoutInterceptor(new Reflector()),
   );
 
   // Swagger Module

@@ -24,6 +24,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { SongsEntity } from './entities/songs.entity';
 import { ListensEntity } from './entities/listens.entity';
 import { IUserRequest } from '../common/types';
+import { SetRequestTimeout } from '../common/decorators/timeout.decorator';
 
 @UseGuards(JwtAuthGuard)
 @Controller('songs')
@@ -31,6 +32,7 @@ export class SongsController {
   constructor(private readonly songsService: SongsService) {}
 
   @Post()
+  @SetRequestTimeout(6000)
   @UseInterceptors(FileInterceptor('file'))
   create(
     @Body() createSongDto: CreateSongDto,
