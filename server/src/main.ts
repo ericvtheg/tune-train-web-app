@@ -10,10 +10,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
 
+  const stage = config.get<string>('stage');
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
       whitelist: true,
+      disableErrorMessages: stage === 'prod' ? true : false,
       forbidNonWhitelisted: true,
       transformOptions: {
         enableImplicitConversion: true,
@@ -35,7 +38,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 
-  const stage = config.get<string>('stage');
   if (stage === 'local') {
     app.enableCors({ credentials: true, origin: true });
   }

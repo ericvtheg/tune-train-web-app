@@ -12,6 +12,9 @@ import {
   UploadedFile,
   UseInterceptors,
   Request,
+  BadRequestException,
+  ParseIntPipe,
+  ParseBoolPipe,
 } from '@nestjs/common';
 import { SongsService , ISongResponse } from './songs.service';
 import { CreateSongDto } from './dto/create-song.dto';
@@ -32,13 +35,21 @@ export class SongsController {
   create(
     @Body() createSongDto: CreateSongDto,
       @UploadedFile() songFile: Express.Multer.File,
+      @Request() req: IUserRequest,
   ): Promise<SongsEntity> {
     // TODO: handle validating file type as mp3
     // TODO: need to handle foreign key failure and unique constraint failure
     // TODO: remove fileName?
     // TODO: increase timeout for this endpoint?
-    // TODO: verify if artist?
-    return this.songsService.create(createSongDto, songFile);
+
+    // this should be a built into a decorator guard role thing
+    const isArtist = req.user.isArtist;
+    if (!isArtist) {
+      throw new BadRequestException('You must be an artist to upload songs.');
+    }
+
+    const userId = req.user.id;
+    return this.songsService.create({ ...createSongDto, artistId: userId }, songFile);
   }
 
   @Get()
@@ -56,8 +67,8 @@ export class SongsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<ISongResponse> {
-    return this.songsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<ISongResponse> {
+    return this.songsService.findOne(id);
   }
 
   // idk if validation is working here
@@ -65,21 +76,22 @@ export class SongsController {
   // this should maybe return the result of fetching a new random song as well
   @Put('listen/:id')
   listen(
-    @Param('id') id: number,
-      @Query('liked') liked: boolean,
+    @Param('id', ParseIntPipe) id: number,
+      @Query('liked', ParseBoolPipe) liked: boolean,
       @Request() req: IUserRequest,
   ): Promise<ListensEntity> {
     const userId = req.user.id;
+    // handle song doesn't exist case
     return this.songsService.listen({ songId: id, userId, liked });
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSongDto: UpdateSongDto): Promise<SongsEntity> {
-    return this.songsService.update(+id, updateSongDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateSongDto: UpdateSongDto): Promise<SongsEntity> {
+    return this.songsService.update(id, updateSongDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<SongsEntity> {
-    return this.songsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number): Promise<SongsEntity> {
+    return this.songsService.remove(id);
   }
 }

@@ -7,4 +7,4 @@ resource "aws_s3_bucket" "song-bucket" {
 # ecs
 # bucket
 # load balancer
-# 
+# secrets

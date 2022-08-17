@@ -18,6 +18,10 @@ export interface ISongResponse extends SongsEntity {
   downloadLink: string;
 }
 
+interface ICreateSongPayload extends CreateSongDto {
+  artistId: number;
+}
+
 // TODO: think more about what the song filename should be
 function buildKey(artistId: number, songId: number): string {
   return `${artistId.toString()[0]}/${artistId}/${songId}.mp3`;
@@ -34,7 +38,7 @@ export class SongsService {
     private readonly fileStorageService: FileStorageService,
   ) {}
 
-  async create(createSongDto: CreateSongDto, songFile: Express.Multer.File): Promise<SongsEntity> {
+  async create(createSongDto: ICreateSongPayload, songFile: Express.Multer.File): Promise<SongsEntity> {
     try {
       const song = this.songRepository.create(createSongDto);
       const songEntity = await this.songRepository.save(song);

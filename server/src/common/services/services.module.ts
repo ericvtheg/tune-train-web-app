@@ -21,7 +21,7 @@ const s3Provider: FactoryProvider = {
 
 @Module({})
 export class ServiceModule {
-  static register(options: Record<string, any>): DynamicModule {
+  static register(options: Record<string, string>): DynamicModule {
     const bucketNameProvider: FactoryProvider = {
       provide: BUCKET_NAME,
       inject: [ConfigService],

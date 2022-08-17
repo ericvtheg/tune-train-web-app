@@ -1,14 +1,10 @@
-import { IsString, IsNumber } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CreateSongDto {
-  /** Song owner's id */
-  @IsNumber()
-  artistId: number;
-
   @IsString()
   title: string;
 
-  @IsString() //is this url?
+  @IsString()
   fileName: string;
 
   @IsString()
