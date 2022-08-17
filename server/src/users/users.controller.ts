@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Request,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -36,19 +37,19 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<UsersEntity> {
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<UsersEntity> {
     return this.usersService.findOne(+id);
   }
 
   @Patch()
   update(@Request() req: IUserRequest, @Body() updateUserDto: UpdateUserDto): Promise<UsersEntity> {
     const id = req.user.id;
-    return this.usersService.update(+id, updateUserDto);
+    return this.usersService.update(id, updateUserDto);
   }
 
   @Delete()
   remove(@Request() req: IUserRequest): Promise<UsersEntity> {
     const id = req.user.id;
-    return this.usersService.remove(+id);
+    return this.usersService.remove(id);
   }
 }

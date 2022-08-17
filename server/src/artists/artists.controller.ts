@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ArtistsService } from './artists.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
@@ -34,17 +35,17 @@ export class ArtistsController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<ArtistsEntity> {
-    return this.artistsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<ArtistsEntity> {
+    return this.artistsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateArtistDto: UpdateArtistDto): Promise<ArtistsEntity> {
-    return this.artistsService.update(+id, updateArtistDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateArtistDto: UpdateArtistDto): Promise<ArtistsEntity> {
+    return this.artistsService.update(id, updateArtistDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<ArtistsEntity> {
-    return this.artistsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number): Promise<ArtistsEntity> {
+    return this.artistsService.remove(id);
   }
 }
