@@ -4,7 +4,6 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
-  JoinColumn,
   Unique,
 } from 'typeorm';
 import { ArtistsEntity } from '../../artists/entities/artists.entity';
@@ -30,7 +29,6 @@ export class SongsEntity {
   artistId: number;
 
   @ManyToOne(() => ArtistsEntity, { nullable: false })
-  @JoinColumn()
   Artist: ArtistsEntity;
 
   @OneToMany(() => ListensEntity, (listen) => listen.song, {

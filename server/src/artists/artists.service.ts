@@ -38,7 +38,6 @@ export class ArtistsService {
     };
 
     const user: UsersEntity = await this.userService.create(createUserDto);
-
     let artist = this.artistRepository.create(createArtistDto);
     artist = await this.artistRepository.save({ id: user.id, ...artist });
 

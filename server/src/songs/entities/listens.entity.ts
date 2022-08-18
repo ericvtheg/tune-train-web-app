@@ -3,7 +3,6 @@ import {
   Column,
   PrimaryColumn,
   ManyToOne,
-  JoinColumn,
   Unique,
 } from 'typeorm';
 import { SongsEntity } from './songs.entity';
@@ -22,10 +21,8 @@ export class ListensEntity {
   liked: boolean;
 
   @ManyToOne(() => UsersEntity, { nullable: false })
-  @JoinColumn()
   User: UsersEntity;
 
   @ManyToOne(() => SongsEntity, (song) => song.listens, { nullable: false })
-  // @JoinColumn()
   song: SongsEntity;
 }

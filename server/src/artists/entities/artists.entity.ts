@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { SongsEntity } from '../../songs/entities/songs.entity';
 import { UsersEntity } from '../../users/entities/users.entity';
+import { SocialsEntity } from './socials.entity';
 
 @Entity('artists')
 export class ArtistsEntity {
@@ -23,43 +24,18 @@ export class ArtistsEntity {
   @Column({ nullable: true })
   image: string;
 
-  @Column({ nullable: true })
-  spotify: string;
-
-  @Column({ nullable: true })
-  appleMusic: string;
-
-  @Column({ nullable: true })
-  soundCloud: string;
-
-  @Column({ nullable: true })
-  patreon: string;
-
-  @Column({ nullable: true })
-  instagram: string;
-
-  @Column({ nullable: true })
-  tikTok: string;
-
-  @Column({ nullable: true })
-  youtube: string;
-
-  @Column({ nullable: true })
-  twitter: string;
-
-  @Column({ nullable: true })
-  beatPort: string;
-
-  // this is wrong, look into doing bidirectional w/e
   @OneToMany(() => ArtistsEntity, (artist) => artist.id, {
     onDelete: 'CASCADE',
   })
-  Song: SongsEntity[];
+  songs: SongsEntity[];
 
-  // this is wrong, look into doing bidirectional w/e
-  @OneToOne(() => UsersEntity, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn()
+  @OneToOne(() => UsersEntity, (user) => user.artist)
+  @JoinColumn({ referencedColumnName: 'id', name: 'id' })
   user: UsersEntity;
+
+  @OneToOne(() => SocialsEntity, (social) => social.artist, {
+    cascade: true,
+    eager: true
+  })
+  socials: SocialsEntity;
 }

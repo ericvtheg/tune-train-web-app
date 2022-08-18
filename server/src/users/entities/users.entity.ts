@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm';
+import { ArtistsEntity } from 'src/artists/entities/artists.entity';
+import { ListensEntity } from 'src/songs/entities/listens.entity';
+import { Entity, Column, PrimaryGeneratedColumn, Index, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 
 // TODO: make unique name a constant
 @Entity('users')
@@ -18,4 +20,12 @@ export class UsersEntity {
 
   @Column()
   isArtist: boolean;
+
+  @OneToOne(() => ArtistsEntity, (artist) => artist.user)
+  artist: ArtistsEntity;
+
+  @OneToMany(() => ListensEntity, (listen) => listen.User, {
+    onDelete: 'CASCADE',
+  })
+  listens: ListensEntity[];
 }
