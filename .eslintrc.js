@@ -4,19 +4,19 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
-    }
+      jsx: true,
+    },
   },
   settings: {
     react: {
-      version: '14.18'
+      version: '14.18',
     },
     'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx']
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
     },
     'import/resolver': {
       node: {
-        extensions: ['.ts', '.tsx']
+        extensions: ['.ts', '.tsx'],
       },
       alias: {
         map: [
@@ -32,16 +32,16 @@ module.exports = {
           ['@web/graphql', './web/src/graphql'],
           ['@web/pages', './web/src/pages'],
           ['@web/theme', './web/src/theme'],
-          ['@web/utils', './web/src/utils']
+          ['@web/utils', './web/src/utils'],
         ],
-        extensions: ['.ts', '.tsx']
-      }
-    }
+        extensions: ['.ts', '.tsx'],
+      },
+    },
   },
   env: {
     es6: true,
     browser: true,
-    node: true
+    node: true,
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
   extends: [
@@ -50,12 +50,25 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
-    'plugin:import/typescript'
+    'plugin:import/typescript',
   ],
   rules: {
     // JS/TS RULES
     quotes: ['error', 'single'],
     camelcase: 'error',
+    'max-len': ['error', { 'code': 120 }],
+    'no-else-return': 1,
+    'no-irregular-whitespace': 'error',
+    'no-multi-spaces': 'error',
+    'spaced-comment': 'error',
+    'block-spacing': 'error',
+    'comma-dangle': ['error', {
+      'arrays': 'always-multiline',
+      'objects': 'always-multiline',
+      'imports': 'always-multiline',
+      'exports': 'always-multiline',
+      'functions': 'always-multiline',
+    }],
     'prefer-const': 'error',
     'no-var': 'error',
     'no-dupe-else-if': 'off',
@@ -85,6 +98,6 @@ module.exports = {
     'react/jsx-max-props-per-line': ['error', { maximum: 4 }],
     'react/jsx-no-bind': 'error',
     'react/jsx-no-literals': 'off',
-    'react/jsx-tag-spacing': ['error', { beforeSelfClosing: 'always' }]
-  }
+    'react/jsx-tag-spacing': ['error', { beforeSelfClosing: 'always' }],
+  },
 };
