@@ -1,7 +1,6 @@
 import {
   Injectable,
   NotFoundException,
-  BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -24,12 +23,6 @@ export class ArtistsService {
    * @description If creating artist, artist still needs corresponding user attributes
    **/
   async create(createArtistDto: CreateArtistDto): Promise<ArtistsEntity> {
-    if (!createArtistDto.isArtist) {
-      throw new BadRequestException(
-        'isArtist must be true in order to create Artist entity',
-      );
-    }
-
     const createUserDto: CreateUserDto = {
       email: createArtistDto.email,
       password: createArtistDto.password,

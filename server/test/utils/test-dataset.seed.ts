@@ -14,7 +14,7 @@ export class TestDataGenerator {
     this.n = amountToCreate;
   }
 
-  async generateData(): Promise<void> {
+  async generateData(): Promise<number[]> {
     const artistData = this.generateArtistData();
     const userData = this.generateUserData();
     const songData = this.generateSongData();
@@ -26,6 +26,7 @@ export class TestDataGenerator {
       entityManager.insert<SongsEntity>(SongsEntity, songData);
       entityManager.insert<ListensEntity>(ListensEntity, listenData);
     });
+    return [...Array(this.n).keys()];
   }
 
   generateUserData() {
@@ -49,7 +50,7 @@ export class TestDataGenerator {
         image: faker.image.imageUrl(),
         socials: {
           instagram: 'test',
-        }
+        },
       };
     });
   }

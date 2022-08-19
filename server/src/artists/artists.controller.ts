@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   ParseIntPipe,
+  BadRequestException
 } from '@nestjs/common';
 import { ArtistsService } from './artists.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
@@ -25,6 +26,12 @@ export class ArtistsController {
   @Public()
   @Post()
   create(@Body(HashPipe) createArtistDto: CreateArtistDto): Promise<ArtistsEntity> {
+    if (!createArtistDto.isArtist) {
+      throw new BadRequestException(
+        'isArtist must be true in order to create Artist entity',
+      );
+    }
+
     return this.artistsService.create(createArtistDto);
   }
 

@@ -3,6 +3,7 @@ import {
   IsUrl,
   IsOptional,
   ValidateNested,
+  IsBoolean,
 } from 'class-validator';
 import { CreateUserDto } from '../../users/dto/create-user.dto';
 
@@ -59,6 +60,10 @@ export class CreateArtistDto extends CreateUserDto {
 
   @ValidateNested()
   socials: CreateSocialsDto;
+
+  @IsBoolean()
+  @IsOptional()
+  isArtist: boolean = true;
 }
 
 export { CreateUserDto };
