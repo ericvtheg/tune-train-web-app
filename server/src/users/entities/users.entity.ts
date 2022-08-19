@@ -1,4 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, Index, OneToOne, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  Index,
+  OneToOne,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { ArtistsEntity } from '../../artists/entities/artists.entity';
 import { ListensEntity } from '../../songs/entities/listens.entity';
 

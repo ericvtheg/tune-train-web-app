@@ -8,7 +8,7 @@ import {
   Delete,
   UseGuards,
   ParseIntPipe,
-  BadRequestException
+  BadRequestException,
 } from '@nestjs/common';
 import { ArtistsService } from './artists.service';
 import { CreateArtistDto } from './dto/create-artist.dto';

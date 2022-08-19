@@ -18,7 +18,7 @@ describe('ArtistsService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [...TypeOrmSQLITETestingModule()],
-      providers: [ArtistsService, { provide: UsersService, useValue: {}, }],
+      providers: [ArtistsService, { provide: UsersService, useValue: {} }],
     }).compile();
 
     service = module.get<ArtistsService>(ArtistsService);
@@ -63,7 +63,7 @@ describe('ArtistsService', () => {
         ArtistsService,
         {
           provide: UsersService,
-          useValue: { create: jest.fn(() => Promise.resolve({ id: userId, })), },
+          useValue: { create: jest.fn(() => Promise.resolve({ id: userId })) },
         },
       ],
     }).compile();
@@ -100,7 +100,7 @@ describe('ArtistsService', () => {
   });
 
   it('should update artist', async () => {
-    await service.update(ids[0], { stageName: 'test', });
+    await service.update(ids[0], { stageName: 'test' });
     expect((await service.findOne(ids[0])).stageName).toEqual('test');
   });
 });

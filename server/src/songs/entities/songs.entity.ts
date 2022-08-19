@@ -6,7 +6,7 @@ import {
   OneToMany,
   Unique,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
 import { ArtistsEntity } from '../../artists/entities/artists.entity';
 import { ListensEntity } from './listens.entity';

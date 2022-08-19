@@ -6,7 +6,7 @@ import {
   OneToOne,
   JoinColumn,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
 import { SongsEntity } from '../../songs/entities/songs.entity';
 import { UsersEntity } from '../../users/entities/users.entity';
@@ -43,7 +43,7 @@ export class ArtistsEntity {
 
   @OneToOne(() => SocialsEntity, (social) => social.artist, {
     cascade: true,
-    eager: true
+    eager: true,
   })
   socials: SocialsEntity;
 }
