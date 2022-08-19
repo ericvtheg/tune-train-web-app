@@ -14,7 +14,7 @@ const s3Provider: FactoryProvider = {
       secretAccessKey: configService.get<string>('aws.secretAccessKey'),
       region: 'us-east-1',
       s3ForcePathStyle: true,
-      endpoint: stage === 'local' ? 'http://localhost:4566' : undefined,
+      endpoint: stage === 'local' ? 'http://localhost:4566' : undefined, //TODO: put in config
     });
   },
 };

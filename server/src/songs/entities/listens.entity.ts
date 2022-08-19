@@ -4,6 +4,8 @@ import {
   PrimaryColumn,
   ManyToOne,
   Unique,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { SongsEntity } from './songs.entity';
 import { UsersEntity } from '../../users/entities/users.entity';
@@ -16,6 +18,12 @@ export class ListensEntity {
 
   @PrimaryColumn()
   songId: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @Column()
   liked: boolean;

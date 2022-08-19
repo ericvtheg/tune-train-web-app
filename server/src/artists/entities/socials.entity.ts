@@ -3,7 +3,9 @@ import {
   Column,
   OneToOne,
   JoinColumn,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { ArtistsEntity } from './artists.entity';
 
@@ -11,6 +13,12 @@ import { ArtistsEntity } from './artists.entity';
 export class SocialsEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @OneToOne(() => ArtistsEntity, (artist) => artist.socials)
   @JoinColumn()

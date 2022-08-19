@@ -5,6 +5,8 @@ import {
   OneToMany,
   OneToOne,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { SongsEntity } from '../../songs/entities/songs.entity';
 import { UsersEntity } from '../../users/entities/users.entity';
@@ -14,6 +16,12 @@ import { SocialsEntity } from './socials.entity';
 export class ArtistsEntity {
   @PrimaryColumn()
   id: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @Column({ nullable: true })
   stageName: string;

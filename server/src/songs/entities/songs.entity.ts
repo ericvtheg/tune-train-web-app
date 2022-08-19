@@ -5,6 +5,8 @@ import {
   ManyToOne,
   OneToMany,
   Unique,
+  CreateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { ArtistsEntity } from '../../artists/entities/artists.entity';
 import { ListensEntity } from './listens.entity';
@@ -14,6 +16,12 @@ import { ListensEntity } from './listens.entity';
 export class SongsEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @Column()
   title: string;
