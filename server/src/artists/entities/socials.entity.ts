@@ -14,10 +14,10 @@ export class SocialsEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   updatedAt: Date;
 
   @OneToOne(() => ArtistsEntity, (artist) => artist.socials)

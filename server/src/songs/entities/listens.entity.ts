@@ -19,10 +19,10 @@ export class ListensEntity {
   @PrimaryColumn()
   songId: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   updatedAt: Date;
 
   @Column()

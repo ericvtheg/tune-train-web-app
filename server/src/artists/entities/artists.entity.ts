@@ -17,10 +17,10 @@ export class ArtistsEntity {
   @PrimaryColumn()
   id: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   updatedAt: Date;
 
   @Column({ nullable: true })
