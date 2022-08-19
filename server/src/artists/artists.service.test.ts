@@ -21,8 +21,9 @@ describe('ArtistsService', () => {
     await testDataGenerator.generateData();
   });
 
-  afterAll(async () => {
-    testDataGenerator.connection.close();
+  afterEach(async () => {
+    await testDataGenerator.connection.dropDatabase();
+    await testDataGenerator.connection.close();
   });
 
   it('should be defined', () => {
