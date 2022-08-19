@@ -1,8 +1,7 @@
 import { ArtistsEntity } from 'src/artists/entities/artists.entity';
 import { ListensEntity } from 'src/songs/entities/listens.entity';
-import { Entity, Column, PrimaryGeneratedColumn, Index, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Index, OneToOne, OneToMany } from 'typeorm';
 
-// TODO: make unique name a constant
 @Entity('users')
 export class UsersEntity {
   @PrimaryGeneratedColumn()

@@ -3,9 +3,6 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { CryptService } from './crypt.service';
 
-// TODO: refresh token if expired
-// TODO: add other authentication strategies google, facebook, etc
-
 export interface UserPayload {
   email: string;
   username: string;

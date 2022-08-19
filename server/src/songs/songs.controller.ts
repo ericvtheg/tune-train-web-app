@@ -25,6 +25,7 @@ import { SongsEntity } from './entities/songs.entity';
 import { ListensEntity } from './entities/listens.entity';
 import { IUserRequest } from '../common/types';
 import { SetRequestTimeout } from '../common/decorators/timeout.decorator';
+import { Public } from '../common/decorators/public.decorator';
 
 @UseGuards(JwtAuthGuard)
 @Controller('songs')
@@ -42,9 +43,8 @@ export class SongsController {
     // TODO: handle validating file type as mp3
     // TODO: need to handle foreign key failure and unique constraint failure
     // TODO: remove fileName?
-    // TODO: increase timeout for this endpoint?
 
-    // this should be a built into a decorator guard role thing
+    // TODO: this should be a built into a decorator guard role thing
     const isArtist = req.user.isArtist;
     if (!isArtist) {
       throw new BadRequestException('You must be an artist to upload songs.');
@@ -56,14 +56,12 @@ export class SongsController {
 
   @Get()
   findAll(): Promise<SongsEntity[]> {
-    // this should be an admin endpoint
     return this.songsService.findAll();
   }
 
-  // should I make this endpoint public?
+  @Public()
   @Get('random')
   findRandom(@Request() req: IUserRequest): Promise<ISongResponse> {
-    // should pull user off authentication token
     const userId = req.user.id;
     return this.songsService.findRandom(userId);
   }
@@ -73,8 +71,6 @@ export class SongsController {
     return this.songsService.findOne(id);
   }
 
-  // TODO: also need to handle unique constraint error
-  // this should maybe return the result of fetching a new random song as well
   @Put('listen/:id')
   listen(
     @Param('id', ParseIntPipe) id: number,
@@ -82,7 +78,6 @@ export class SongsController {
       @Request() req: IUserRequest,
   ): Promise<ListensEntity> {
     const userId = req.user.id;
-    // handle song doesn't exist case
     return this.songsService.listen({ songId: id, userId, liked });
   }
 
