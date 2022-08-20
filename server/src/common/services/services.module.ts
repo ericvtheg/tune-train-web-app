@@ -1,6 +1,6 @@
 import { Module, DynamicModule, FactoryProvider } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
-import { FileStorageService } from './fileStorage/fileStorage.service';
+import { FileStorageService } from './file-storage/file-storage.service';
 import { BUCKET_NAME } from '../symbols';
 import { ConfigService } from '@nestjs/config';
 

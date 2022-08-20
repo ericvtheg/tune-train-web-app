@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { SongsService } from './songs.service';
 import { TestDataGenerator } from '../../test/utils/test-dataset.seed';
 import { TypeOrmSQLITETestingModule } from '../../test/utils/typeorm-sqlite-testing.module';
-import { FileStorageService } from '../common/services/fileStorage/fileStorage.service';
+import { FileStorageService } from '../common/services/file-storage/file-storage.service';
 import { NotFoundException } from '@nestjs/common';
 
 
@@ -47,9 +47,13 @@ describe('SongsService', () => {
       expect(song.title).toEqual(createSongDto.title);
     });
 
-    it("should throw unique constraint error", async () => {});
+    it("should throw unique constraint error", async () => {
+      throw new Error();
+    });
 
-    it("should handle fileStorageService error", async () => {});
+    it("should handle fileStorageService error", async () => {
+      throw new Error();
+    });
   });
 
   it("should findAll songs", async () => {
@@ -87,11 +91,11 @@ describe('SongsService', () => {
     });
   
     it("should handle unique constraint error", async () => {
-      
+      throw new Error();
     })
 
     it("should handle some error", async () => {
-      
+      throw new Error();
     })
   });
 

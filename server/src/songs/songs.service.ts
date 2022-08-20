@@ -11,7 +11,7 @@ import { CreateListenDto } from './dto/create-listen.dto';
 import { SongsEntity, UNIQUE_SONG_TITLE_ARTIST_CONSTRAINT } from './entities/songs.entity';
 import { ListensEntity, UNIQUE_LISTEN_SONGID_USERID_CONSTRAINT } from './entities/listens.entity';
 import { Repository } from 'typeorm';
-import { FileStorageService } from '../common/services/fileStorage/fileStorage.service';
+import { FileStorageService } from '../common/services/file-storage/file-storage.service';
 
 export interface ISongResponse extends SongsEntity {
   /** @description link to s3 mp3 object */
