@@ -11,6 +11,9 @@ import {
 import { ArtistsEntity } from '../../artists/entities/artists.entity';
 import { ListensEntity } from '../../songs/entities/listens.entity';
 
+export const UNIQUE_USER_EMAIL_CONSTRAINT = 'email_index_unique_constraint';
+export const UNIQUE_USER_USERNAME_CONSTRAINT = 'username_index_unique_constraint';
+
 @Entity('users')
 export class UsersEntity {
   @PrimaryGeneratedColumn()
@@ -22,14 +25,15 @@ export class UsersEntity {
   @UpdateDateColumn({ select: false })
   updatedAt: Date;
 
-  @Index('email_index_unique_constraint', { unique: true })
+  @Index(UNIQUE_USER_EMAIL_CONSTRAINT, { unique: true })
   @Column()
   email: string;
 
   @Column()
   password: string;
 
-  @Column({ unique: true })
+  @Index(UNIQUE_USER_USERNAME_CONSTRAINT, { unique: true })
+  @Column()
   username: string;
 
   @Column()

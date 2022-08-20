@@ -36,7 +36,7 @@ describe('ArtistsService', () => {
     expect(usersService).toBeDefined();
   });
 
-  it('should create a user', async () => {
+  it('should create an artist', async () => {
     const createArtistDto: CreateArtistDto = {
       stageName: 'someName',
       bio: 'someBio',
@@ -48,7 +48,7 @@ describe('ArtistsService', () => {
       password: 'somePassword',
     };
 
-    const artistsEntityMock = {
+    const mockArtistsEntity = {
       create: jest.fn(() => createArtistDto),
       save: jest.fn(() => createArtistDto),
     };
@@ -56,7 +56,7 @@ describe('ArtistsService', () => {
       providers: [
         {
           provide: getRepositoryToken(ArtistsEntity),
-          useFactory: () => artistsEntityMock,
+          useFactory: () => mockArtistsEntity,
         },
         ArtistsService,
         {
@@ -74,8 +74,8 @@ describe('ArtistsService', () => {
       id: userId,
       ...createArtistDto,
     });
-    expect(artistsEntityMock.create).toHaveBeenCalled();
-    expect(artistsEntityMock.save).toHaveBeenCalled();
+    expect(mockArtistsEntity.create).toHaveBeenCalled();
+    expect(mockArtistsEntity.save).toHaveBeenCalled();
   });
 
   it('should find all artists', async () => {

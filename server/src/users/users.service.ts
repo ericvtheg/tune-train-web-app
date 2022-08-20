@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UsersEntity } from './entities/users.entity';
+import { UsersEntity, UNIQUE_USER_EMAIL_CONSTRAINT, UNIQUE_USER_USERNAME_CONSTRAINT } from './entities/users.entity';
 
 @Injectable()
 export class UsersService {
@@ -21,9 +21,9 @@ export class UsersService {
       const user = this.userRepository.create(createUserDto);
       return await this.userRepository.save(user);
     } catch (error) {
-      if (error.constraint === 'email_index_unique_constraint') {
+      if (error.constraint === UNIQUE_USER_EMAIL_CONSTRAINT) {
         throw new BadRequestException('email already exists');
-      } else if (error.detail.includes('username')) {
+      } else if (error.constraint === UNIQUE_USER_USERNAME_CONSTRAINT) {
         throw new BadRequestException('username already exists');
       }
       throw error;
