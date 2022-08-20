@@ -29,7 +29,7 @@ export class AuthService {
   ): Promise<UserPayload> {
     try {
       const user = await this.usersService.findOneUsingEmail(email);
-      if (user && true === await this.cryptService.validatePassword(password, user.password)) {
+      if (user && await this.cryptService.validatePassword(password, user.password) === true) {
         const { password, ...result } = user;
         return result;
       }

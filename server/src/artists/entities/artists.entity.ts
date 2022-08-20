@@ -32,12 +32,10 @@ export class ArtistsEntity {
   @Column({ nullable: true })
   image: string;
 
-  @OneToMany(() => ArtistsEntity, (artist) => artist.id, {
-    onDelete: 'CASCADE',
-  })
+  @OneToMany(() => ArtistsEntity, (artist) => artist.id)
   songs: SongsEntity[];
 
-  @OneToOne(() => UsersEntity, (user) => user.artist)
+  @OneToOne(() => UsersEntity, (user) => user.artist, {onDelete: 'CASCADE'})
   @JoinColumn({ referencedColumnName: 'id', name: 'id' })
   user: UsersEntity;
 

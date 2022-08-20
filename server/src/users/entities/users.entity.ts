@@ -38,8 +38,6 @@ export class UsersEntity {
   @OneToOne(() => ArtistsEntity, (artist) => artist.user)
   artist: ArtistsEntity;
 
-  @OneToMany(() => ListensEntity, (listen) => listen.User, {
-    onDelete: 'CASCADE',
-  })
+  @OneToMany(() => ListensEntity, (listen) => listen.User)
   listens: ListensEntity[];
 }

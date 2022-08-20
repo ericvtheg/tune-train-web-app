@@ -20,7 +20,7 @@ export class SocialsEntity {
   @UpdateDateColumn({ select: false })
   updatedAt: Date;
 
-  @OneToOne(() => ArtistsEntity, (artist) => artist.socials)
+  @OneToOne(() => ArtistsEntity, (artist) => artist.socials,{ onDelete: 'CASCADE'})
   @JoinColumn()
   artist: ArtistsEntity;
 

@@ -27,19 +27,14 @@ export class SongsEntity {
   title: string;
 
   @Column()
-  fileName: string;
-
-  @Column()
   description: string;
 
   @Column()
   artistId: number;
 
-  @ManyToOne(() => ArtistsEntity, { nullable: false })
+  @ManyToOne(() => ArtistsEntity, { nullable: false, onDelete: 'CASCADE'},)
   Artist: ArtistsEntity;
 
-  @OneToMany(() => ListensEntity, (listen) => listen.song, {
-    onDelete: 'CASCADE',
-  })
+  @OneToMany(() => ListensEntity, (listen) => listen.song)
   listens: ListensEntity[];
 }

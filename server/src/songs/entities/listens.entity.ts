@@ -28,9 +28,9 @@ export class ListensEntity {
   @Column()
   liked: boolean;
 
-  @ManyToOne(() => UsersEntity, { nullable: false })
+  @ManyToOne(() => UsersEntity, { nullable: false, onDelete: 'CASCADE', })
   User: UsersEntity;
 
-  @ManyToOne(() => SongsEntity, (song) => song.listens, { nullable: false })
+  @ManyToOne(() => SongsEntity, (song) => song.listens, { nullable: false, onDelete: 'CASCADE', })
   song: SongsEntity;
 }
