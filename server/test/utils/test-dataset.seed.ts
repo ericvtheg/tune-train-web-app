@@ -15,7 +15,6 @@ export class TestDataGenerator {
   n: number;
   ids: number[];
   private songId = -1;
-
   constructor(numUsersToCreate: number = 1) {
     this.n = numUsersToCreate;
   }

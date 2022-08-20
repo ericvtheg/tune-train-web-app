@@ -40,7 +40,6 @@ export class ArtistsController {
     return this.artistsService.findAll();
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number): Promise<ArtistsEntity> {
     return this.artistsService.findOne(id);
