@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 export class CryptService {
   private readonly saltRounds = 10;
 
+  /** @warning MUST BE AWAITED */
   async hashPassword(password: string): Promise<string> {
     return bcrypt.hash(password, this.saltRounds);
   }

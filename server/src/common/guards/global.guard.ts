@@ -15,8 +15,6 @@ export class GlobalGuard implements CanActivate {
       return true;
     }
 
-    // other validation here for routes that need authorization
-
     return true;
   }
 }
