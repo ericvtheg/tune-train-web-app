@@ -16,10 +16,10 @@ import {
   ParseIntPipe,
   ParseBoolPipe,
 } from '@nestjs/common';
-import { SongsService , ISongResponse } from './songs.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { SongsService, ISongResponse } from './songs.service';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { SongsEntity } from './entities/songs.entity';
 import { ListensEntity } from './entities/listens.entity';
@@ -42,10 +42,9 @@ export class SongsController {
   ): Promise<SongsEntity> {
     // TODO: handle validating file type as mp3
     // TODO: need to handle foreign key failure and unique constraint failure
-    // TODO: remove fileName?
 
     // TODO: this should be a built into a decorator guard role thing
-    const isArtist = req.user.isArtist;
+    const { isArtist } = req.user;
     if (!isArtist) {
       throw new BadRequestException('You must be an artist to upload songs.');
     }

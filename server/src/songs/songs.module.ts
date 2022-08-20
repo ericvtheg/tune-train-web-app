@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { SongsService } from './songs.service';
 import { SongsController } from './songs.controller';
 import { SongsEntity } from './entities/songs.entity';
 import { ListensEntity } from './entities/listens.entity';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServiceModule } from '../common/services/services.module';
 
 @Module({

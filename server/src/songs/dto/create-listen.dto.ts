@@ -3,14 +3,14 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateListenDto {
   @IsNumber()
-  userId: number;
+    userId: number;
 
   @IsNumber()
-  songId: number;
+    songId: number;
 
   @ApiProperty({
     description: 'Whether or not the user liked the song.',
   })
   @IsBoolean()
-  liked: boolean;
+    liked: boolean;
 }

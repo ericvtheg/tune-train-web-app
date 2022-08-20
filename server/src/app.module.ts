@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
+import * as Joi from '@hapi/joi';
 import { SongsModule } from './songs/songs.module';
 import { UsersModule } from './users/users.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ArtistsModule } from './artists/artists.module';
-import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
-import * as Joi from '@hapi/joi';
 import { configuration } from './config/configuration';
 import { AuthModule } from './auth/auth.module';
 

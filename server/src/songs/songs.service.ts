@@ -5,12 +5,12 @@ import {
   Inject,
   BadRequestException,
 } from '@nestjs/common';
+import { Repository } from 'typeorm';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
 import { CreateListenDto } from './dto/create-listen.dto';
 import { SongsEntity } from './entities/songs.entity';
 import { ListensEntity } from './entities/listens.entity';
-import { Repository } from 'typeorm';
 import { FileStorageService } from '../common/services/fileStorage/fileStorage.service';
 
 export interface ISongResponse extends SongsEntity {
@@ -37,7 +37,10 @@ export class SongsService {
     private readonly fileStorageService: FileStorageService,
   ) {}
 
-  async create(createSongPayload: ICreateSongPayload, songFile: Express.Multer.File): Promise<SongsEntity> {
+  async create(
+    createSongPayload: ICreateSongPayload,
+    songFile: Express.Multer.File,
+  ): Promise<SongsEntity> {
     try {
       const song = this.songRepository.create(createSongPayload);
       const songEntity = await this.songRepository.save(song);

@@ -9,15 +9,13 @@ import { Observable, tap } from 'rxjs';
 @Injectable()
 export class WrapResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const name = context.getHandler().name;
+    const { name } = context.getHandler();
     const now = Date.now();
     return next.handle().pipe(
-      tap((value) =>
-        console.log({
-          duration: `${name}: ${Date.now() - now}ms`,
-          data: value,
-        }),
-      ),
+      tap((value) => console.log({
+        duration: `${name}: ${Date.now() - now}ms`,
+        data: value,
+      })),
     );
   }
 }
