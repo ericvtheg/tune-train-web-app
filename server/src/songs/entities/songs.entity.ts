@@ -15,28 +15,31 @@ import { ListensEntity } from './listens.entity';
 @Unique('title_artistId_unique_constraint', ['title', 'artistId'])
 export class SongsEntity {
   @PrimaryGeneratedColumn()
-    id: number;
+  id: number;
 
   @CreateDateColumn({ select: false })
-    createdAt: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ select: false })
-    updatedAt: Date;
+  updatedAt: Date;
 
   @Column()
-    title: string;
+  title: string;
 
   @Column()
-    description: string;
+  fileName: string;
 
   @Column()
-    artistId: number;
+  description: string;
+
+  @Column()
+  artistId: number;
 
   @ManyToOne(() => ArtistsEntity, { nullable: false })
-    Artist: ArtistsEntity;
+  Artist: ArtistsEntity;
 
   @OneToMany(() => ListensEntity, (listen) => listen.song, {
     onDelete: 'CASCADE',
   })
-    listens: ListensEntity[];
+  listens: ListensEntity[];
 }

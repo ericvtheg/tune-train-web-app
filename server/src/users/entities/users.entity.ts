@@ -14,32 +14,32 @@ import { ListensEntity } from '../../songs/entities/listens.entity';
 @Entity('users')
 export class UsersEntity {
   @PrimaryGeneratedColumn()
-    id: number;
+  id: number;
 
   @CreateDateColumn({ select: false })
-    createdAt: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ select: false })
-    updatedAt: Date;
+  updatedAt: Date;
 
   @Index('email_index_unique_constraint', { unique: true })
   @Column()
-    email: string;
+  email: string;
 
   @Column()
-    password: string;
+  password: string;
 
   @Column({ unique: true })
-    username: string;
+  username: string;
 
   @Column()
-    isArtist: boolean;
+  isArtist: boolean;
 
   @OneToOne(() => ArtistsEntity, (artist) => artist.user)
-    artist: ArtistsEntity;
+  artist: ArtistsEntity;
 
   @OneToMany(() => ListensEntity, (listen) => listen.User, {
     onDelete: 'CASCADE',
   })
-    listens: ListensEntity[];
+  listens: ListensEntity[];
 }

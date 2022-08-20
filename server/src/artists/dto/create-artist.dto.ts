@@ -12,58 +12,58 @@ import { CreateUserDto } from '../../users/dto/create-user.dto';
 class CreateSocialsDto {
   @IsUrl()
   @IsOptional()
-    spotify?: string;
+  spotify?: string;
 
   @IsUrl()
   @IsOptional()
-    appleMusic?: string;
+  appleMusic?: string;
 
   @IsUrl()
   @IsOptional()
-    soundCloud?: string;
+  soundCloud?: string;
 
   @IsUrl()
   @IsOptional()
-    patreon?: string;
+  patreon?: string;
 
   @IsUrl()
   @IsOptional()
-    instagram?: string;
+  instagram?: string;
 
   @IsUrl()
   @IsOptional()
-    tikTok?: string;
+  tikTok?: string;
 
   @IsUrl()
   @IsOptional()
-    youtube?: string;
+  youtube?: string;
 
   @IsUrl()
   @IsOptional()
-    twitter?: string;
+  twitter?: string;
 
   @IsUrl()
   @IsOptional()
-    beatPort?: string;
+  beatPort?: string;
 }
 
 export class CreateArtistDto extends CreateUserDto {
   @IsString()
-    stageName: string;
+  stageName: string;
 
   @IsString()
-    bio: string;
+  bio: string;
 
   @IsUrl()
   @IsOptional()
-    image: string;
+  image: string;
 
   @ValidateNested()
-    socials: CreateSocialsDto;
+  socials: CreateSocialsDto;
 
   @IsBoolean()
   @IsOptional()
-    isArtist: boolean = true;
+  isArtist: boolean = true;
 }
 
 export { CreateUserDto };

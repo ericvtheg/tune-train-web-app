@@ -12,42 +12,42 @@ import { ArtistsEntity } from './artists.entity';
 @Entity('socials')
 export class SocialsEntity {
   @PrimaryGeneratedColumn()
-    id: number;
+  id: number;
 
   @CreateDateColumn({ select: false })
-    createdAt: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ select: false })
-    updatedAt: Date;
+  updatedAt: Date;
 
   @OneToOne(() => ArtistsEntity, (artist) => artist.socials)
   @JoinColumn()
-    artist: ArtistsEntity;
+  artist: ArtistsEntity;
 
   @Column({ nullable: true })
-    spotify: string;
+  spotify: string;
 
   @Column({ nullable: true })
-    appleMusic: string;
+  appleMusic: string;
 
   @Column({ nullable: true })
-    soundCloud: string;
+  soundCloud: string;
 
   @Column({ nullable: true })
-    patreon: string;
+  patreon: string;
 
   @Column({ nullable: true })
-    instagram: string;
+  instagram: string;
 
   @Column({ nullable: true })
-    tikTok: string;
+  tikTok: string;
 
   @Column({ nullable: true })
-    youtube: string;
+  youtube: string;
 
   @Column({ nullable: true })
-    twitter: string;
+  twitter: string;
 
   @Column({ nullable: true })
-    beatPort: string;
+  beatPort: string;
 }

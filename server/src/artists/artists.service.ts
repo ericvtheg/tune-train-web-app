@@ -21,7 +21,7 @@ export class ArtistsService {
 
   /**
    * @description If creating artist, artist still needs corresponding user attributes
-   */
+   **/
   async create(createArtistDto: CreateArtistDto): Promise<ArtistsEntity> {
     const createUserDto: CreateUserDto = {
       email: createArtistDto.email,

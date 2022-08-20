@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { NotFoundException } from '@nestjs/common';
 import { ArtistsService } from './artists.service';
 import { TypeOrmSQLITETestingModule } from '../../test/utils/typeorm-sqlite-testing.module';
 import { TestDataGenerator } from '../../test/utils/test-dataset.seed';
 import { UsersService } from '../users/users.service';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { NotFoundException } from '@nestjs/common';
 import { ArtistsEntity } from './entities/artists.entity';
 import { CreateArtistDto } from './dto/create-artist.dto';
 
@@ -12,6 +12,7 @@ describe('ArtistsService', () => {
   let service: ArtistsService;
   let usersService: UsersService;
   let testDataGenerator: TestDataGenerator;
+  let ids: number[] = [];
   const userId = 10000;
 
   beforeEach(async () => {
@@ -22,8 +23,8 @@ describe('ArtistsService', () => {
 
     service = module.get<ArtistsService>(ArtistsService);
     usersService = module.get<UsersService>(UsersService);
-    testDataGenerator = new TestDataGenerator();
-    await testDataGenerator.generateData();
+    testDataGenerator = new TestDataGenerator(1);
+    ids = await testDataGenerator.generateData();
   });
 
   afterEach(async () => {
@@ -37,6 +38,7 @@ describe('ArtistsService', () => {
   });
 
   it('should create a user', async () => {
+
     const createArtistDto: CreateArtistDto = {
       stageName: 'someName',
       bio: 'someBio',
@@ -69,6 +71,7 @@ describe('ArtistsService', () => {
     service = module.get<ArtistsService>(ArtistsService);
     usersService = module.get<UsersService>(UsersService);
 
+
     const result = await service.create(createArtistDto);
     expect(result).toEqual({
       id: userId,
@@ -78,26 +81,26 @@ describe('ArtistsService', () => {
     expect(artistsEntityMock.save).toHaveBeenCalled();
   });
 
-  it('should find all artists', async () => {
-    expect(await service.findAll()).toHaveLength(testDataGenerator.n);
+  it('should find an artist', async () => {
+    expect(await service.findAll()).toHaveLength(1);
   });
 
   it('should find an artist', async () => {
-    expect(await service.findOne(testDataGenerator.ids[0])).toBeTruthy();
+    expect(await service.findOne(ids[0])).toBeTruthy();
   });
 
   it('should delete artist', async () => {
-    await service.remove(testDataGenerator.ids[0]);
-    await expect(service.findOne(testDataGenerator.ids[0])).rejects.toThrowError(NotFoundException);
+    await service.remove(ids[0]);
+    await expect(service.findOne(ids[0])).rejects.toThrowError(NotFoundException);
   });
 
   it('should return 404 if attempting to delete non-existent user', async () => {
-    await service.remove(testDataGenerator.ids[0]);
-    await expect(service.remove(testDataGenerator.ids[0])).rejects.toThrowError(NotFoundException);
+    await service.remove(ids[0]);
+    await expect(service.remove(ids[0])).rejects.toThrowError(NotFoundException);
   });
 
   it('should update artist', async () => {
-    await service.update(testDataGenerator.ids[0], { stageName: 'test' });
-    expect((await service.findOne(testDataGenerator.ids[0])).stageName).toEqual('test');
+    await service.update(ids[0], { stageName: 'test' });
+    expect((await service.findOne(ids[0])).stageName).toEqual('test');
   });
 });

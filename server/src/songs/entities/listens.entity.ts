@@ -14,23 +14,23 @@ import { UsersEntity } from '../../users/entities/users.entity';
 @Unique('userId_songId_unique_constraint', ['userId', 'songId'])
 export class ListensEntity {
   @PrimaryColumn()
-    userId: number;
+  userId: number;
 
   @PrimaryColumn()
-    songId: number;
+  songId: number;
 
   @CreateDateColumn({ select: false })
-    createdAt: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ select: false })
-    updatedAt: Date;
+  updatedAt: Date;
 
   @Column()
-    liked: boolean;
+  liked: boolean;
 
   @ManyToOne(() => UsersEntity, { nullable: false })
-    User: UsersEntity;
+  User: UsersEntity;
 
   @ManyToOne(() => SongsEntity, (song) => song.listens, { nullable: false })
-    song: SongsEntity;
+  song: SongsEntity;
 }

@@ -1,10 +1,10 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
 import { WrapResponseInterceptor } from './common/interceptors/wrap-response.interceptor';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,7 +16,7 @@ async function bootstrap() {
     new ValidationPipe({
       transform: true,
       whitelist: true,
-      disableErrorMessages: stage === 'prod',
+      disableErrorMessages: stage === 'prod' ? true : false,
       forbidNonWhitelisted: true,
       transformOptions: {
         enableImplicitConversion: true,
@@ -42,7 +42,7 @@ async function bootstrap() {
     app.enableCors({ credentials: true, origin: true });
   }
 
-  const port = config.get < number >('port');
+  const port = config.get<number>('port');
   await app.listen(port);
 }
 bootstrap();

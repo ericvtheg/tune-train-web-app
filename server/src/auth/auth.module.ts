@@ -1,13 +1,13 @@
 import { Module, forwardRef } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { LocalStrategy } from './strategies/local.strategy';
+import { PassportModule } from '@nestjs/passport';
 import { UsersModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
+import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { CryptService } from './crypt.service';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -15,14 +15,16 @@ import { CryptService } from './crypt.service';
     PassportModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('jwt.accessTokenSecret'),
-        signOptions: {
-          expiresIn: configService.get<string>(
-            'jwt.accessTokenExpirationTime',
-          ),
-        },
-      }),
+      useFactory: (configService: ConfigService) => {
+        return {
+          secret: configService.get<string>('jwt.accessTokenSecret'),
+          signOptions: {
+            expiresIn: configService.get<string>(
+              'jwt.accessTokenExpirationTime',
+            ),
+          },
+        };
+      },
     }),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy, CryptService],

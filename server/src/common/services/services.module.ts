@@ -1,8 +1,8 @@
 import { Module, DynamicModule, FactoryProvider } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
-import { ConfigService } from '@nestjs/config';
 import { FileStorageService } from './fileStorage/fileStorage.service';
 import { BUCKET_NAME } from '../symbols';
+import { ConfigService } from '@nestjs/config';
 
 const s3Provider: FactoryProvider = {
   provide: S3,
@@ -25,7 +25,9 @@ export class ServiceModule {
     const bucketNameProvider: FactoryProvider = {
       provide: BUCKET_NAME,
       inject: [ConfigService],
-      useFactory: (cfgService: ConfigService) => cfgService.get<string>(options.bucketNameEnvVar),
+      useFactory: (configService: ConfigService) => {
+        return configService.get<string>(options.bucketNameEnvVar);
+      },
     };
 
     return {

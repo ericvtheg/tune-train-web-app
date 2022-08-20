@@ -6,4 +6,3 @@ node_modules/
 *.json
 *.md
 *.yml
-.eslintrc.js

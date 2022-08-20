@@ -43,13 +43,13 @@ export class UsersController {
 
   @Patch()
   update(@Request() req: IUserRequest, @Body() updateUserDto: UpdateUserDto): Promise<UsersEntity> {
-    const { id } = req.user;
+    const id = req.user.id;
     return this.usersService.update(id, updateUserDto);
   }
 
   @Delete()
   remove(@Request() req: IUserRequest): Promise<UsersEntity> {
-    const { id } = req.user;
+    const id = req.user.id;
     return this.usersService.remove(id);
   }
 }

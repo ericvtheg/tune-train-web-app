@@ -1,6 +1,6 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
+import { JwtService } from '@nestjs/jwt';
 import { CryptService } from './crypt.service';
 
 export interface UserPayload {
@@ -29,7 +29,7 @@ export class AuthService {
   ): Promise<UserPayload> {
     try {
       const user = await this.usersService.findOneUsingEmail(email);
-      if (user && await this.cryptService.validatePassword(password, user.password) === true) {
+      if (user && true === await this.cryptService.validatePassword(password, user.password)) {
         const { password, ...result } = user;
         return result;
       }
