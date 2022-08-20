@@ -10,6 +10,8 @@ import {
 import { SongsEntity } from './songs.entity';
 import { UsersEntity } from '../../users/entities/users.entity';
 
+export const UNIQUE_LISTEN_SONGID_USERID_CONSTRAINT = 'userId_songId_unique_constraint';
+
 @Entity('listens')
 @Unique('userId_songId_unique_constraint', ['userId', 'songId'])
 export class ListensEntity {

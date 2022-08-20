@@ -8,8 +8,8 @@ import {
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
 import { CreateListenDto } from './dto/create-listen.dto';
-import { SongsEntity } from './entities/songs.entity';
-import { ListensEntity } from './entities/listens.entity';
+import { SongsEntity, UNIQUE_SONG_TITLE_ARTIST_CONSTRAINT } from './entities/songs.entity';
+import { ListensEntity, UNIQUE_LISTEN_SONGID_USERID_CONSTRAINT } from './entities/listens.entity';
 import { Repository } from 'typeorm';
 import { FileStorageService } from '../common/services/fileStorage/fileStorage.service';
 
@@ -54,7 +54,7 @@ export class SongsService {
 
       return songEntity;
     } catch (error) {
-      if (error.constraint === 'title_artistId_unique_constraint') {
+      if (error.constraint === UNIQUE_SONG_TITLE_ARTIST_CONSTRAINT) {
         throw new BadRequestException('You have already uploaded a song with this title.');
       }
       throw error;
@@ -99,7 +99,7 @@ export class SongsService {
       const listen = this.listenRepository.create(createListenDto);
       return await this.listenRepository.save(listen);
     } catch (error) {
-      if (error.constraint === 'userId_songId_unique_constraint') {
+      if (error.constraint === UNIQUE_LISTEN_SONGID_USERID_CONSTRAINT) {
         throw new BadRequestException('This song has already been listened to.');
       }
       throw error;

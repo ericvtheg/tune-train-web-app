@@ -144,11 +144,11 @@ describe('UsersService', () => {
     expect(async () => await service.update(nonExistentId, updateUserDto)).rejects.toThrowError();
   });
 
-  it("should remove", async () => {
+  it("should remove user", async () => {
     expect(await service.remove(testDataGenerator.ids[0])).toBeTruthy();
   });
 
-  it("should throw NotFoundException if no user found", async () => {
+  it("should throw NotFoundException if no user to remove", async () => {
     const nonExistentId = 9999999999999;
     await expect(async () => service.remove(nonExistentId)).rejects.toThrowError(NotFoundException);
   });
