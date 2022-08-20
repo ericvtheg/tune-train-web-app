@@ -1,9 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SongsService } from './songs.service';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { TestDataGenerator } from '../../test/utils/test-dataset.seed';
 import { TypeOrmSQLITETestingModule } from '../../test/utils/typeorm-sqlite-testing.module';
 import { FileStorageService } from '../common/services/file-storage/file-storage.service';
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, BadRequestException } from '@nestjs/common';
+import { SongsEntity, UNIQUE_SONG_TITLE_ARTIST_CONSTRAINT } from './entities/songs.entity';
+import { ListensEntity, UNIQUE_LISTEN_SONGID_USERID_CONSTRAINT } from './entities/listens.entity';
 
 
 const downloadLink =  "downloadLink";
@@ -15,7 +18,7 @@ const mockFileStorageService = {
 describe('SongsService', () => {
   let service: SongsService;
   let testDataGenerator: TestDataGenerator;
-  const songFileUploadMock = "multiPartUploadFile" as any;
+  const mockSongFileUpload = "multiPartUploadFile" as any;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -43,16 +46,81 @@ describe('SongsService', () => {
         artistId: testDataGenerator.ids[0],
         ...TestDataGenerator.generateSongDto(),
       };
-      const song = await service.create(createSongDto, songFileUploadMock);
+      const song = await service.create(createSongDto, mockSongFileUpload);
       expect(song.title).toEqual(createSongDto.title);
     });
 
     it("should throw unique constraint error", async () => {
-      throw new Error();
+      const error = new Error() as any;
+      error.constraint = UNIQUE_SONG_TITLE_ARTIST_CONSTRAINT;
+
+      const mockSongsEntity = {
+        create: jest.fn(() => Promise.resolve()),
+        save: jest.fn(() => Promise.reject(error)),
+      };
+
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: getRepositoryToken(SongsEntity),
+            useValue: mockSongsEntity,
+          },
+          {
+            provide: getRepositoryToken(ListensEntity),
+            useValue: {},
+          },
+          {
+            provide: FileStorageService, 
+            useValue: mockFileStorageService
+          },
+          SongsService,
+        ]
+      }).compile();
+
+      service = module.get<SongsService>(SongsService);
+
+      const createSongDto = {
+        artistId: testDataGenerator.ids[0],
+        ...TestDataGenerator.generateSongDto(),
+      };
+      await expect(async () => service.create(createSongDto, mockSongFileUpload)).rejects.toThrowError(BadRequestException);
     });
 
     it("should handle fileStorageService error", async () => {
-      throw new Error();
+      const error = new Error() as any;
+      
+      const mockSongsEntity = {
+        create: jest.fn(() => Promise.resolve()),
+        save: jest.fn(() => Promise.resolve({ id: 1, artistId: 0})),
+        delete: jest.fn(() => Promise.resolve()),
+      };
+
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: getRepositoryToken(SongsEntity),
+            useValue: mockSongsEntity,
+          },
+          {
+            provide: getRepositoryToken(ListensEntity),
+            useValue: {},
+          },
+          {
+            provide: FileStorageService, 
+            useValue: {upload: jest.fn(() => Promise.reject(error))}
+          },
+          SongsService, 
+      ],
+      }).compile();
+  
+      service = module.get<SongsService>(SongsService);
+
+      const createSongDto = {
+        artistId: testDataGenerator.ids[0],
+        ...TestDataGenerator.generateSongDto(),
+      };
+      await expect(async () => service.create(createSongDto, mockSongFileUpload)).rejects.toThrowError(error);
+      expect(mockSongsEntity.delete).toHaveBeenCalled();
     });
   });
 
@@ -87,15 +155,71 @@ describe('SongsService', () => {
       const result = await service.listen(listenDto);
       expect(result.userId).toEqual(userId);
       expect(result.songId).toEqual(songId);
-      expect(result.liked).toBeInstanceOf(Boolean);
+      expect(typeof result.liked === 'boolean').toBeTruthy();
     });
   
     it("should handle unique constraint error", async () => {
-      throw new Error();
+      const error = new Error() as any;
+      error.constraint = UNIQUE_LISTEN_SONGID_USERID_CONSTRAINT;
+
+      const mockListensEntity = {
+        create: jest.fn(() => Promise.resolve()),
+        save: jest.fn(() => Promise.reject(error)),
+      };
+
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: getRepositoryToken(SongsEntity),
+            useValue: {},
+          },
+          {
+            provide: getRepositoryToken(ListensEntity),
+            useValue: mockListensEntity,
+          },
+          {
+            provide: FileStorageService, 
+            useValue: {}
+          },
+          SongsService, 
+      ],
+      }).compile();
+  
+      service = module.get<SongsService>(SongsService);
+
+      await expect(async () => service.listen(TestDataGenerator.generateListenDto(0, 0))).rejects.toThrowError(BadRequestException);
+
     })
 
     it("should handle some error", async () => {
-      throw new Error();
+      const error = new Error();
+      
+      const mockListensEntity = {
+        create: jest.fn(() => Promise.resolve()),
+        save: jest.fn(() => Promise.reject(error)),
+      };
+
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: getRepositoryToken(SongsEntity),
+            useValue: {},
+          },
+          {
+            provide: getRepositoryToken(ListensEntity),
+            useValue: mockListensEntity,
+          },
+          {
+            provide: FileStorageService, 
+            useValue: {}
+          },
+          SongsService, 
+      ],
+      }).compile();
+  
+      service = module.get<SongsService>(SongsService);
+
+      await expect(async () => service.listen(TestDataGenerator.generateListenDto(0, 0))).rejects.toThrowError(error);
     })
   });
 

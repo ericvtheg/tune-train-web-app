@@ -84,7 +84,7 @@ export class SongsService {
       .leftJoin('songs.listens', 'listens', 'listens.userId = :userId', {
         userId,
       })
-      .where('listens.id IS NULL')
+      .where('listens.songId IS NULL')
       .orderBy('RANDOM()')
       .limit(1)
       .getOne();
