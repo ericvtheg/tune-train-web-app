@@ -6,7 +6,7 @@ services:
     image: localstack/localstack
     environment:
       - SERVICES=s3
-      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_DEFAULT_REGION=us-east-2
       - DATA_DIR=/tmp/localstack/data
     ports:
       - "4566:4566"

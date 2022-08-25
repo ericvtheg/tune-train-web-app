@@ -43,6 +43,8 @@ export class SongsController {
     // TODO: handle validating file type as mp3
     // TODO: need to handle foreign key failure and unique constraint failure
     // TODO: remove fileName?
+    // TODO: way to validate loudness?
+    // TODO: way to validate not inappropirate content?
 
     // TODO: this should be a built into a decorator guard role thing
     const isArtist = req.user.isArtist;
