@@ -1,3 +1,5 @@
+# File based on: https://www.tomray.dev/nestjs-docker-production
+
 ###################
 # BUILD FOR LOCAL DEVELOPMENT
 ###################
