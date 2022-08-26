@@ -39,3 +39,12 @@ module "ecs_vpc" {
 
   tags = local.common_tags
 }
+
+resource "aws_ecr_repository" "tune-train" {
+  name                 = "tune-train"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
