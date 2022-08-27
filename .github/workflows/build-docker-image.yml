@@ -3,8 +3,6 @@ name: Docker Image CI
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
 
@@ -15,5 +13,5 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build ./server --file Dockerfile --tag tune-train:$(date +%s)
+      run: docker build . --file Dockerfile --tag tune-train:$(date +%s)
       working-directory: server
