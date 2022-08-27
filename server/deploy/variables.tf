@@ -33,13 +33,13 @@ variable "vpc_cidr" {
 variable "azs" {
   type        = list(string)
   description = "the name of availability zones to use subnets"
-  default = [ "us-east-2a", "us-east-2b" ]
+  default     = ["us-east-2a", "us-east-2b"]
 }
 
 variable "public_subnets" {
   type        = list(string)
   description = "the CIDR blocks to create public subnets"
-  default = [ "10.100.10.0/24", "10.100.20.0/24" ]
+  default     = ["10.100.10.0/24", "10.100.20.0/24"]
 }
 
 variable "private_subnets" {
@@ -61,8 +61,4 @@ variable "db_username" {
 variable "db_password" {
   type      = string
   sensitive = true
-}
-
-variable "db_port" {
-  type = number
 }

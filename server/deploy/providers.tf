@@ -47,8 +47,8 @@ module "vpc" {
 resource "aws_ecr_repository" "tune-train" {
   name                 = "${local.prefix}-repo-${var.stage}"
   image_tag_mutability = "MUTABLE"
-  tags = local.common_tags
-  force_delete = true
+  tags                 = local.common_tags
+  force_delete         = true
 
   image_scanning_configuration {
     scan_on_push = true
@@ -70,23 +70,22 @@ resource "aws_db_subnet_group" "tune-train-db-subnet-group" {
 resource "aws_db_instance" "tune-train" {
   depends_on = [module.vpc, resource.aws_db_subnet_group.tune-train-db-subnet-group]
 
-  allocated_storage           = 5
-  max_allocated_storage       = 20
-  allow_major_version_upgrade = false
-  identifier = "${local.prefix}-${var.stage}"
-  availability_zone           = var.azs[0]
-  engine                      = "postgres"
-  engine_version              = "14.4"
-  instance_class              = "db.t4g.micro"
-  skip_final_snapshot         = true
-  tags                        = local.common_tags
-  performance_insights_enabled = true
+  allocated_storage                     = 5
+  max_allocated_storage                 = 20
+  allow_major_version_upgrade           = false
+  identifier                            = "${local.prefix}-${var.stage}"
+  availability_zone                     = var.azs[0]
+  engine                                = "postgres"
+  engine_version                        = "14.4"
+  instance_class                        = "db.t4g.micro"
+  skip_final_snapshot                   = true
+  tags                                  = local.common_tags
+  performance_insights_enabled          = true
   performance_insights_retention_period = 7
 
   db_name  = var.db_name
   username = var.db_username
   password = var.db_password
-  port     = var.db_port
 
 
   db_subnet_group_name = aws_db_subnet_group.tune-train-db-subnet-group.name
