@@ -86,7 +86,6 @@ resource "aws_db_instance" "tune-train" {
   db_name  = var.db_name
   username = var.db_username
   password = var.db_password
-  port     = var.db_port
 
 
   db_subnet_group_name = aws_db_subnet_group.tune-train-db-subnet-group.name
