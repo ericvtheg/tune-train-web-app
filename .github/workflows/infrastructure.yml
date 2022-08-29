@@ -10,6 +10,8 @@ jobs:
   terraform:
     name: Deploy backend server
     runs-on: ubuntu-latest
+    environment:
+      name: prod
     timeout-minutes: 35
     permissions:
       id-token: write
