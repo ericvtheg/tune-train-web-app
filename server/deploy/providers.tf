@@ -8,7 +8,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket                  = "tune-train-terraform-state"
+    bucket                  = "tune-train-terraform-state-bucket"
     key                     = "tfstate"
     region                  = "us-east-2"
     profile                 = "default"
