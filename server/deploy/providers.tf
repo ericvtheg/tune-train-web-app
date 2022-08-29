@@ -10,10 +10,10 @@ terraform {
   backend "s3" {
     bucket                  = "tune-train-terraform-state"
     key                     = "tfstate"
-    region                  = "us-east-1"
+    region                  = "us-east-2"
     profile                 = "default"
     encrypt                 = "true"
-    dynamodb_table          = "tune-train-terraform-state-dynamodb"
+    dynamodb_table          = "tune-train-terraform-state"
     shared_credentials_file = "$HOME/.aws/credentials"
   }
 }
