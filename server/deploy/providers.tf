@@ -140,9 +140,7 @@ EOF
 
 resource "aws_autoscaling_group" "tune-train-asg" {
   name_prefix = local.prefix
-  termination_policies = [
-    "OldestInstance"
-  ]
+  termination_policies = ["OldestInstance"]
   default_cooldown          = 30
   health_check_grace_period = 30
 
@@ -166,33 +164,33 @@ resource "aws_ecs_cluster" "aws-ecs-cluster" {
 
 # ECS task
 
-# resource "aws_ecs_task_definition" "task_definition" {
-#   family             = local.task_def_name
-#   execution_role_arn = "arn:aws:iam::${local.aws_account_id}:role/ecsTaskExecutionRole"
-#   cpu                = 512
-#   memory             = 1024
-#   container_definitions = jsonencode([
-#     {
-#       name      = local.task_def_name
-#       image     = "516207173224.dkr.ecr.${local.aws_region}.amazonaws.com/${local.task_def_name}:latest"
-#       cpu       = 512
-#       memory    = 1024
-#       essential = true
-#       portMappings = [
-#         {
-#           containerPort = 80
-#           hostPort      = 80
-#         }
-#       ]
-#     }
-#   ])
-#   tags = merge(
-#     local.common_tags,
-#     {
-#       Name = local.task_def_name
-#     }
-#   )
-# }
+resource "aws_ecs_task_definition" "task_definition" {
+  family             = "${local.prefix}-${var.stage}"
+  execution_role_arn = "arn:aws:iam::516207173224:role/ecsTaskExecutionRole"
+  # cpu                = 512
+  # memory             = 1024
+  container_definitions = jsonencode([
+    {
+      name      = "${local.prefix}-${var.stage}"
+      image     = "516207173224.dkr.ecr.${local.aws_region}.amazonaws.com/${local.prefix}-repo-${var.stage}:${var.image_tag}"
+      # cpu       = 206
+      # memory    = 512
+      essential = true
+      portMappings = [
+        {
+          containerPort = 80
+          hostPort      = 80
+        }
+      ]
+    }
+  ])
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "${local.prefix}-${var.stage}"
+    }
+  )
+}
 
 ### ECS service
 
