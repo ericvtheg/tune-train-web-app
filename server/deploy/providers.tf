@@ -155,11 +155,6 @@ resource "aws_autoscaling_group" "tune-train-asg" {
   }
 
   vpc_zone_identifier = module.vpc.vpc_id
-
-  tags = [
-    local.common_tags,
-    { propagate_at_launch = true }
-  ]
 }
 
 ### ECS
