@@ -139,8 +139,8 @@ EOF
 }
 
 resource "aws_autoscaling_group" "tune-train-asg" {
-  name_prefix = local.prefix
-  termination_policies = ["OldestInstance"]
+  name_prefix               = local.prefix
+  termination_policies      = ["OldestInstance"]
   default_cooldown          = 30
   health_check_grace_period = 30
 
@@ -167,14 +167,14 @@ resource "aws_ecs_cluster" "aws-ecs-cluster" {
 resource "aws_ecs_task_definition" "task_definition" {
   family             = "${local.prefix}-${var.stage}"
   execution_role_arn = "arn:aws:iam::516207173224:role/ecsTaskExecutionRole"
-  # cpu                = 512
-  # memory             = 1024
+  cpu                = 512
+  memory             = 1024
   container_definitions = jsonencode([
     {
       name      = "${local.prefix}-${var.stage}"
       image     = "516207173224.dkr.ecr.${local.aws_region}.amazonaws.com/${local.prefix}-repo-${var.stage}:35f786658ef3777f230e20afd2df50c01dae1a18"
-      # cpu       = 206
-      # memory    = 512
+      cpu       = 512
+      memory    = 1024
       essential = true
       portMappings = [
         {
