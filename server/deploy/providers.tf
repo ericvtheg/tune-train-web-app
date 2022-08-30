@@ -172,7 +172,7 @@ resource "aws_ecs_task_definition" "task_definition" {
   container_definitions = jsonencode([
     {
       name      = "${local.prefix}-${var.stage}"
-      image     = "516207173224.dkr.ecr.${local.aws_region}.amazonaws.com/${local.prefix}-repo-${var.stage}:${var.image_tag}"
+      image     = "516207173224.dkr.ecr.${local.aws_region}.amazonaws.com/${local.prefix}-repo-${var.stage}:35f786658ef3777f230e20afd2df50c01dae1a18"
       # cpu       = 206
       # memory    = 512
       essential = true
