@@ -119,7 +119,7 @@ data "aws_ami" "aws_optimized_ecs" {
 }
 
 resource "aws_launch_configuration" "tune-train-launch-config" {
-  name_prefix   = local.prefix
+  name          = "${local.prefix}-${var.stage}-launch-config"
   image_id      = data.aws_ami.aws_optimized_ecs.id
   instance_type = "t2.micro"
 
@@ -139,12 +139,14 @@ EOF
 }
 
 resource "aws_autoscaling_group" "tune-train-asg" {
-  name_prefix               = local.prefix
+  depends_on = [module.vpc, resource.aws_launch_configuration.tune-train-launch-config]
+  name       = resource.aws_launch_configuration.tune-train-launch-config.name
+
   termination_policies      = ["OldestInstance"]
   default_cooldown          = 30
   health_check_grace_period = 30
 
-  launch_configuration = aws_launch_configuration.tune-train-launch-config.name_prefix
+  launch_configuration = aws_launch_configuration.tune-train-launch-config.name
   min_size             = 1
   max_size             = 2 #todo bump this eventually
 
@@ -152,12 +154,12 @@ resource "aws_autoscaling_group" "tune-train-asg" {
     create_before_destroy = true
   }
 
-  vpc_zone_identifier = [module.vpc.vpc_id]
+  vpc_zone_identifier = module.vpc.private_subnets
 }
 
 ### ECS
 
-resource "aws_ecs_cluster" "aws-ecs-cluster" {
+resource "aws_ecs_cluster" "tune-train-cluster" {
   name = "${local.prefix}-${var.stage}-cluster"
   tags = local.common_tags
 }
@@ -192,7 +194,14 @@ resource "aws_ecs_task_definition" "task_definition" {
   )
 }
 
-### ECS service
+# ECS service
+
+resource "aws_ecs_service" "tune-train" {
+  name            = var.service
+  task_definition = aws_ecs_task_definition.task_definition.arn
+  cluster         = aws_ecs_cluster.tune-train-cluster.id
+  desired_count   = 1
+}
 
 ### ALB
 
