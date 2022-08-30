@@ -42,7 +42,7 @@ jobs:
   #       working-directory: server
   terraform:
     name: Deploy Infrastructure
-    needs: docker
+    # needs: docker
     runs-on: ubuntu-latest
     env:
       TF_VAR_stage: 'prod'
