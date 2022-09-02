@@ -35,9 +35,9 @@ module "vpc" {
   public_subnets  = var.public_subnets
 
   # don't think I need nat_gateway (at least not always)
-  enable_nat_gateway     = true
-  enable_dns_hostnames   = true
-  one_nat_gateway_per_az = true
+  # enable_nat_gateway     = true
+  enable_dns_hostnames = true
+  # one_nat_gateway_per_az = true
 
   tags = local.common_tags
 }
@@ -119,13 +119,14 @@ data "aws_ami" "aws_optimized_ecs" {
 }
 
 resource "aws_launch_configuration" "tune-train-launch-config" {
-  name          = "${local.prefix}-${var.stage}-launch-config"
+  name_prefix   = "${local.prefix}-${var.stage}-launch-config-"
   image_id      = data.aws_ami.aws_optimized_ecs.id
   instance_type = "t2.micro"
 
   lifecycle {
     create_before_destroy = true
   }
+
 
   user_data = <<EOF
 #!/bin/bash
@@ -139,8 +140,8 @@ EOF
 }
 
 resource "aws_autoscaling_group" "tune-train-asg" {
-  depends_on = [module.vpc, resource.aws_launch_configuration.tune-train-launch-config]
-  name       = resource.aws_launch_configuration.tune-train-launch-config.name
+  depends_on  = [module.vpc, resource.aws_launch_configuration.tune-train-launch-config]
+  name_prefix = resource.aws_launch_configuration.tune-train-launch-config.name_prefix
 
   termination_policies      = ["OldestInstance"]
   default_cooldown          = 30
@@ -204,6 +205,54 @@ resource "aws_ecs_service" "tune-train" {
 }
 
 ### ALB
+
+resource "aws_alb" "tune-train-alb" {
+  depends_on = [module.vpc]
+
+  name               = "${local.prefix}-alb-${var.stage}"
+  internal           = false
+  load_balancer_type = "application"
+  # security_groups    = [aws_security_group.lb_sg.id]
+  subnets = module.vpc.public_subnets
+
+  enable_deletion_protection = false
+
+  # access_logs {
+  #   bucket  = aws_s3_bucket.lb_logs.bucket
+  #   prefix  = "test-lb"
+  #   enabled = false
+  # }
+
+  tags = local.common_tags
+}
+
+resource "aws_alb_target_group" "tune-train-alb-target-group" {
+  name     = "${local.prefix}-alb-tg-${var.stage}"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = module.vpc.vpc_id
+}
+
+resource "aws_lb_listener" "tune-train-backend" {
+  load_balancer_arn = aws_alb.tune-train-alb.arn
+  port              = "80"
+  protocol          = "HTTP"
+  # ssl_policy        = "ELBSecurityPolicy-2016-08"
+  # certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.tune-train-alb-target-group.arn
+  }
+}
+
+# acm certificate
+# listener certificate
+
+### CloudFront
+
+#prevent ddos attack
+# cache popular songs near edge?
 
 ### RDS
 
