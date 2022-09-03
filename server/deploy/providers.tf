@@ -181,8 +181,8 @@ resource "aws_ecs_task_definition" "task_definition" {
       essential = true
       portMappings = [
         {
-          containerPort = 80
-          hostPort      = 80
+          containerPort = 3000
+          hostPort      = 3000
         }
       ]
     }
@@ -202,6 +202,12 @@ resource "aws_ecs_service" "tune-train" {
   task_definition = aws_ecs_task_definition.task_definition.arn
   cluster         = aws_ecs_cluster.tune-train-cluster.id
   desired_count   = 1
+
+  load_balancer {
+    target_group_arn = aws_alb_target_group.tune-train-alb-target-group.arn
+    container_name   = aws_ecs_task_definition.task_definition.family
+    container_port   = 3000
+  }
 }
 
 ### ALB
@@ -228,15 +234,19 @@ resource "aws_alb" "tune-train-alb" {
 
 resource "aws_alb_target_group" "tune-train-alb-target-group" {
   name     = "${local.prefix}-alb-tg-${var.stage}"
-  port     = 80
+  port     = 3000
   protocol = "HTTP"
   vpc_id   = module.vpc.vpc_id
+
+  tags = local.common_tags
 }
 
 resource "aws_lb_listener" "tune-train-backend" {
   load_balancer_arn = aws_alb.tune-train-alb.arn
-  port              = "80"
+  port              = 3000
   protocol          = "HTTP"
+  # acm certificate
+  # listener certificate
   # ssl_policy        = "ELBSecurityPolicy-2016-08"
   # certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
 
@@ -244,10 +254,11 @@ resource "aws_lb_listener" "tune-train-backend" {
     type             = "forward"
     target_group_arn = aws_alb_target_group.tune-train-alb-target-group.arn
   }
+
+  tags = local.common_tags
 }
 
-# acm certificate
-# listener certificate
+
 
 ### CloudFront
 
