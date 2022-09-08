@@ -48,6 +48,10 @@ variable "private_subnets" {
   default     = ["10.100.30.0/24", "10.100.40.0/24"]
 }
 
+variable "image_tag" {
+  type = string
+}
+
 # variable "image_tag" {
 #   type        = list(string)
 #   description = "image tag to our most recently uploaded container"
