@@ -136,7 +136,7 @@ EOF
 
   # security_groups = [module.ec2_sg.security_group_id]
 
-  key_name             = "eric"
+  key_name = "eric"
 
 }
 
