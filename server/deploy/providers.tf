@@ -35,9 +35,9 @@ module "vpc" {
   public_subnets  = var.public_subnets
 
   # don't think I need nat_gateway (at least not always)
-  # enable_nat_gateway     = true
-  enable_dns_hostnames = true
-  # one_nat_gateway_per_az = true
+  enable_nat_gateway     = true
+  enable_dns_hostnames   = true
+  one_nat_gateway_per_az = true
 
   tags = local.common_tags
 }
@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "ecs_agent" {
 
     principals {
       type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
+      identifiers = ["ecs-tasks.amazonaws.com", "ecs.amazonaws.com", "ec2.amazonaws.com"]
     }
   }
 }
@@ -88,7 +88,7 @@ resource "aws_iam_instance_profile" "ecs_agent" {
 
 ### Cloudwatch
 
-resource "aws_cloudwatch_log_group" "log-group" {
+resource "aws_cloudwatch_log_group" "tune-train-log-group" {
   name = "${local.prefix}-${var.stage}-logs"
   tags = local.common_tags
 }
@@ -96,7 +96,7 @@ resource "aws_cloudwatch_log_group" "log-group" {
 
 ### Autoscaling
 
-# Launch Template
+# AMI
 data "aws_ami" "aws_optimized_ecs" {
   most_recent = true
 
@@ -119,9 +119,10 @@ data "aws_ami" "aws_optimized_ecs" {
 }
 
 resource "aws_launch_configuration" "tune-train-launch-config" {
-  name_prefix   = "${local.prefix}-${var.stage}-launch-config-"
-  image_id      = data.aws_ami.aws_optimized_ecs.id
-  instance_type = "t2.micro"
+  name_prefix          = "${local.prefix}-${var.stage}-launch-config-"
+  image_id             = data.aws_ami.aws_optimized_ecs.id
+  instance_type        = "t2.micro"
+  iam_instance_profile = aws_iam_instance_profile.ecs_agent.arn
 
   lifecycle {
     create_before_destroy = true
@@ -135,8 +136,8 @@ EOF
 
   # security_groups = [module.ec2_sg.security_group_id]
 
-  # key_name             = aws_key_pair.ecs.key_name
-  iam_instance_profile = aws_iam_instance_profile.ecs_agent.arn
+  key_name             = "eric"
+
 }
 
 resource "aws_autoscaling_group" "tune-train-asg" {
@@ -155,7 +156,7 @@ resource "aws_autoscaling_group" "tune-train-asg" {
     create_before_destroy = true
   }
 
-  vpc_zone_identifier = module.vpc.private_subnets
+  vpc_zone_identifier = module.vpc.public_subnets
 }
 
 ### ECS
@@ -175,7 +176,7 @@ resource "aws_ecs_task_definition" "task_definition" {
   container_definitions = jsonencode([
     {
       name      = "${local.prefix}-${var.stage}"
-      image     = "516207173224.dkr.ecr.${local.aws_region}.amazonaws.com/${local.prefix}-repo-${var.stage}:35f786658ef3777f230e20afd2df50c01dae1a18"
+      image     = "516207173224.dkr.ecr.${local.aws_region}.amazonaws.com/${local.prefix}-repo-${var.stage}:74040205e36a01e5531b8d8c210d8ba41b8c951e" # todo dont hardcode github sha here
       cpu       = 512
       memory    = 1024
       essential = true
@@ -184,7 +185,16 @@ resource "aws_ecs_task_definition" "task_definition" {
           containerPort = 3000
           hostPort      = 3000
         }
-      ]
+      ],
+      logConfiguration = {
+        logDriver = "awslogs",
+        options = {
+          "awslogs-group"         = "${resource.aws_cloudwatch_log_group.tune-train-log-group.name}"
+          "awslogs-region"        = "us-east-2"
+          "awslogs-stream-prefix" = "ecs"
+        }
+
+      }
     }
   ])
   tags = merge(
@@ -210,6 +220,17 @@ resource "aws_ecs_service" "tune-train" {
   }
 }
 
+
+### S3 
+# songs bucket
+
+# alb logs bucket
+resource "aws_s3_bucket" "alb-logs-bucket" {
+  bucket = "alb-logs-bucket-41231"
+
+  tags = local.common_tags
+}
+
 ### ALB
 
 resource "aws_alb" "tune-train-alb" {
@@ -223,11 +244,11 @@ resource "aws_alb" "tune-train-alb" {
 
   enable_deletion_protection = false
 
-  # access_logs {
-  #   bucket  = aws_s3_bucket.lb_logs.bucket
-  #   prefix  = "test-lb"
-  #   enabled = false
-  # }
+  access_logs {
+    bucket  = aws_s3_bucket.alb-logs-bucket.bucket
+    prefix  = "tune-train-alb"
+    enabled = true
+  }
 
   tags = local.common_tags
 }
