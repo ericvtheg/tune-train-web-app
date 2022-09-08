@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "ecs_agent" {
 
     principals {
       type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
+      identifiers = ["ecs-tasks.amazonaws.com", "ecs.amazonaws.com", "ec2.amazonaws.com"]
     }
   }
 }
@@ -136,7 +136,7 @@ EOF
 
   # security_groups = [module.ec2_sg.security_group_id]
 
-  # key_name             = aws_key_pair.ecs.key_name
+  key_name             = "eric"
 
 }
 
@@ -176,7 +176,7 @@ resource "aws_ecs_task_definition" "task_definition" {
   container_definitions = jsonencode([
     {
       name      = "${local.prefix}-${var.stage}"
-      image     = "516207173224.dkr.ecr.${local.aws_region}.amazonaws.com/${local.prefix}-repo-${var.stage}:35f786658ef3777f230e20afd2df50c01dae1a18"
+      image     = "516207173224.dkr.ecr.${local.aws_region}.amazonaws.com/${local.prefix}-repo-${var.stage}:74040205e36a01e5531b8d8c210d8ba41b8c951e" # todo dont hardcode github sha here
       cpu       = 512
       memory    = 1024
       essential = true
