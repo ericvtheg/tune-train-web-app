@@ -170,15 +170,13 @@ resource "aws_ecs_cluster" "tune-train-cluster" {
 
 resource "aws_ecs_task_definition" "task_definition" {
   family             = "${local.prefix}-${var.stage}"
-  execution_role_arn = "arn:aws:iam::516207173224:role/ecsTaskExecutionRole"
-  cpu                = 512
-  memory             = 1024
+  execution_role_arn = aws_iam_role.ecs_agent.arn
   container_definitions = jsonencode([
     {
       name      = "${local.prefix}-${var.stage}"
-      image     = "516207173224.dkr.ecr.${local.aws_region}.amazonaws.com/${local.prefix}-repo-${var.stage}:74040205e36a01e5531b8d8c210d8ba41b8c951e" # todo dont hardcode github sha here
-      cpu       = 512
-      memory    = 1024
+      image     = "516207173224.dkr.ecr.${local.aws_region}.amazonaws.com/${local.prefix}-repo-${var.stage}:d91c2160e413bd299ffa6c2fe65ca0dfa0fc38a8" # todo dont hardcode github sha here
+      cpu       = 206
+      memory    = 512
       essential = true
       portMappings = [
         {
