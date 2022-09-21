@@ -79,7 +79,7 @@ variable "db_password" {
   sensitive = true
 }
 
-variable jwt_access_token_secret {
-  type = string
+variable "jwt_access_token_secret" {
+  type      = string
   sensitive = true
 }

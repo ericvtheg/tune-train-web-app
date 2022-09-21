@@ -91,9 +91,9 @@ resource "aws_iam_instance_profile" "ecs_agent" {
 ### Cloudwatch
 
 resource "aws_cloudwatch_log_group" "tune-train-log-group" {
-  name = "${local.prefix}-${var.stage}-logs"
+  name              = "${local.prefix}-${var.stage}-logs"
   retention_in_days = 14
-  tags = local.common_tags
+  tags              = local.common_tags
 }
 
 
@@ -187,20 +187,20 @@ resource "aws_ecs_task_definition" "task_definition" {
           hostPort      = 3000
         }
       ],
-      environment = {
-        DATABASE_USER = var.db_username
-        DATABASE_PASSWORD = var.db_password
-        DATABASE_NAME = var.db_name
-        DATABASE_PORT = 5432
-        DATABASE_HOST = var.db_host
-        STAGE = var.stage
-        SONGS_BUCKET = "tune-train-songs-bucket-${var.stage}"
-        AWS_REGION = var.aws_region
-        JWT_ACCESS_TOKEN_SECRET = var.jwt_access_token_secret
-        JWT_ACCESS_TOKEN_EXPIRATION_TIME = "7d"
-        JWT_REFRESH_TOKEN_SECRET = "doesnmatteryet"
+      environment = [{
+        DATABASE_USER                     = var.db_username
+        DATABASE_PASSWORD                 = var.db_password
+        DATABASE_NAME                     = var.db_name
+        DATABASE_PORT                     = 5432
+        DATABASE_HOST                     = var.db_host
+        STAGE                             = var.stage
+        SONGS_BUCKET                      = "tune-train-songs-bucket-${var.stage}"
+        AWS_REGION                        = var.aws_region
+        JWT_ACCESS_TOKEN_SECRET           = var.jwt_access_token_secret
+        JWT_ACCESS_TOKEN_EXPIRATION_TIME  = "7d"
+        JWT_REFRESH_TOKEN_SECRET          = "doesnmatteryet"
         JWT_REFRESH_TOKEN_EXPIRATION_TIME = "14d"
-      }
+      }],
       logConfiguration = {
         logDriver = "awslogs",
         options = {
@@ -211,6 +211,7 @@ resource "aws_ecs_task_definition" "task_definition" {
       }
     }
   ])
+
   tags = merge(
     local.common_tags,
     {
