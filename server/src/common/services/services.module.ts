@@ -10,11 +10,9 @@ const s3Provider: FactoryProvider = {
   useFactory: (configService: ConfigService) => {
     const stage = configService.get<string>('stage');
     return new S3({
-      accessKeyId: configService.get<string>('aws.accessKey'), //TODO should only use locally
-      secretAccessKey: configService.get<string>('aws.secretAccessKey'), //TODO should only use locally
-      region: 'us-east-2', //TODO put in config
-      s3ForcePathStyle: true,
-      endpoint: stage === 'local' ? 'http://localhost:4566' : undefined, // TODO: put in config
+      region: configService.get<string>('region'), //TODO put in config
+      s3ForcePathStyle: stage === 'local',
+      endpoint: stage === 'local' ? 'http://localhost:4566' : null, // TODO: put in config
     });
   },
 };

@@ -79,6 +79,8 @@ resource "aws_iam_role_policy_attachment" "ecs_agent" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
+### TODO add iam_role_policy_attatchment for s3 bucket permissions
+
 resource "aws_iam_instance_profile" "ecs_agent" {
   name = "ecs-agent"
   role = aws_iam_role.ecs_agent.name
@@ -90,6 +92,7 @@ resource "aws_iam_instance_profile" "ecs_agent" {
 
 resource "aws_cloudwatch_log_group" "tune-train-log-group" {
   name = "${local.prefix}-${var.stage}-logs"
+  retention_in_days = 14
   tags = local.common_tags
 }
 
@@ -184,14 +187,27 @@ resource "aws_ecs_task_definition" "task_definition" {
           hostPort      = 3000
         }
       ],
+      environment = {
+        DATABASE_USER = var.db_username
+        DATABASE_PASSWORD = var.db_password
+        DATABASE_NAME = var.db_name
+        DATABASE_PORT = 5432
+        DATABASE_HOST = var.db_host
+        STAGE = var.stage
+        SONGS_BUCKET = resource.aws_s3_bucket.tune-train-songs-bucket.bucket
+        AWS_REGION = var.aws_region
+        JWT_ACCESS_TOKEN_SECRET = var.jwt_access_token_secret
+        JWT_ACCESS_TOKEN_EXPIRATION_TIME = "7d"
+        JWT_REFRESH_TOKEN_SECRET = "doesnmatteryet"
+        JWT_REFRESH_TOKEN_EXPIRATION_TIME = "14d"
+      }
       logConfiguration = {
         logDriver = "awslogs",
         options = {
           "awslogs-group"         = "${resource.aws_cloudwatch_log_group.tune-train-log-group.name}"
-          "awslogs-region"        = "us-east-2"
+          "awslogs-region"        = var.aws_region
           "awslogs-stream-prefix" = "ecs"
         }
-
       }
     }
   ])
@@ -218,9 +234,17 @@ resource "aws_ecs_service" "tune-train" {
   }
 }
 
-
 ### S3 
-# songs bucket
+resource "aws_s3_bucket" "tune-train-songs-bucket" {
+  bucket = "tune-train-songs-bucket-${var.stage}"
+
+  tags = local.common_tags
+}
+
+resource "aws_s3_bucket_acl" "tune-train-songs-bucket-acl" {
+  bucket = aws_s3_bucket.tune-train-songs-bucket.id
+  acl    = "private"
+}
 
 # alb logs bucket
 resource "aws_s3_bucket" "alb-logs-bucket" {

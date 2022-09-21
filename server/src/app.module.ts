@@ -15,6 +15,7 @@ import { AuthModule } from './auth/auth.module';
     SongsModule,
     UsersModule,
     ArtistsModule,
+    // TODO move validationSchema out of app.module
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],
@@ -27,8 +28,6 @@ import { AuthModule } from './auth/auth.module';
         STAGE: Joi.required(),
         SONGS_BUCKET: Joi.required(),
         AWS_REGION: Joi.required(),
-        AWS_ACCESS_KEY_ID: Joi.required(),
-        AWS_SECRET_ACCESS_KEY: Joi.required(),
         JWT_ACCESS_TOKEN_SECRET: Joi.string().required(),
         JWT_ACCESS_TOKEN_EXPIRATION_TIME: Joi.string().required(),
         JWT_REFRESH_TOKEN_SECRET: Joi.string().required(),
