@@ -194,7 +194,7 @@ resource "aws_ecs_task_definition" "task_definition" {
         DATABASE_PORT = 5432
         DATABASE_HOST = var.db_host
         STAGE = var.stage
-        SONGS_BUCKET = resource.aws_s3_bucket.tune-train-songs-bucket.bucket
+        SONGS_BUCKET = "tune-train-songs-bucket-${var.stage}"
         AWS_REGION = var.aws_region
         JWT_ACCESS_TOKEN_SECRET = var.jwt_access_token_secret
         JWT_ACCESS_TOKEN_EXPIRATION_TIME = "7d"
