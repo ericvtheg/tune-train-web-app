@@ -187,20 +187,20 @@ resource "aws_ecs_task_definition" "task_definition" {
           hostPort      = 3000
         }
       ],
-      environment = [{
-        DATABASE_USER                     = var.db_username
-        DATABASE_PASSWORD                 = var.db_password
-        DATABASE_NAME                     = var.db_name
-        DATABASE_PORT                     = 5432
-        DATABASE_HOST                     = var.db_host
-        STAGE                             = var.stage
-        SONGS_BUCKET                      = "tune-train-songs-bucket-${var.stage}"
-        AWS_REGION                        = var.aws_region
-        JWT_ACCESS_TOKEN_SECRET           = var.jwt_access_token_secret
-        JWT_ACCESS_TOKEN_EXPIRATION_TIME  = "7d"
-        JWT_REFRESH_TOKEN_SECRET          = "doesnmatteryet"
-        JWT_REFRESH_TOKEN_EXPIRATION_TIME = "14d"
-      }],
+      environment = [
+        { "name" : "DATABASE_USER", "value" : var.db_username },
+        { "name" : "DATABASE_PASSWORD", "value" : var.db_password },
+        { "name" : "DATABASE_NAME", "value" : var.db_name },
+        { "name" : "DATABASE_PORT", "value" : 5432 },
+        { "name" : "DATABASE_HOST", "value" : var.db_host },
+        { "name" : "STAGE", "value" : var.stage },
+        { "name" : "SONGS_BUCKET", "value" : "tune-train-songs-bucket-${var.stage}" },
+        { "name" : "AWS_REGION", "value" : var.aws_region },
+        { "name" : "JWT_ACCESS_TOKEN_SECRET", "value" : var.jwt_access_token_secret },
+        { "name" : "JWT_ACCESS_TOKEN_EXPIRATION_TIME", "value" : "7d" },
+        { "name" : "JWT_REFRESH_TOKEN_SECRET", "value" : "doesnmatteryet" },
+        { "name" : "JWT_REFRESH_TOKEN_EXPIRATION_TIME", "value" : "14d" },
+      ],
       logConfiguration = {
         logDriver = "awslogs",
         options = {
