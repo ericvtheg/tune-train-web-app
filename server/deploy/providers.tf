@@ -191,7 +191,7 @@ resource "aws_ecs_task_definition" "task_definition" {
         { "name" : "DATABASE_USER", "value" : var.db_username },
         { "name" : "DATABASE_PASSWORD", "value" : var.db_password },
         { "name" : "DATABASE_NAME", "value" : var.db_name },
-        { "name" : "DATABASE_PORT", "value" : 5432 },
+        { "name" : "DATABASE_PORT", "value" : "5432" },
         { "name" : "DATABASE_HOST", "value" : var.db_host },
         { "name" : "STAGE", "value" : var.stage },
         { "name" : "SONGS_BUCKET", "value" : "tune-train-songs-bucket-${var.stage}" },
