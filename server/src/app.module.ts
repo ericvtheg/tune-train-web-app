@@ -11,10 +11,6 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(),
-    SongsModule,
-    UsersModule,
-    ArtistsModule,
     // TODO move validationSchema out of app.module
     ConfigModule.forRoot({
       isGlobal: true,
@@ -34,10 +30,12 @@ import { AuthModule } from './auth/auth.module';
         JWT_REFRESH_TOKEN_EXPIRATION_TIME: Joi.string().required(),
       }),
     }),
+    TypeOrmModule.forRoot(),
+    SongsModule,
+    UsersModule,
+    ArtistsModule,
     CommonModule,
     AuthModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
