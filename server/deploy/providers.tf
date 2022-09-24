@@ -74,12 +74,20 @@ data "aws_iam_policy_document" "ecs_agent" {
   }
 }
 
-resource "aws_iam_role_policy_attachment" "ecs_agent" {
+resource "aws_iam_role_policy_attachment" "ecs-policy" {
   role       = aws_iam_role.ecs_agent.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
-### TODO add iam_role_policy_attatchment for s3 bucket permissions
+resource "aws_iam_role_policy_attachment" "rds-policy" {
+  role       = aws_iam_role.ecs_agent.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonRDSDataFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "s3-policy" {
+  role       = aws_iam_role.ecs_agent.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
 
 resource "aws_iam_instance_profile" "ecs_agent" {
   name = "ecs-agent"
