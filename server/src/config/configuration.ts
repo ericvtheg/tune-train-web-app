@@ -4,7 +4,7 @@ export const configuration = (): Record<string, any> => ({
   stage: process.env.STAGE,
   database: {
     host: process.env.DATABASE_HOST,
-    user: process.env.USER,
+    username: process.env.DATABASE_USER,
     name: process.env.DATABASE_NAME,
     password: process.env.DATABASE_PASSWORD,
     port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
