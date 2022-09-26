@@ -161,13 +161,13 @@ resource "aws_autoscaling_group" "tune-train-asg" {
 
   launch_configuration = aws_launch_configuration.tune-train-launch-config.name
   min_size             = 1
-  max_size             = 2 #todo bump this eventually
+  max_size             = 2 # TODO bump this eventually
 
   lifecycle {
     create_before_destroy = true
   }
 
-  vpc_zone_identifier = module.vpc.public_subnets
+  vpc_zone_identifier = module.vpc.private_subnets
 }
 
 ### ECS
@@ -309,7 +309,6 @@ resource "aws_lb_listener" "tune-train-backend" {
 
   tags = local.common_tags
 }
-
 
 
 ### CloudFront

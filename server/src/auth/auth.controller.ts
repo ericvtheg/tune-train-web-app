@@ -10,11 +10,13 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { AuthService, UserPayload, IJWTResponse } from './auth.service';
 import { IUserRequest } from '../common/types';
+import { Public } from '../common/decorators/public.decorator';
 
 @Controller()
 export class AuthController {
   constructor(@Inject(AuthService) private readonly authService: AuthService) {}
 
+  @Public()
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req: IUserRequest): Promise<IJWTResponse> {
