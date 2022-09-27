@@ -9,6 +9,7 @@ import * as Joi from '@hapi/joi';
 import { configuration } from './config/configuration';
 import { AuthModule } from './auth/auth.module';
 import { ConfigService } from '@nestjs/config';
+import { HealthCheckModule } from './health-check/health-check.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { ConfigService } from '@nestjs/config';
     ArtistsModule,
     CommonModule,
     AuthModule,
+    HealthCheckModule,
   ],
 })
 export class AppModule {}
