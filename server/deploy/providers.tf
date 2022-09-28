@@ -311,8 +311,8 @@ resource "aws_lb_listener" "tune-train-backend" {
   protocol          = "HTTPS"
   # acm certificate
   # listener certificate
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = aws_acm_certificate.tune-train-cert.arn
+  ssl_policy      = "ELBSecurityPolicy-2016-08"
+  certificate_arn = aws_acm_certificate.tune-train-cert.arn
 
   default_action {
     type             = "forward"
