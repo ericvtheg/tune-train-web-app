@@ -7,7 +7,7 @@ export class HealthCheckController {
 
   @Public()
   @Get()
-  async healthCheck(){
+  async healthCheck(): Promise<string>{
     return "healthy";
   } 
 }

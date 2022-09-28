@@ -255,14 +255,26 @@ resource "aws_s3_bucket_acl" "tune-train-songs-bucket-acl" {
   acl    = "private"
 }
 
-# alb logs bucket
-resource "aws_s3_bucket" "alb-logs-bucket" {
-  bucket = "alb-logs-bucket-41231"
+### SSL certificate
+resource "aws_acm_certificate" "tune-train-cert" {
+  domain_name       = var.domain_name
+  validation_method = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 
   tags = local.common_tags
 }
 
 ### ALB
+
+# logs bucket
+resource "aws_s3_bucket" "alb-logs-bucket" {
+  bucket = "alb-logs-bucket-41231"
+
+  tags = local.common_tags
+}
 
 resource "aws_alb" "tune-train-alb" {
   depends_on = [module.vpc]
@@ -296,11 +308,11 @@ resource "aws_alb_target_group" "tune-train-alb-target-group" {
 resource "aws_lb_listener" "tune-train-backend" {
   load_balancer_arn = aws_alb.tune-train-alb.arn
   port              = 3000
-  protocol          = "HTTP"
+  protocol          = "HTTPS"
   # acm certificate
   # listener certificate
-  # ssl_policy        = "ELBSecurityPolicy-2016-08"
-  # certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = aws_acm_certificate.tune-train-cert.arn
 
   default_action {
     type             = "forward"
