@@ -296,17 +296,17 @@ resource "aws_alb" "tune-train-alb" {
   tags = local.common_tags
 }
 
-resource "aws_lb_listener_certificate" "tune-train" {
-  depends_on = ["aws_alb.tune-train-alb", "aws_acm_certificate.tune-train-cert"]
+resource "aws_lb_listener_certificate" "tune-train-alblc" {
+  depends_on = [aws_alb.tune-train-backend, aws_acm_certificate.tune-train-cert]
 
-  listener_arn    = aws_alb.tune-train-alb.arn
+  listener_arn    = aws_lb_listener.tune-train-backend.arn
   certificate_arn = aws_acm_certificate.tune-train-cert.arn
 }
 
 resource "aws_alb_target_group" "tune-train-alb-target-group" {
   name     = "${local.prefix}-alb-tg-${var.stage}"
   port     = 3000
-  protocol = "HTTP"
+  protocol = "HTTPS"
   vpc_id   = module.vpc.vpc_id
 
   tags = local.common_tags
