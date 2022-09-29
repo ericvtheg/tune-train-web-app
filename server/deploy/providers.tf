@@ -231,6 +231,8 @@ resource "aws_ecs_task_definition" "task_definition" {
 # ECS service
 
 resource "aws_ecs_service" "tune-train" {
+  depends_on = [aws_alb_target_group.tune-train-alb-target-group]
+
   name            = var.service
   task_definition = aws_ecs_task_definition.task_definition.arn
   cluster         = aws_ecs_cluster.tune-train-cluster.id
@@ -310,7 +312,7 @@ resource "aws_alb_target_group" "tune-train-alb-target-group" {
   vpc_id   = module.vpc.vpc_id
 
   lifecycle {
-      create_before_destroy = true
+    create_before_destroy = true
   }
 
   tags = local.common_tags
