@@ -297,7 +297,7 @@ resource "aws_alb" "tune-train-alb" {
 }
 
 resource "aws_lb_listener_certificate" "tune-train-alblc" {
-  depends_on = [aws_alb.tune-train-backend, aws_acm_certificate.tune-train-cert]
+  depends_on = [aws_lb_listener.tune-train-backend, aws_acm_certificate.tune-train-cert]
 
   listener_arn    = aws_lb_listener.tune-train-backend.arn
   certificate_arn = aws_acm_certificate.tune-train-cert.arn
