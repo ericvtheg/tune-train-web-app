@@ -306,7 +306,7 @@ resource "aws_lb_listener_certificate" "tune-train-alblc" {
 }
 
 resource "aws_alb_target_group" "tune-train-alb-target-group" {
-  name     = "${local.prefix}-alb-tg-1-${var.stage}"
+  name     = "${local.prefix}-alb-tg-${var.stage}"
   port     = 3000
   protocol = "HTTPS"
   vpc_id   = module.vpc.vpc_id
