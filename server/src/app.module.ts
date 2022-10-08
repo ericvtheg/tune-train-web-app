@@ -18,6 +18,7 @@ import { HealthCheckModule } from './health-check/health-check.module';
       isGlobal: true,
       load: [configuration],
       validationSchema: Joi.object({
+        APP_PORT: Joi.required().default(3000),
         DATABASE_HOST: Joi.required(),
         DATABASE_PORT: Joi.number().default(5432),
         DATABASE_NAME: Joi.required(),

@@ -1,5 +1,5 @@
 export const configuration = (): Record<string, any> => ({
-  port: parseInt(process.env.PORT, 10) || 3000,
+  appPort: parseInt(process.env.APP_PORT, 10),
   songsBucket: process.env.SONGS_BUCKET,
   stage: process.env.STAGE,
   database: {
@@ -7,7 +7,7 @@ export const configuration = (): Record<string, any> => ({
     username: process.env.DATABASE_USER,
     name: process.env.DATABASE_NAME,
     password: process.env.DATABASE_PASSWORD,
-    port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
+    port: parseInt(process.env.DATABASE_PORT, 10),
   },
   aws: {
     region: process.env.AWS_REGION,
