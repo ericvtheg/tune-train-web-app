@@ -42,7 +42,7 @@ async function bootstrap() {
     app.enableCors({ credentials: true, origin: true });
   }
 
-  const port = config.get<number>('port');
+  const port = config.get<number>('appPort');
   await app.listen(port);
 }
 bootstrap();

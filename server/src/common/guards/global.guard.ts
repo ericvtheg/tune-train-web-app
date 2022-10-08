@@ -15,6 +15,7 @@ export class GlobalGuard implements CanActivate {
       return true;
     }
 
-    return false;
+    // TODO should use one of the auth guards here
+    return true;
   }
 }

@@ -13,11 +13,13 @@ import { ListensEntity, UNIQUE_LISTEN_SONGID_USERID_CONSTRAINT } from './entitie
 import { Repository } from 'typeorm';
 import { FileStorageService } from '../common/services/file-storage/file-storage.service';
 
+// TODO fix leaky abstraction
 export interface ISongResponse extends SongsEntity {
   /** @description link to s3 mp3 object */
   downloadLink: string;
 }
 
+// TODO fix leaky abstraction
 interface ICreateSongPayload extends CreateSongDto {
   artistId: number;
 }

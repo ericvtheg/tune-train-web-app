@@ -10,6 +10,8 @@ import { configuration } from './config/configuration';
 import { AuthModule } from './auth/auth.module';
 import { ConfigService } from '@nestjs/config';
 import { HealthCheckModule } from './health-check/health-check.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
   imports: [
@@ -33,6 +35,10 @@ import { HealthCheckModule } from './health-check/health-check.module';
         JWT_REFRESH_TOKEN_EXPIRATION_TIME: Joi.string().required(),
       }),
     }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: `${process.cwd()}/src/schema.gql`,
+    }),
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
@@ -50,9 +56,9 @@ import { HealthCheckModule } from './health-check/health-check.module';
       }),
       inject: [ConfigService],
     }),
-    SongsModule,
+    // SongsModule,
     UsersModule,
-    ArtistsModule,
+    // ArtistsModule,
     CommonModule,
     AuthModule,
     HealthCheckModule,
