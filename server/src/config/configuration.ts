@@ -8,6 +8,7 @@ export const configuration = (): Record<string, any> => ({
     name: process.env.DATABASE_NAME,
     password: process.env.DATABASE_PASSWORD,
     port: parseInt(process.env.DATABASE_PORT, 10),
+    url: process.env.DATABASE_URL,
   },
   aws: {
     region: process.env.AWS_REGION,

@@ -19,6 +19,7 @@ import type { Opaque } from 'type-fest';
 // create new AWS account (add + in the email address)
 // only thing that should have to be manually done is transferring domain & the terraform state bucket
 // remember there was some weirdness with configuring ssl certificate and associating it with a domain/hosted zone
+// will need to run prisma generate or whatever on deployment
 
 
 
@@ -34,16 +35,6 @@ type SocialsId = Opaque<string>;
 interface Socials {
   id: SocialsId;
   spotify: string;
-}
-
-type UserId = Opaque<string>;
-interface User {
-  id: UserId;
-  username: string;
-  avatar: string;
-  isArtist: boolean; // this field shouldn't live in the database, it should be determined on whether or not an artistId exists
-  artist?: Artist;
-  socials?: Socials;
 }
 
 type SongId = Opaque<string>;

@@ -10,7 +10,6 @@ import {
   Request,
   ParseIntPipe,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { HashPipe } from '../common/pipes/hash.pipe';
@@ -22,7 +21,7 @@ import { Public } from '../common/decorators/public.decorator';
 @UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: any) {}
 
   @Public()
   @Post()
@@ -32,7 +31,7 @@ export class UsersController {
 
   @Get()
   findAll(): Promise<UsersEntity[]> {
-    // this should be an admin endpoint
+    // TODO this should be an admin endpoint
     return this.usersService.findAll();
   }
 

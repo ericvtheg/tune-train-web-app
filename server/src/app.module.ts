@@ -12,6 +12,7 @@ import { ConfigService } from '@nestjs/config';
 import { HealthCheckModule } from './health-check/health-check.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { PrismaModule } from 'nestjs-prisma';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
         DATABASE_NAME: Joi.required(),
         DATABASE_USER: Joi.required(),
         DATABASE_PASSWORD: Joi.required(),
+        DATABASE_URL: Joi.required(),
         STAGE: Joi.required(),
         SONGS_BUCKET: Joi.required(),
         AWS_REGION: Joi.required(),
@@ -35,32 +37,22 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
         JWT_REFRESH_TOKEN_EXPIRATION_TIME: Joi.string().required(),
       }),
     }),
+    PrismaModule.forRoot({
+      isGlobal: true,
+      prismaServiceOptions: {
+        // middlewares: [loggingMiddleware(new Logger('PrismaMiddleware'))], // configure your prisma middleware
+      },
+    }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: `${process.cwd()}/src/schema.gql`,
     }),
-    TypeOrmModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>("database.host"),
-        port: configService.get<number>("database.port"),
-        username: configService.get<string>("database.username"),
-        password: configService.get<string>("database.password"),
-        database: configService.get<string>("database.name"),
-        entities: ['dist/**/*.entity{.ts,.js}'],
-        synchronize: (configService.get<string>("stage")) ? true : false,
-        migrations: ['dist/db/migrations/*.js'],
-        cli: {
-          migrationsDir: 'src/db/migrations',
-        },
-      }),
-      inject: [ConfigService],
-    }),
+    PrismaModule,
     // SongsModule,
     UsersModule,
     // ArtistsModule,
-    CommonModule,
-    AuthModule,
+    // CommonModule,
+    // AuthModule,
     HealthCheckModule,
   ],
 })

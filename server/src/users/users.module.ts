@@ -7,12 +7,6 @@ import { UsersResolver } from './users.resolver';
 import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([UsersEntity]),
-    forwardRef(() => AuthModule),
-  ],
-  controllers: [UsersController],
-  providers: [UsersService, UsersResolver],
-  exports: [UsersService],
+  providers: [UsersResolver],
 })
 export class UsersModule {}

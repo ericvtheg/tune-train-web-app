@@ -1,5 +1,4 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { CryptService } from './crypt.service';
 
@@ -17,7 +16,7 @@ export interface IJWTResponse {
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly usersService: UsersService,
+    private readonly usersService: any,
     private readonly jwtService: JwtService,
     @Inject(CryptService) private readonly cryptService: CryptService,
   ) {}

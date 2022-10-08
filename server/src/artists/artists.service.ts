@@ -8,7 +8,7 @@ import { CreateArtistDto } from './dto/create-artist.dto';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 import { ArtistsEntity } from './entities/artists.entity';
-import { UsersService } from '../users/users.service';
+// import { UsersService } from '../users/users.service';
 import { UsersEntity } from '../users/entities/users.entity';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class ArtistsService {
   constructor(
     @InjectRepository(ArtistsEntity)
     private readonly artistRepository: Repository<ArtistsEntity>,
-    private readonly userService: UsersService,
+    private readonly userService: any,
   ) {}
 
   /**
