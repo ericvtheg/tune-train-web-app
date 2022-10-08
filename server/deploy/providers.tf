@@ -250,6 +250,15 @@ resource "aws_s3_bucket" "tune-train-songs-bucket" {
   tags = local.common_tags
 }
 
+resource "aws_s3_bucket_public_access_block" "tune-train-public-access-block" {
+  bucket = aws_s3_bucket.tune-train-songs-bucket.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
 resource "aws_s3_bucket_acl" "tune-train-songs-bucket-acl" {
   bucket = aws_s3_bucket.tune-train-songs-bucket.id
   acl    = "private"
