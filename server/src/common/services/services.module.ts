@@ -10,9 +10,9 @@ const s3Provider: FactoryProvider = {
   useFactory: (configService: ConfigService) => {
     const stage = configService.get<string>('stage');
     return new S3({
-      region: configService.get<string>('region'), //TODO put in config
+      region: configService.get<string>('region'),
       s3ForcePathStyle: stage === 'local',
-      endpoint: stage === 'local' ? 'http://localhost:4566' : null, // TODO: put in config
+      endpoint: stage === 'local' ? 'http://localhost:4566' : null,
     });
   },
 };
