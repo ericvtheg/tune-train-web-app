@@ -7,11 +7,13 @@ export class CryptService {
 
   /** @warning MUST BE AWAITED */
   async hashPassword(password: string): Promise<string> {
-    return bcrypt.hash(password, this.saltRounds);
+    // TODO add await here
+    return await bcrypt.hash(password, this.saltRounds);
   }
 
   /** @warning MUST BE AWAITED */
   async validatePassword(password: string, hash: string): Promise<boolean> {
-    return bcrypt.compare(password, hash);
+    // TODO add await here
+    return await bcrypt.compare(password, hash);
   }
 }

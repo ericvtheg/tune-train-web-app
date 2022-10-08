@@ -21,14 +21,15 @@ export class AuthService {
     private readonly jwtService: JwtService,
     @Inject(CryptService) private readonly cryptService: CryptService,
   ) {}
-  // why do i not need to use injectable decorators here?
 
   async validateUser(
     email: string,
     password: string,
   ): Promise<UserPayload> {
     try {
+      console.log("hit in validate user");
       const user = await this.usersService.findOneUsingEmail(email);
+      console.log(user, "user");
       if (user && await this.cryptService.validatePassword(password, user.password) === true) {
         const { password, ...result } = user;
         return result;

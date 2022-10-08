@@ -61,9 +61,10 @@ export class SongsController {
     return this.songsService.findAll();
   }
 
-  @Public()
+  // @Public()
   @Get('random')
   findRandom(@Request() req: IUserRequest): Promise<ISongResponse> {
+    // TODO handle not logged in user case
     const userId = req.user.id;
     return this.songsService.findRandom(userId);
   }
