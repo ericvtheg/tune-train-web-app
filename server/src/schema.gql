@@ -8,5 +8,5 @@ type User {
 }
 
 type Query {
-  user: User!
+  user(id: String!): User!
 }
