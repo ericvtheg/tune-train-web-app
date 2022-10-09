@@ -11,4 +11,8 @@ export class UsersRepository {
   async findOneById(id: UserId){
     return await this.prisma.user.findUnique({ where: { id } })
   }
+
+  async findOneByEmail(email: string){
+    return await this.prisma.user.findUnique({ where: { email } })
+  }
 }

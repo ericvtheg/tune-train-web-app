@@ -40,6 +40,7 @@ export class SongsService {
   ) {}
 
   async create(createSongPayload: ICreateSongPayload, songFile: Express.Multer.File): Promise<SongsEntity> {
+    // TODO A Song shouldn't be uploaded to the nestjs server. It should be uploaded directly to the s3 bucket
     try {
       const song = this.songRepository.create(createSongPayload);
       const songEntity = await this.songRepository.save(song);

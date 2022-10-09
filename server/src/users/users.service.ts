@@ -6,7 +6,10 @@ export type UserId = Opaque<string>;
 export interface User {
   id: UserId;
   username: string;
-  avatar: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
   isArtist: boolean; // this field shouldn't live in the database, it should be determined on whether or not an artistId exists
 }
 
@@ -17,4 +20,10 @@ export class UsersService {
   async findUserById(id: UserId): Promise<User> {
     return (await this.usersRepository.findOneById(id)) as any;
   }
+
+  async findUserByEmail(email: string): Promise<User> {
+    return (await this.usersRepository.findOneByEmail(email)) as any;
+  }
+  
+  // createUser
 }
