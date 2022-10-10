@@ -1,6 +1,7 @@
 import type { Opaque } from 'type-fest';
 import { UserRepository } from './user.repository';
 import { Injectable } from '@nestjs/common';
+import { User as UserModel } from "@prisma/client";
 
 export type UserId = Opaque<string>;
 export interface User {
@@ -10,19 +11,30 @@ export interface User {
   password: string;
   firstName: string;
   lastName: string;
-  isArtist: boolean; // this field shouldn't live in the database, it should be determined on whether or not an artistId exists
+  isArtist: boolean; // TODO this field shouldn't live in the database, it should be determined on whether or not an artistId exists
 }
+
+/** Transforms db User model to service layer User interface */
+const transform = (model: UserModel): User => ({
+  id: model.id as UserId,
+  username: model.username,
+  email: model.email,
+  password: model.password,
+  firstName: model.first_name,
+  lastName: model.last_name,
+  isArtist: false, //TODO add some conditional logic
+});
 
 @Injectable()
 export class UserService {
   constructor(private userRepository: UserRepository) {}
 
   async findUserById(id: UserId): Promise<User> {
-    return (await this.userRepository.findOneById(id)) as any;
+    return transform(await this.userRepository.findOneById(id));
   }
 
   async findUserByEmail(email: string): Promise<User> {
-    return (await this.userRepository.findOneByEmail(email)) as any;
+    return transform(await this.userRepository.findOneByEmail(email));
   }
   
   // createUser
