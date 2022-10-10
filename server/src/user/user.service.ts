@@ -1,10 +1,9 @@
 import type { Opaque } from 'type-fest';
-import { UserRepository } from './user.repository';
 import { Injectable } from '@nestjs/common';
-import { UserEntity } from "src/user/user.repository";
+import { UserEntity, UserRepository } from "src/user/user.repository";
 
 export type UserId = Opaque<string>;
-export interface User {
+interface User {
   id: UserId;
   username: string;
   email: string;
@@ -15,13 +14,13 @@ export interface User {
 }
 
 /** Transforms db User entity to service layer User interface */
-const transform = (model: UserEntity): User => ({
-  id: model.id as UserId,
-  username: model.username,
-  email: model.email,
-  password: model.password,
-  firstName: model.first_name,
-  lastName: model.last_name,
+const transform = (entity: UserEntity): User => ({
+  id: entity.id as UserId,
+  username: entity.username,
+  email: entity.email,
+  password: entity.password,
+  firstName: entity.first_name,
+  lastName: entity.last_name,
   isArtist: false, //TODO add some conditional logic
 });
 

@@ -8,7 +8,6 @@ export class UserResolver {
 
   @Query(returns => User,  { nullable: true })
   async user(@Args('id') id: UserId): Promise<User> {
-    // why is there no type error here
     return await this.userService.findUserById(id);
   }
 
