@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { SongsEntity } from '../../songs/entities/songs.entity';
-import { UsersEntity } from '../../users/entities/users.entity';
+import { UsersEntity } from '../../user/entities/users.entity';
 import { SocialsEntity } from './socials.entity';
 
 @Entity('artists')

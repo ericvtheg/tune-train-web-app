@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { SongsEntity } from './songs.entity';
-import { UsersEntity } from '../../users/entities/users.entity';
+import { UsersEntity } from '../../user/entities/users.entity';
 
 export const UNIQUE_LISTEN_SONGID_USERID_CONSTRAINT = 'userId_songId_unique_constraint';
 

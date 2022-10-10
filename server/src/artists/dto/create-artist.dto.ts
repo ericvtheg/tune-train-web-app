@@ -5,7 +5,7 @@ import {
   ValidateNested,
   IsBoolean,
 } from 'class-validator';
-import { CreateUserDto } from '../../users/dto/create-user.dto';
+import { CreateUserDto } from '../../user/dto/create-user.dto';
 
 // TODO: match url host names
 // should some of the urls just be strings maybe?

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SongsModule } from './songs/songs.module';
-import { UsersModule } from './users/users.module';
+import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ArtistsModule } from './artists/artists.module';
 import { ConfigModule } from '@nestjs/config';
@@ -49,7 +49,7 @@ import { PrismaModule } from 'nestjs-prisma';
     }),
     PrismaModule,
     // SongsModule,
-    UsersModule,
+    UserModule,
     // ArtistsModule,
     // CommonModule,
     // AuthModule,
