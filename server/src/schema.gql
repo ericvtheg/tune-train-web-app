@@ -11,6 +11,12 @@ type User {
   lastName: String
 }
 
+"""artist"""
+type Artist {
+  id: ID!
+}
+
 type Query {
   user(id: String!): User
+  artist(id: String!): Artist
 }
