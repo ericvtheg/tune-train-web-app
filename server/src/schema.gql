@@ -5,9 +5,12 @@
 """user"""
 type User {
   id: ID!
+  username: String!
+  email: String!
+  firstName: String!
+  lastName: String
 }
 
 type Query {
   user(id: String!): User
-  queryUserByEmail(email: String!): User
 }

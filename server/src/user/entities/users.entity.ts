@@ -14,6 +14,8 @@ import { ListensEntity } from '../../songs/entities/listens.entity';
 export const UNIQUE_USER_EMAIL_CONSTRAINT = 'email_index_unique_constraint';
 export const UNIQUE_USER_USERNAME_CONSTRAINT = 'username_index_unique_constraint';
 
+// TODO delete
+
 @Entity('users')
 export class UsersEntity {
   @PrimaryGeneratedColumn()

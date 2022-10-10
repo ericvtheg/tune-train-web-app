@@ -1,7 +1,7 @@
 import type { Opaque } from 'type-fest';
 import { UserRepository } from './user.repository';
 import { Injectable } from '@nestjs/common';
-import { User as UserModel } from "@prisma/client";
+import { UserEntity } from "src/user/user.repository";
 
 export type UserId = Opaque<string>;
 export interface User {
@@ -14,8 +14,8 @@ export interface User {
   isArtist: boolean; // TODO this field shouldn't live in the database, it should be determined on whether or not an artistId exists
 }
 
-/** Transforms db User model to service layer User interface */
-const transform = (model: UserModel): User => ({
+/** Transforms db User entity to service layer User interface */
+const transform = (model: UserEntity): User => ({
   id: model.id as UserId,
   username: model.username,
   email: model.email,
