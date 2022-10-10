@@ -1,16 +1,34 @@
 import type { Opaque } from 'type-fest';
 
-// use repository pattern for entities
-// use Prisma
-// TODO ids should be UUIDs (not incremental integers)
-// TODO add graphql code first 
-// could be cool to upgrade node version
 // remove unused service functions and controllers
 // how to better error handle in nestjs?
+// prisma data loader
+// add integration/e2e tests
 // figure out how to best mock providers/entities
 // better unit tests, service layer should only test for branching, entity repositories should have unit tests
-// add integration/e2e tests
 
+
+// Access Patterns
+
+// Create User
+//   User Model
+
+// Add Artist Data (become artist)
+//   Artist + Social Models
+
+// Update Artist Data
+//   Artist + Social Models
+
+// Create Song
+//   Song Model
+
+// Find Random Song
+//   Song + Artist + Socials Models
+
+// Listen to Song
+
+// Login
+//   User Model
 
 // cloud stuff
 // destroy
@@ -21,7 +39,16 @@ import type { Opaque } from 'type-fest';
 // remember there was some weirdness with configuring ssl certificate and associating it with a domain/hosted zone
 // will need to run prisma generate or whatever on deployment
 
-
+type UserId = Opaque<string>;
+interface User {
+  id: UserId;
+  username: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  isArtist: boolean; // TODO this field shouldn't live in the database, it should be determined on whether or not an artistId exists
+}
 
 type ArtistId = Opaque<string>;
 interface Artist { 

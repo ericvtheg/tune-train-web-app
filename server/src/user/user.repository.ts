@@ -5,7 +5,6 @@ import { User } from "@prisma/client";
 
 export type UserEntity = User;
 
-
 @Injectable()
 export class UserRepository {
   constructor(private prisma: PrismaService) {}

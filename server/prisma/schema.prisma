@@ -19,9 +19,20 @@ model User {
   password   String
   first_name String
   last_name  String?
+  is_artist  Boolean  @default(false)
+  artist     Artist?
 }
 
-// model Artist {}
+model Artist {
+  id         String   @id @default(cuid())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  stageName  String
+  bio        String
+  image      String
+  user       User     @relation(fields: [id], references: [id])
+}
+
 // model Social {}
 // model Song {}
 // model Listen {}

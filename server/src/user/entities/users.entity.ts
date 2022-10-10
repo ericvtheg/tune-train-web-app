@@ -8,7 +8,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ArtistsEntity } from '../../artists/entities/artists.entity';
+import { ArtistsEntity } from '../../artist/entities/artists.entity';
 import { ListensEntity } from '../../songs/entities/listens.entity';
 
 export const UNIQUE_USER_EMAIL_CONSTRAINT = 'email_index_unique_constraint';

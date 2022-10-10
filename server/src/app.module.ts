@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SongsModule } from './songs/songs.module';
 import { UserModule } from './user/user.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ArtistsModule } from './artists/artists.module';
+import { ArtistModule } from './artist/artist.module';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import * as Joi from '@hapi/joi';
@@ -50,7 +49,7 @@ import { PrismaModule } from 'nestjs-prisma';
     PrismaModule,
     // SongsModule,
     UserModule,
-    // ArtistsModule,
+    ArtistModule,
     // CommonModule,
     // AuthModule,
     HealthCheckModule,
