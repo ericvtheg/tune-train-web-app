@@ -1,17 +1,18 @@
 import { Module } from '@nestjs/common';
-import { SongsModule } from './songs/songs.module';
-import { UserModule } from './user/user.module';
-import { ArtistModule } from './artist/artist.module';
+import { UserModule } from 'src/user/user.module';
+import { ArtistModule } from 'src/artist/artist.module';
+import { SongModule } from "src/song/song.module";
 import { ConfigModule } from '@nestjs/config';
-import { CommonModule } from './common/common.module';
+import { CommonModule } from 'src/common/common.module';
 import * as Joi from '@hapi/joi';
-import { configuration } from './config/configuration';
-import { AuthModule } from './auth/auth.module';
+import { configuration } from 'src/config/configuration';
+import { AuthModule } from 'src/auth/auth.module';
 import { ConfigService } from '@nestjs/config';
-import { HealthCheckModule } from './health-check/health-check.module';
+import { HealthCheckModule } from 'src/health-check/health-check.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { PrismaModule } from 'nestjs-prisma';
+
 
 @Module({
   imports: [
@@ -47,7 +48,7 @@ import { PrismaModule } from 'nestjs-prisma';
       autoSchemaFile: `${process.cwd()}/src/schema.gql`,
     }),
     PrismaModule,
-    // SongsModule,
+    SongModule,
     UserModule,
     ArtistModule,
     // CommonModule,

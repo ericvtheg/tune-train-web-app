@@ -14,6 +14,9 @@ type User {
 """artist"""
 type Artist {
   id: ID!
+  stageName: String!
+  bio: String!
+  image: String!
 }
 
 type Query {

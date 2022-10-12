@@ -1,5 +1,5 @@
 import { Query, Resolver, Args } from '@nestjs/graphql';
-import { Artist } from "src/artist/models/artist.model";
+import { Artist } from "src/artist/artist.model";
 import { ArtistService, ArtistId } from "src/artist/artist.service";
 
 @Resolver(of => Artist)

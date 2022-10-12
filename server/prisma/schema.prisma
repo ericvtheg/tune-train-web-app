@@ -21,18 +21,46 @@ model User {
   last_name  String?
   is_artist  Boolean  @default(false)
   artist     Artist?
+  listens    Listen[]
 }
 
 model Artist {
   id         String   @id @default(cuid())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  stageName  String
+  stage_name String
   bio        String
   image      String
   user       User     @relation(fields: [id], references: [id])
+  songs      Song[]
+  listens    Listen[]
 }
 
 // model Social {}
-// model Song {}
-// model Listen {}
+
+model Song {
+  id          String   @id @default(cuid())
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  title       String
+  description String
+  artist_id   String
+  artist      Artist   @relation(fields: [artist_id], references: [id])
+  listens     Listen[]
+}
+
+model Listen {
+  id         String   @id @default(cuid())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  song_id    String
+  user_id    String
+  artist_id  String
+  liked      Boolean
+  user       User     @relation(fields: [user_id], references: [id])
+  song       Song     @relation(fields: [song_id], references: [id])
+  artist     Artist   @relation(fields: [artist_id], references: [id])
+
+  @@index(song_id)
+  @@index(user_id)
+}

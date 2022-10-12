@@ -13,7 +13,7 @@ interface Artist {
 
 const transform = (entity: ArtistEntity): Artist => ({
   id: entity.id as ArtistId,
-  stageName: entity.stageName,
+  stageName: entity.stage_name,
   bio: entity.bio,
   image: entity.image,
 });

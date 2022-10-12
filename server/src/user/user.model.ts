@@ -16,4 +16,10 @@ export class User {
 
   @Field({ nullable: true })
   lastName?: string;
+
+  // Songs
+
+  // Listens
+
+  // Artist
 }
