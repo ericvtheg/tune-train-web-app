@@ -22,4 +22,14 @@ export class FileStorageService {
       Expires: 300,
     });
   }
+
+  async generateUploadLink(key: string): Promise<string> {
+    return this.s3.getSignedUrlPromise('getObject', {
+      Bucket: this.bucketName,
+      Key: key,
+      Expires: 300,
+    })
+  }
+
+  // generateUploadLink
 }

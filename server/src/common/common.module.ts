@@ -35,7 +35,6 @@ import * as Joi from '@hapi/joi';
   providers: [
     { provide: APP_GUARD, useClass: GlobalGuard }, 
     // HashPipe,
-
   ],
 })
 export class CommonModule implements NestModule {
