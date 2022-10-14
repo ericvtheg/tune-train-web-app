@@ -2,14 +2,12 @@ import { Module } from '@nestjs/common';
 import { UserModule } from 'src/user/user.module';
 import { ArtistModule } from 'src/artist/artist.module';
 import { SongModule } from "src/song/song.module";
+import { ListenModule } from "src/listen/listen.module";
 import { CommonModule } from 'src/common/common.module';
-import * as Joi from '@hapi/joi';
-import { ConfigService } from '@nestjs/config';
 import { HealthCheckModule } from 'src/health-check/health-check.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { PrismaModule } from 'nestjs-prisma';
-
 
 @Module({
   imports: [
@@ -26,6 +24,7 @@ import { PrismaModule } from 'nestjs-prisma';
     }),
     PrismaModule,
     SongModule,
+    ListenModule,
     UserModule,
     ArtistModule,
     CommonModule,

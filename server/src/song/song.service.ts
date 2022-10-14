@@ -25,4 +25,9 @@ export class SongService {
     return transform(await this.songRepository.findOneById(id));
     // use fileStorageService to fetch download url here
   }
+
+  async downloadSongById(id: SongId): Promise<any> {
+    // song filename should only depend on song
+    // determine how to distribute keys in s3 dirs
+  }
 }

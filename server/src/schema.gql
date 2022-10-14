@@ -2,13 +2,22 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-"""user"""
-type User {
+"""song"""
+type Song {
   id: ID!
-  username: String!
-  email: String!
-  firstName: String!
-  lastName: String
+  title: String!
+  description: String!
+  downloadLink: String!
+  artist: Artist!
+  listens: [Listen]!
+}
+
+"""listen"""
+type Listen {
+  id: ID!
+  artist: Artist!
+  song: Song!
+  liked: Boolean!
 }
 
 """artist"""
@@ -17,9 +26,24 @@ type Artist {
   stageName: String!
   bio: String!
   image: String!
+  listens: [Listen]!
+  songs: [Song]!
+  user: User!
+}
+
+"""user"""
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  firstName: String!
+  lastName: String
+  artist: Artist!
+  listens: [Listen]!
 }
 
 type Query {
+  listen(userId: String!): Listen!
   user(id: String!): User
   artist(id: String!): Artist
 }

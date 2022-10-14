@@ -1,17 +1,25 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Artist } from "src/artist/artist.model";
+import { Listen } from "src/listen/listen.model";
 
 @ObjectType({ description: 'song' })
 export class Song {
   @Field(type => ID)
   id: string;
 
-  @Field()
+  @Field(type => String)
   title: string;
 
-  @Field()
+  @Field(type => String)
   description: string;
 
-  // artist
+  @Field(type => String)
+  downloadLink: string;
 
-  // listens
+  @Field(type => Artist)
+  artist?: Artist;
+
+  // TODO this should be a connection type
+  @Field(type => [Listen], { nullable: 'items' })
+  listens?: [Listen];
 }

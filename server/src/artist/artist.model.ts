@@ -1,26 +1,29 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Listen } from "src/listen/listen.model";
+import { Song } from "src/song/song.model";
+import { User } from "src/user/user.model";
 
 @ObjectType({ description: 'artist' })
 export class Artist {
   @Field(type => ID)
   id: string;
 
-  @Field()
+  @Field(type => String)
   stageName: string;
 
-  @Field()
+  @Field(type => String)
   bio: string;
 
-  @Field()
+  @Field(type => String)
   image: string;
 
-  // User
+  // TODO this should be a connection type
+  @Field(type => [Listen], { nullable: 'items' })
+  listens?: [Listen];
 
-  // Songs
+  @Field(type => [Song], { nullable: 'items' })
+  songs?: [Song];
 
-  // Socials
-
-  // listens
-
-  // add nested type for user (do same on user model)
+  @Field(type => User)
+  user?: User;
 }
