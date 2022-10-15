@@ -14,7 +14,7 @@ export class Song {
   description: string;
 
   @Field(type => String)
-  downloadLink: string;
+  downloadLink?: string;
 
   @Field(type => Artist)
   artist?: Artist;

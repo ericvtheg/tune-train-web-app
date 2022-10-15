@@ -29,11 +29,13 @@ export class UserService {
   constructor(private userRepository: UserRepository) {}
 
   async findUserById(id: UserId): Promise<User> {
-    return transform(await this.userRepository.findOneById(id));
+    const user = await this.userRepository.findOneById(id)
+    return user ? transform(user) : null;
   }
 
   async findUserByEmail(email: string): Promise<User> {
-    return transform(await this.userRepository.findOneByEmail(email));
+    const user = await this.userRepository.findOneByEmail(email);
+    return user ? transform(user) : null;
   }
   
   // createUser

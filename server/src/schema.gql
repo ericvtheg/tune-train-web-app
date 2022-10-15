@@ -43,6 +43,7 @@ type User {
 }
 
 type Query {
+  song(id: String!): Song
   listen(userId: String!): Listen!
   user(id: String!): User
   artist(id: String!): Artist

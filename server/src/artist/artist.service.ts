@@ -23,6 +23,7 @@ export class ArtistService {
   constructor(private artistRepository: ArtistRepository) {}
 
   async findArtistById(id: ArtistId): Promise<Artist> {
-    return transform(await this.artistRepository.findOneById(id));
+    const artist = await this.artistRepository.findOneById(id);
+    return artist ? transform(artist) : null;
   }
 }

@@ -5,4 +5,9 @@ import { SongService, SongId } from "src/song/song.service";
 @Resolver(of => Song)
 export class SongResolver {
   constructor(private songService: SongService) {}
+
+    @Query(returns => Song,  { nullable: true })
+    async song(@Args('id') id: SongId): Promise<Song> {
+      return await this.songService.findSongById(id);
+  }
 }

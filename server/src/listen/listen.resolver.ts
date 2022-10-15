@@ -8,7 +8,7 @@ export class ListenResolver {
   constructor(private listenService: ListenService) {}
 
   @Query(returns => Listen)
-  async listen(@Args('userId', { type: () => String }) userId: UserId){
+  async listen(@Args('userId') userId: UserId){
     return await this.listenService.findUnheardListen(userId);
   }
 }

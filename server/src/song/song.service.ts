@@ -22,7 +22,8 @@ export class SongService {
   constructor(private songRepository: SongRepository) {}
 
   async findSongById(id: SongId): Promise<Song> {
-    return transform(await this.songRepository.findOneById(id));
+    const song = await this.songRepository.findOneById(id);
+    return song ? transform(song) : null;
     // use fileStorageService to fetch download url here
   }
 
