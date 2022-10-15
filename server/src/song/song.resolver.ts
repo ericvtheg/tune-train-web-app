@@ -9,5 +9,5 @@ export class SongResolver {
     @Query(returns => Song,  { nullable: true })
     async song(@Args('id') id: SongId): Promise<Song> {
       return await this.songService.findSongById(id);
-  }
+    }
 }

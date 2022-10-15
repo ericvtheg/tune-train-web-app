@@ -8,11 +8,11 @@ export class Listen {
   id: string;
 
   @Field(type => Artist)
-  artist: Artist;
+  artist?: Artist;
 
   @Field(type => Song)
-  song: Song;
+  song?: Song;
 
   @Field(type => Boolean)
-  liked?: boolean;
+  liked: boolean | null;
 }

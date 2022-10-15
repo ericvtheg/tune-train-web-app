@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { randEmail, randUserName } from '@ngneat/falso';
 
 const prisma = new PrismaClient();
 
@@ -6,10 +7,10 @@ async function main() {
   // await prisma.user.deleteMany();
   // await prisma.post.deleteMany();
 
-  await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
-      email: "testemail@gmail.com",
-      username: "testusername",
+      email: randEmail(),
+      username: randUserName(),
       password: "somePassword",
       first_name: "Firstname",
       last_name: "Lastname",
@@ -19,9 +20,26 @@ async function main() {
           bio: "some bio",
           image: "someimageurl.com/image"
         }
-      }
+      },
     }
-  })
+  });
+
+  const song = await prisma.song.create({
+    data: {
+      title: "Song Title",
+      description: "Song Description",
+      artist_id: user.id
+    }
+  });
+
+  await prisma.listen.create({
+    data: {
+      liked: true,
+      song_id: song.id,
+      user_id: user.id,
+      artist_id: user.id,
+    }
+  });
 
   console.log('Seeding...');
 

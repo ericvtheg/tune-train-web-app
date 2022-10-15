@@ -10,7 +10,7 @@ interface User {
   password: string;
   firstName: string;
   lastName: string;
-  isArtist: boolean; // TODO this field shouldn't live in the database, it should be determined on whether or not an artistId exists
+  isArtist: boolean;
 }
 
 /** Transforms db User entity to service layer User interface */

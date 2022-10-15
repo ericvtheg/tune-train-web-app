@@ -4,6 +4,7 @@ import { ListenService } from "src/listen/listen.service";
 import { ListenRepository } from "src/listen/listen.repository";
 
 @Module({
-  providers: [ListenResolver, ListenService, ListenRepository]
+  providers: [ListenResolver, ListenService, ListenRepository],
+  exports: [ListenService]
 })
 export class ListenModule {}
