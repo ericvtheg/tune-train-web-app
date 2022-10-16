@@ -33,4 +33,12 @@ export class ListenRepository {
       }
     });
   }
+
+  async findSongListens(songId: SongId): Promise<ListenEntity[]> {
+    return await this.prisma.listen.findMany({
+      where: {
+        song_id: songId
+      }
+    });
+  } 
 }

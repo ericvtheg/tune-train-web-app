@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import type { Opaque } from 'type-fest';
 import { SongEntity, SongRepository } from 'src/song/song.repository';
 
-
-export type SongId = Opaque<string>;
+export type SongId = Opaque<string, "SongId">;
 
 interface Song {
   id: SongId;
@@ -27,7 +26,7 @@ export class SongService {
     // use fileStorageService to fetch download url here
   }
 
-  async downloadSongById(id: SongId): Promise<any> {
+  async getSongDownloadLink(id: SongId): Promise<any> {
     // song filename should only depend on song
     // determine how to distribute keys in s3 dirs
   }

@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { ArtistRepository, ArtistEntity } from 'src/artist/artist.repository';
 
 
-export type ArtistId = Opaque<string>;
+export type ArtistId = Opaque<string, "ArtistId">;
 interface Artist { 
   id: ArtistId;
   stageName: string;

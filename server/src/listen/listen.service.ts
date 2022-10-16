@@ -5,13 +5,14 @@ import { SongId } from "src/song/song.service";
 import { ArtistId } from "src/artist/artist.service";
 import { ListenRepository, ListenEntity } from "src/listen/listen.repository";
 
-type ListenId = Opaque<string>;
+type ListenId = Opaque<string, "ListenId">;
+
 interface Listen {
   id: ListenId;
   artistId: ArtistId;
   songId: SongId;
   userId: UserId;
-  liked?: boolean;
+  liked: boolean | null;
 }
 
 const transform = (entity: ListenEntity): Listen => ({
@@ -44,8 +45,9 @@ export class ListenService {
     return listens.map(listen => transform(listen));
   }
 
-  // async findSongListens(songId: SongId): Promise<Listen[]> {
-
-  // }
+  async findSongListens(songId: SongId): Promise<Listen[]> {
+    const listens = await this.listenRepository.findSongListens(songId);
+    return listens.map(listen => transform(listen));
+  }
 
 }

@@ -1,35 +1,18 @@
-import { S3 } from 'aws-sdk';
-import { Injectable, Inject } from '@nestjs/common';
-import { BUCKET_NAME } from '../../symbols';
 
-@Injectable()
+import { Injectable, Scope } from '@nestjs/common';
+import { S3Repository } from "src/common/services/file-storage/s3.repository";
+
+@Injectable({scope: Scope.TRANSIENT})
 export class FileStorageService {
-  constructor(
-    @Inject(S3) private readonly s3: S3,
-    @Inject(BUCKET_NAME) private readonly bucketName: string,
-  ) {}
-
-  async upload(key: string, file: Buffer): Promise<S3.ManagedUpload.SendData> {
-    return this.s3
-      .upload({ Bucket: this.bucketName, Key: key, Body: file })
-      .promise();
-  }
+  constructor(private s3Repository: S3Repository) {}
 
   async generateDownloadLink(key: string): Promise<string> {
-    return this.s3.getSignedUrlPromise('getObject', {
-      Bucket: this.bucketName,
-      Key: key,
-      Expires: 300,
-    });
+    // TODO figure out why opaque types are compatible with string here
+    return await this.s3Repository.generateDownloadLink(key);
   }
 
   async generateUploadLink(key: string): Promise<string> {
-    return this.s3.getSignedUrlPromise('getObject', {
-      Bucket: this.bucketName,
-      Key: key,
-      Expires: 300,
-    })
+    // TODO figure out why opaque types are compatible with string here
+    return await this.s3Repository.generateUploadLink(key);
   }
-
-  // generateUploadLink
 }

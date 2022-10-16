@@ -1,6 +1,8 @@
 export const config = (): Record<string, any> => ({
   appPort: parseInt(process.env.APP_PORT, 10),
-  songsBucket: process.env.SONGS_BUCKET,
+  fileStorage: {
+    songsBucket: process.env.SONGS_BUCKET,
+  },
   stage: process.env.STAGE,
   database: {
     host: process.env.DATABASE_HOST,

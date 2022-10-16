@@ -2,7 +2,7 @@ import { Query, Resolver, Args, ResolveField, Parent } from '@nestjs/graphql';
 import { User } from 'src/user/user.model';
 import { UserService, UserId } from 'src/user/user.service';
 import { Artist } from 'src/artist/artist.model';
-import { ArtistService } from 'src/artist/artist.service';
+import { ArtistService, ArtistId } from 'src/artist/artist.service';
 import { Listen } from 'src/listen/listen.model';
 import { ListenService } from 'src/listen/listen.service';
 
@@ -22,7 +22,7 @@ export class UserResolver {
   @ResolveField('artist', returns => Artist)
   async artist(@Parent() user: User): Promise<Artist> {
     const { id } = user;
-    return await this.artistService.findArtistById(id as UserId);
+    return await this.artistService.findArtistById(id as ArtistId);
   }
 
   @ResolveField('listens', returns => [Listen], { nullable: 'items' })

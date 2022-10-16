@@ -16,9 +16,6 @@ export class Song {
   @Field(type => String)
   downloadLink?: string;
 
-  @Field(type => Artist)
-  artist?: Artist;
-
   // TODO this should be a connection type
   @Field(type => [Listen], { nullable: 'items' })
   listens?: [Listen];
