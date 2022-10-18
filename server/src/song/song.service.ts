@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import type { Opaque } from 'type-fest';
 import { SongEntity, SongRepository } from 'src/song/song.repository';
+import { FileStorageService } from 'src/common/services/file-storage/file-storage.service';
 
 export type SongId = Opaque<string, "SongId">;
 
@@ -18,7 +19,10 @@ const transform = (entity: SongEntity): Song => ({
 
 @Injectable()
 export class SongService {
-  constructor(private songRepository: SongRepository) {}
+  constructor(
+    private songRepository: SongRepository,
+    private fileStorageService: FileStorageService
+    ) {}
 
   async findSongById(id: SongId): Promise<Song> {
     const song = await this.songRepository.findOneById(id);
@@ -29,5 +33,6 @@ export class SongService {
   async getSongDownloadLink(id: SongId): Promise<any> {
     // song filename should only depend on song
     // determine how to distribute keys in s3 dirs
+    return await this.fileStorageService.generateDownloadLink(id);
   }
 }

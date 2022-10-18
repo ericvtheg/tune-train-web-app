@@ -8,7 +8,6 @@ type Song {
   title: String!
   description: String!
   downloadLink: String!
-  artist: Artist!
   listens: [Listen]!
 }
 

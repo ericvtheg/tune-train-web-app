@@ -3,26 +3,19 @@ import { SongRepository } from "src/song/song.repository"
 import { SongService } from "src/song/song.service";
 import { SongResolver } from "src/song/song.resolver";
 import { ListenModule } from 'src/listen/listen.module';
-import { ServicesModule } from 'src/common/services/services.module';
-import { BUCKET_NAME } from 'src/common/symbols';
-import { ConfigService } from '@nestjs/config';
+import { FileStorageModule } from "src/common/services/file-storage/file-storage.module";
+
 
 @Module({
   imports: [
     ListenModule,
-    ServicesModule,
+    // TODO anyway to fetch config value instead of just passing the path?
+    FileStorageModule.register("fileStorage.songsBucket")
   ],
   providers: [
     SongResolver, 
     SongService, 
     SongRepository,
-    { 
-      provide: BUCKET_NAME,
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {
-        return configService.get<string>("fileStorage.songsBucket");
-      },
-    }
   ],
   exports: [SongService],
 })
