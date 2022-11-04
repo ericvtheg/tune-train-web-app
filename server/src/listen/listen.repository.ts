@@ -4,12 +4,19 @@ import { Listen } from "@prisma/client";
 import { UserId } from 'src/user/user.service';
 import { SongId } from 'src/song/song.service';
 import { ArtistId } from 'src/artist/artist.service';
+import { ListenId } from 'src/listen/listen.service';
 
 export type ListenEntity = Listen;
 
 @Injectable()
 export class ListenRepository {
   constructor(private prisma: PrismaService) {}
+
+  async findOneById(id: ListenId): Promise<ListenEntity> {
+    return await this.prisma.listen.findUnique({
+      where: { id }
+    });
+  }
 
   async findUserListens(userId: UserId): Promise<ListenEntity[]> {
     return await this.prisma.listen.findMany({

@@ -19,7 +19,7 @@ export class User {
   @Field({ nullable: true })
   lastName?: string;
 
-  @Field(type => Artist)
+  @Field(type => Artist, { nullable: true})
   artist?: Artist;
 
   // TODO this should be a connection type

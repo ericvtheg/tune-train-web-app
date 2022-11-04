@@ -27,6 +27,13 @@ const transform = (entity: ListenEntity): Listen => ({
 export class ListenService {
   constructor(private listenRepository: ListenRepository) {}
 
+  // createListen
+
+  async findListenById(id: ListenId): Promise<Listen> {
+    const listenEntity = await this.listenRepository.findOneById(id);
+    return listenEntity ? transform(listenEntity) : null;
+  }
+
   async findUserListens(userId: UserId): Promise<Listen[]> {
     const listenEntities = await this.listenRepository.findUserListens(userId);
     return listenEntities.map(listenEntity => transform(listenEntity));

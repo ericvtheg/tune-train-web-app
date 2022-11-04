@@ -39,7 +39,7 @@ type User {
   email: String!
   firstName: String!
   lastName: String
-  artist: Artist!
+  artist: Artist
   listens: [Listen]!
 }
 

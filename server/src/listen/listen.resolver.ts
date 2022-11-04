@@ -17,9 +17,8 @@ export class ListenResolver {
   ) {}
 
   @Query(returns => Listen)
-  async listen(@Args('id') id: ListenId): Promise<any>{
-    // find listen
-    console.log("listen", "listen")
+  async listen(@Args('id') id: ListenId): Promise<Listen>{
+    return await this.listenService.findListenById(id);
   }
 
   @ResolveField("artist", returns => Artist)

@@ -28,7 +28,9 @@ export class SongService {
     private fileStorageService: FileStorageService
     ) {}
 
-  async findSongById(id: SongId): Promise<Song> {
+    // createSong
+  
+    async findSongById(id: SongId): Promise<Song> {
     const songEntity = await this.songRepository.findOneById(id);
     return songEntity ? transform(songEntity) : null;
   }

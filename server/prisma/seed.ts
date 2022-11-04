@@ -7,7 +7,7 @@ async function main() {
   // await prisma.user.deleteMany();
   // await prisma.post.deleteMany();
 
-  const user = await prisma.user.create({
+  const artist = await prisma.user.create({
     data: {
       email: randEmail(),
       username: randUserName(),
@@ -23,12 +23,22 @@ async function main() {
       },
     }
   });
+  
+  const user = await prisma.user.create({
+    data: {
+      email: randEmail(),
+      username: randUserName(),
+      password: "somePassword",
+      first_name: "Firstname",
+      last_name: "Lastname",
+    }
+  });
 
   const song = await prisma.song.create({
     data: {
       title: "Song Title",
       description: "Song Description",
-      artist_id: user.id
+      artist_id: artist.id
     }
   });
 
@@ -37,7 +47,7 @@ async function main() {
       liked: true,
       song_id: song.id,
       user_id: user.id,
-      artist_id: user.id,
+      artist_id: artist.id,
     }
   });
 
