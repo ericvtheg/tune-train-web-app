@@ -5,7 +5,7 @@ import { SongId } from "src/song/song.service";
 import { ArtistId } from "src/artist/artist.service";
 import { ListenRepository, ListenEntity } from "src/listen/listen.repository";
 
-type ListenId = Opaque<string, "ListenId">;
+export type ListenId = Opaque<string, "ListenId">;
 
 interface Listen {
   id: ListenId;
@@ -27,27 +27,16 @@ const transform = (entity: ListenEntity): Listen => ({
 export class ListenService {
   constructor(private listenRepository: ListenRepository) {}
 
-  // rename this function
-  async findUnheardListen(id: UserId): Promise<any> {
-    // get random song and artist ID
-    const [songId, artistId ] = await this.listenRepository.findSongWithNoListen(id);
-    // this feels like a resolvers job...but all of the subsequent functions depend on random listen
-    // https://github.com/lucasconstantino/graphql-resolvers/blob/master/docs/API.md#field-dependency-tools
-    
-    // get song
-    // get downloadlink
-    // get artist
-    // 
-  }
-
   async findUserListens(userId: UserId): Promise<Listen[]> {
-    const listens = await this.listenRepository.findUserListens(userId);
-    return listens.map(listen => transform(listen));
+    const listenEntities = await this.listenRepository.findUserListens(userId);
+    return listenEntities.map(listenEntity => transform(listenEntity));
   }
 
   async findSongListens(songId: SongId): Promise<Listen[]> {
-    const listens = await this.listenRepository.findSongListens(songId);
-    return listens.map(listen => transform(listen));
+    const listenEntities = await this.listenRepository.findSongListens(songId);
+    return listenEntities.map(listenEntity => transform(listenEntity));
   }
+
+  // find artist listens
 
 }

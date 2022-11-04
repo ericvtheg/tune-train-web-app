@@ -14,5 +14,5 @@ export class Listen {
   song?: Song;
 
   @Field(type => Boolean)
-  liked: boolean | null;
+  liked: boolean;
 }

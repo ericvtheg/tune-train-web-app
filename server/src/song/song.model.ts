@@ -19,4 +19,7 @@ export class Song {
   // TODO this should be a connection type
   @Field(type => [Listen], { nullable: 'items' })
   listens?: [Listen];
+
+  @Field(type => Artist)
+  artist?: Artist;
 }

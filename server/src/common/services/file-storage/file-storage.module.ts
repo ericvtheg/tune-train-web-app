@@ -15,6 +15,7 @@ export class FileStorageModule {
         S3FactoryProvider, 
         S3Repository,
         { 
+          // TODO can there be multiple values for a bucket_name provider for transient scope?
           provide: BUCKET_NAME,
           inject: [ConfigService],
           useFactory: (configService: ConfigService) => {

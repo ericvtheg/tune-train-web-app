@@ -22,6 +22,8 @@ model User {
   is_artist  Boolean  @default(false)
   artist     Artist?
   listens    Listen[]
+
+  @@map("user")
 }
 
 model Artist {
@@ -34,6 +36,8 @@ model Artist {
   user       User     @relation(fields: [id], references: [id])
   songs      Song[]
   listens    Listen[]
+
+  @@map("artist")
 }
 
 // model Social {}
@@ -47,6 +51,8 @@ model Song {
   artist_id   String
   artist      Artist   @relation(fields: [artist_id], references: [id])
   listens     Listen[]
+
+  @@map("song")
 }
 
 model Listen {
@@ -63,4 +69,6 @@ model Listen {
 
   @@index(song_id)
   @@index(user_id)
+
+  @@map("listen")
 }

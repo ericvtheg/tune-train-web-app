@@ -11,21 +11,6 @@ export type ListenEntity = Listen;
 export class ListenRepository {
   constructor(private prisma: PrismaService) {}
 
-  async findSongWithNoListen(userId: UserId): Promise<[SongId, ArtistId]> {
-    return await this.prisma.$queryRaw<[SongId, ArtistId]>`
-      SELECT song.id as songId, song.artist_id as artistId
-      FROM song
-      WHERE NOT EXISTS (
-        SELECT listen.id 
-        FROM listen 
-        WHERE song.id = listen.song_id
-        AND listen.user_id = ${userId}
-      )
-      ORDER BY random()
-      LIMIT 1;
-    `;
-  }
-
   async findUserListens(userId: UserId): Promise<ListenEntity[]> {
     return await this.prisma.listen.findMany({
       where: {
@@ -41,4 +26,6 @@ export class ListenRepository {
       }
     });
   } 
+
+  // findArtistListens(artistId: ArtistId)
 }

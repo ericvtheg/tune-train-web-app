@@ -1,7 +1,8 @@
 import { Song } from "@prisma/client";
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
-import { SongId } from "src/song/song.service"
+import { SongId } from "src/song/song.service";
+import { UserId } from "src/user/user.service";
 
 export type SongEntity = Song;
 
@@ -11,5 +12,20 @@ export class SongRepository {
   
   async findOneById(id: SongId): Promise<SongEntity> {
     return await this.prisma.song.findUnique({ where: { id } })
+  }
+
+  async findSongWithNoListensFromUser(userId: UserId): Promise<SongEntity> {
+    return (await this.prisma.$queryRaw<SongEntity[]>`
+    SELECT *
+    FROM song
+    WHERE NOT EXISTS (
+      SELECT listen.id 
+      FROM listen 
+      WHERE song.id = listen.song_id
+      AND listen.user_id = ${userId}
+    )
+    ORDER BY random()
+    LIMIT 1;
+  `)?.[0];
   }
 }

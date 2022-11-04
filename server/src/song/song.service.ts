@@ -1,20 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import type { Opaque } from 'type-fest';
+import { UserId } from "src/user/user.service";
+import { ArtistId } from "src/artist/artist.service";
 import { SongEntity, SongRepository } from 'src/song/song.repository';
-import { FileStorageService } from 'src/common/services/file-storage/file-storage.service';
+import { FileStorageService, DownloadLink } from 'src/common/services/file-storage/file-storage.service';
 
 export type SongId = Opaque<string, "SongId">;
 
 interface Song {
   id: SongId;
+  artistId: ArtistId;
   title: string;
   description: string;
 }
 
 const transform = (entity: SongEntity): Song => ({
   id: entity.id as SongId,
+  artistId: entity.artist_id as ArtistId,
   title: entity.title,
-  description: entity.description
+  description: entity.description,
 })
 
 @Injectable()
@@ -25,14 +29,20 @@ export class SongService {
     ) {}
 
   async findSongById(id: SongId): Promise<Song> {
-    const song = await this.songRepository.findOneById(id);
-    return song ? transform(song) : null;
-    // use fileStorageService to fetch download url here
+    const songEntity = await this.songRepository.findOneById(id);
+    return songEntity ? transform(songEntity) : null;
   }
 
-  async getSongDownloadLink(id: SongId): Promise<any> {
-    // song filename should only depend on song
+  async findUnheardSong(userId: UserId): Promise<Song> {
+    const songEntity = await this.songRepository.findSongWithNoListensFromUser(userId);
+    return songEntity ? transform(songEntity) : null;
+  }
+
+  async getSongDownloadLink(id: SongId): Promise<DownloadLink> {
     // determine how to distribute keys in s3 dirs
     return await this.fileStorageService.generateDownloadLink(id);
   }
+
+  // getSongUploadLink
+  // determine how to distribute keys in s3 dirs
 }

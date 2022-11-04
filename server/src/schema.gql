@@ -9,6 +9,7 @@ type Song {
   description: String!
   downloadLink: String!
   listens: [Listen]!
+  artist: Artist!
 }
 
 """listen"""
@@ -17,6 +18,7 @@ type Listen {
   artist: Artist!
   song: Song!
   liked: Boolean!
+  user: User!
 }
 
 """artist"""
@@ -43,7 +45,8 @@ type User {
 
 type Query {
   song(id: String!): Song
-  listen(userId: String!): Listen!
-  user(id: String!): User
+  findUnheardSong(userId: String!): Song!
+  listen(id: String!): Listen!
   artist(id: String!): Artist
+  user(id: String!): User
 }
