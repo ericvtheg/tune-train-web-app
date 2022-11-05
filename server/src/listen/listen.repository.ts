@@ -18,27 +18,15 @@ export class ListenRepository {
     });
   }
 
-  async findUserListens(userId: UserId): Promise<ListenEntity[]> {
-    return await this.prisma.listen.findMany({
-      where: {
-        user_id: userId
-      }
-    });
+  async findManyByUserId(userId: UserId): Promise<ListenEntity[]> {
+    return await this.prisma.listen.findMany({ where: { user_id: userId }});
   }
 
-  async findSongListens(songId: SongId): Promise<ListenEntity[]> {
-    return await this.prisma.listen.findMany({
-      where: {
-        song_id: songId
-      }
-    });
+  async findManyBySongId(songId: SongId): Promise<ListenEntity[]> {
+    return await this.prisma.listen.findMany({ where: { song_id: songId }});
   } 
 
-  async findArtistListens(artistId: ArtistId): Promise<ListenEntity[]> {
-    return await this.prisma.listen.findMany({
-      where: {
-        artist_id: artistId
-      }
-    });
+  async findManyByArtistId(artistId: ArtistId): Promise<ListenEntity[]> {
+    return await this.prisma.listen.findMany({ where: { artist_id: artistId }});
   }
 }

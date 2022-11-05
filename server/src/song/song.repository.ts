@@ -26,16 +26,16 @@ export class SongRepository {
 
   async findOneWithNoListensFromUser(userId: UserId): Promise<SongEntity> {
     return (await this.prisma.$queryRaw<SongEntity[]>`
-    SELECT *
-    FROM song
-    WHERE NOT EXISTS (
-      SELECT listen.id 
-      FROM listen 
-      WHERE song.id = listen.song_id
-      AND listen.user_id = ${userId}
-    )
-    ORDER BY random()
-    LIMIT 1;
-  `)?.[0];
+      SELECT *
+      FROM song
+      WHERE NOT EXISTS (
+        SELECT listen.id 
+        FROM listen 
+        WHERE song.id = listen.song_id
+        AND listen.user_id = ${userId}
+      )
+      ORDER BY random()
+      LIMIT 1;
+    `)?.[0];
   }
 }

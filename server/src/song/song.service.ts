@@ -36,7 +36,7 @@ export class SongService {
     return songEntity ? transform(songEntity) : null;
   }
 
-  async findSongByListenId(listenId: ListenId): Promise<Song> {
+  async findListenedToSong(listenId: ListenId): Promise<Song> {
     const songEntity = await this.songRepository.findOneByListenId(listenId);
     return songEntity ? transform(songEntity) : null;
   }

@@ -35,17 +35,17 @@ export class ListenService {
   }
 
   async findUserListens(userId: UserId): Promise<Listen[]> {
-    const listenEntities = await this.listenRepository.findUserListens(userId);
+    const listenEntities = await this.listenRepository.findManyByUserId(userId);
     return listenEntities.map(listenEntity => transform(listenEntity));
   }
 
   async findSongListens(songId: SongId): Promise<Listen[]> {
-    const listenEntities = await this.listenRepository.findSongListens(songId);
+    const listenEntities = await this.listenRepository.findManyBySongId(songId);
     return listenEntities.map(listenEntity => transform(listenEntity));
   }
 
   async findArtistListens(artistId: ArtistId): Promise<Listen[]> {
-    const listenEntities = await this.listenRepository.findArtistListens(artistId);
+    const listenEntities = await this.listenRepository.findManyByArtistId(artistId);
     return listenEntities.map(listenEntity => transform(listenEntity));
   }
 }
