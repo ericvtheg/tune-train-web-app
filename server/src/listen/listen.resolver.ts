@@ -1,6 +1,6 @@
 import { Resolver, Query, Args, ResolveField, Parent } from '@nestjs/graphql';
 import { Listen } from 'src/listen/listen.model';
-import { UserId } from 'src/user/user.service';
+import { UserId, UserService } from 'src/user/user.service';
 import { User } from 'src/user/user.model';
 import { ListenService, ListenId } from 'src/listen/listen.service';
 import { Song } from 'src/song/song.model';
@@ -12,8 +12,9 @@ import { ArtistService } from "src/artist/artist.service";
 export class ListenResolver {
   constructor(
     private listenService: ListenService,
-    // private songService: SongService,
-
+    private artistService: ArtistService,
+    private songService: SongService,
+    private userService: UserService,
   ) {}
 
   @Query(returns => Listen)
@@ -22,20 +23,20 @@ export class ListenResolver {
   }
 
   @ResolveField("artist", returns => Artist)
-  async artist(@Parent() listen: Listen): Promise<any> {
-    console.log(listen, "artist");
+  async artist(@Parent() listen: Listen): Promise<Artist> {
+    const { id } = listen;
+    return await this.artistService.findArtistByListenId(id as ListenId);
   }
 
   @ResolveField("song", returns => Song)
-  async song(@Parent() listen: Listen): Promise<any> {
-    console.log(listen, "song");
+  async song(@Parent() listen: Listen): Promise<Song> {
+    const { id } = listen;
+    return await this.songService.findSongByListenId(id as ListenId);
   }
 
   @ResolveField("user", returns => User)
-  async user(@Parent() listen: Listen): Promise<any> {
-    console.log(listen, "user");
+  async user(@Parent() listen: Listen): Promise<User> {
+    const { id } = listen;
+    return await this.userService.findUserByListenId(id as ListenId);
   }
-
-  // find listen and allow to get song / artist / user for that listen
-
 }

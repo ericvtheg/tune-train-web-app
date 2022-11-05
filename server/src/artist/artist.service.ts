@@ -2,6 +2,7 @@ import type { Opaque } from 'type-fest';
 import { Injectable } from '@nestjs/common';
 import { ArtistRepository, ArtistEntity } from 'src/artist/artist.repository';
 import { SongId } from "src/song/song.service";
+import { ListenId } from "src/listen/listen.service";
 
 
 export type ArtistId = Opaque<string, "ArtistId">;
@@ -30,6 +31,11 @@ export class ArtistService {
 
   async findArtistBySongId(songId: SongId): Promise<Artist> {
     const artistEntity = await this.artistRepository.findOneBySongId(songId);
+    return artistEntity ? transform(artistEntity) : null;
+  }
+
+  async findArtistByListenId(listenId: ListenId): Promise<Artist> {
+    const artistEntity = await this.artistRepository.findOneByListenId(listenId);
     return artistEntity ? transform(artistEntity) : null;
   }
 

@@ -4,6 +4,7 @@ import { UserId } from "src/user/user.service";
 import { ArtistId } from "src/artist/artist.service";
 import { SongEntity, SongRepository } from 'src/song/song.repository';
 import { FileStorageService, DownloadLink } from 'src/common/services/file-storage/file-storage.service';
+import { ListenId } from "src/listen/listen.service";
 
 export type SongId = Opaque<string, "SongId">;
 
@@ -30,13 +31,19 @@ export class SongService {
 
     // createSong
   
-    async findSongById(id: SongId): Promise<Song> {
+  async findSongById(id: SongId): Promise<Song> {
     const songEntity = await this.songRepository.findOneById(id);
     return songEntity ? transform(songEntity) : null;
   }
 
+  async findSongByListenId(listenId: ListenId): Promise<Song> {
+    const songEntity = await this.songRepository.findOneByListenId(listenId);
+    return songEntity ? transform(songEntity) : null;
+  }
+
+
   async findUnheardSong(userId: UserId): Promise<Song> {
-    const songEntity = await this.songRepository.findSongWithNoListensFromUser(userId);
+    const songEntity = await this.songRepository.findOneWithNoListensFromUser(userId);
     return songEntity ? transform(songEntity) : null;
   }
 

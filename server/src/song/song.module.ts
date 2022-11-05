@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { SongRepository } from "src/song/song.repository"
 import { SongService } from "src/song/song.service";
 import { SongResolver } from "src/song/song.resolver";
@@ -9,8 +9,8 @@ import { FileStorageModule } from "src/common/services/file-storage/file-storage
 
 @Module({
   imports: [
-    ListenModule,
-    ArtistModule,
+    forwardRef(() => ListenModule),
+    forwardRef(() => ArtistModule),
     // TODO anyway to fetch config value instead of just passing the path?
     FileStorageModule.register("fileStorage.songsBucket")
   ],
