@@ -44,6 +44,8 @@ export class ListenService {
     return listenEntities.map(listenEntity => transform(listenEntity));
   }
 
-  // find artist listens
-
+  async findArtistListens(artistId: ArtistId): Promise<Listen[]> {
+    const listenEntities = await this.listenRepository.findArtistListens(artistId);
+    return listenEntities.map(listenEntity => transform(listenEntity));
+  }
 }

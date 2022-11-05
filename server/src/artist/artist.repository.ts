@@ -15,14 +15,6 @@ export class ArtistRepository {
   }
 
   async findOneBySongId(songId: SongId): Promise<ArtistEntity> {
-    return await this.prisma.artist.findFirst({ 
-      where: { 
-        songs: {
-          some: {
-            id: songId
-          }
-        }
-      }
-    })
+    return await this.prisma.song.findUnique({ where: { id: songId} } ).artist();
   }
 }

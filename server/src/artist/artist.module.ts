@@ -2,8 +2,10 @@ import { Module } from '@nestjs/common';
 import { ArtistResolver } from 'src/artist/artist.resolver';
 import { ArtistService } from 'src/artist/artist.service';
 import { ArtistRepository } from 'src/artist/artist.repository';
+import{ ListenModule } from 'src/listen/listen.module';
 
 @Module({
+  imports: [ListenModule],
   providers: [ArtistResolver, ArtistService, ArtistRepository],
   exports: [ArtistService],
 })
