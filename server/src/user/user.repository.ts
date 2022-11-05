@@ -4,7 +4,6 @@ import { Injectable } from '@nestjs/common';
 import { User } from "@prisma/client";
 import { ListenId } from "src/listen/listen.service";
 
-
 export type UserEntity = User;
 
 @Injectable()
@@ -20,6 +19,6 @@ export class UserRepository {
   }
 
   async findOneByListenId(listenId: ListenId): Promise<UserEntity> {
-    return await this.prisma.listen.findUnique({where: { id: listenId }}).user();
+    return await this.prisma.listen.findUnique({ where: { id: listenId }}).user();
   }
 }

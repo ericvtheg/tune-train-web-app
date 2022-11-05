@@ -41,6 +41,10 @@ export class SongService {
     return songEntity ? transform(songEntity) : null;
   }
 
+  async findArtistSongs(artistId: ArtistId): Promise<Song[]> {
+    const songEntities = await this.songRepository.findManyByArtistId(artistId);
+    return songEntities.map(songEntities => transform(songEntities));
+  }
 
   async findUnheardSong(userId: UserId): Promise<Song> {
     const songEntity = await this.songRepository.findOneWithNoListensFromUser(userId);
