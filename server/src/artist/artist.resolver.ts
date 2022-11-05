@@ -19,14 +19,14 @@ export class ArtistResolver {
     return await this.artistService.findArtistById(id);
   }
 
-  @ResolveField("listens")
+  @ResolveField("listens", returns => [Listen])
   async listens(@Parent() artist: Artist): Promise<Listen[]> {
     const { id } = artist;
     return await this.listenService.findArtistListens(id as ArtistId);
   }
 
   // songs
-  @ResolveField("songs")
+  @ResolveField("songs", returns => [Song])
   async songs(@Parent() artist: Artist): Promise<Song[]> {
     const { id } = artist;
     return await this.songService.findArtistSongs(id as ArtistId);

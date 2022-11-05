@@ -25,7 +25,7 @@ export class SongResolver {
       return await this.songService.findUnheardSong(userId);
     }
 
-    @ResolveField("downloadLink")
+    @ResolveField("downloadLink", returns => String)
     async downloadLink(@Parent() song: Song): Promise<string>{
       const { id } = song;
       return await this.songService.getSongDownloadLink(id as SongId);

@@ -17,6 +17,8 @@ export class ListenResolver {
     private userService: UserService,
   ) {}
 
+  // getLikedLink (presigned sqs url)
+
   @Query(returns => Listen)
   async listen(@Args('id') id: ListenId): Promise<Listen>{
     return await this.listenService.findListenById(id);

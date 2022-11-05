@@ -14,7 +14,6 @@ interface User {
   isArtist: boolean;
 }
 
-/** Transforms db User entity to service layer User interface */
 const transform = (entity: UserEntity): User => ({
   id: entity.id as UserId,
   username: entity.username,

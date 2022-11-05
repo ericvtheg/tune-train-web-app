@@ -11,7 +11,6 @@ import { PrismaModule } from 'nestjs-prisma';
 
 @Module({
   imports: [
-    // TODO move validationSchema out of app.module
     PrismaModule.forRoot({
       isGlobal: true,
       prismaServiceOptions: {
