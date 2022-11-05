@@ -13,20 +13,18 @@ export class ListenRepository {
   constructor(private prisma: PrismaService) {}
 
   async findOneById(id: ListenId): Promise<ListenEntity> {
-    return await this.prisma.listen.findUnique({
-      where: { id }
-    });
+    return await this.prisma.listen.findUnique({ where: { id }});
   }
 
   async findManyByUserId(userId: UserId): Promise<ListenEntity[]> {
-    return await this.prisma.listen.findMany({ where: { user_id: userId }});
+    return await this.prisma.user.findUnique({ where: { id: userId }}).listens();
   }
 
   async findManyBySongId(songId: SongId): Promise<ListenEntity[]> {
-    return await this.prisma.listen.findMany({ where: { song_id: songId }});
+    return await this.prisma.song.findUnique({ where: { id: songId }}).listens();
   } 
 
   async findManyByArtistId(artistId: ArtistId): Promise<ListenEntity[]> {
-    return await this.prisma.listen.findMany({ where: { artist_id: artistId }});
+    return await this.prisma.artist.findUnique({ where: { id: artistId }}).listens();
   }
 }

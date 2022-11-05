@@ -28,6 +28,8 @@ export class ListenService {
   constructor(private listenRepository: ListenRepository) {}
 
   // createListen
+  // would like this to be called by some sort of queue service
+  // see what nestjs offers out of the box
 
   async findListenById(id: ListenId): Promise<Listen> {
     const listenEntity = await this.listenRepository.findOneById(id);
