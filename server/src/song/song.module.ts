@@ -5,14 +5,18 @@ import { SongResolver } from "src/song/song.resolver";
 import { ListenModule } from 'src/listen/listen.module';
 import { ArtistModule } from "src/artist/artist.module";
 import { FileStorageModule } from "src/common/services/file-storage/file-storage.module";
+import { ConfigService } from '@nestjs/config';
 
 
 @Module({
   imports: [
     forwardRef(() => ListenModule),
     forwardRef(() => ArtistModule),
-    // TODO anyway to fetch config value instead of just passing the path?
-    FileStorageModule.register("fileStorage.songsBucket")
+    FileStorageModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => 
+        configService.get<string>("fileStorage.songsBucket")
+    })
   ],
   providers: [
     SongResolver, 

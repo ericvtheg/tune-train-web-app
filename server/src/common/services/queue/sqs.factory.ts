@@ -1,15 +1,14 @@
-import { S3 } from 'aws-sdk';
+import { SQS } from 'aws-sdk';
 import { ConfigService } from '@nestjs/config';
 import { FactoryProvider } from '@nestjs/common';
 
-export const S3FactoryProvider: FactoryProvider<S3> = {
-  provide: S3,
+export const SqsFactoryProvider: FactoryProvider<SQS> = {
+  provide: SQS,
   inject: [ConfigService],
   useFactory: (configService: ConfigService) => {
     const stage = configService.get<string>('stage');
-    return new S3({
+    return new SQS({
       region: configService.get<string>('region'),
-      s3ForcePathStyle: stage === 'local',
       endpoint: stage === 'local' ? 'http://localhost:4566' : null,
     });
   },
