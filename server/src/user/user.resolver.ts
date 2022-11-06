@@ -6,7 +6,7 @@ import { ArtistService, ArtistId } from 'src/artist/artist.service';
 import { Listen } from 'src/listen/listen.model';
 import { ListenService } from 'src/listen/listen.service';
 
-@Resolver(of => User)
+@Resolver(() => User)
 export class UserResolver {
   constructor(
     private userService: UserService,
@@ -15,12 +15,12 @@ export class UserResolver {
   ) {}
 
   @Query(returns => User,  { nullable: true })
-  async user(@Args('id') id: UserId): Promise<User> {
+  async user(@Args('id') id: UserId): Promise<User | null> {
     return await this.userService.findUserById(id);
   }
 
   @ResolveField('artist', returns => Artist)
-  async artist(@Parent() user: User): Promise<Artist> {
+  async artist(@Parent() user: User): Promise<Artist | null> {
     const { id } = user;
     return await this.artistService.findArtistById(id as ArtistId);
   }

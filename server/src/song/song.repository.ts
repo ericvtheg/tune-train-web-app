@@ -12,16 +12,16 @@ export type SongEntity = Song;
 export class SongRepository {
   constructor(private prisma: PrismaService) {}
   
-  async findOneById(id: SongId): Promise<SongEntity> {
+  async findOneById(id: SongId): Promise<SongEntity | null> {
     return await this.prisma.song.findUnique({ where: { id } })
   }
 
-  async findOneByListenId(listenId: ListenId): Promise<SongEntity> {
+  async findOneByListenId(listenId: ListenId): Promise<SongEntity | null> {
     return await this.prisma.listen.findUnique({ where: { id: listenId }}).song();
   }
 
   async findManyByArtistId(artistId: ArtistId): Promise<SongEntity[]> {
-    return await this.prisma.artist.findUnique({ where: { id: artistId }}).songs();
+    return await this.prisma.artist.findUnique({ where: { id: artistId }}).songs() ?? [];
   }
 
   async findOneWithNoListensFromUser(userId: UserId): Promise<SongEntity> {

@@ -10,7 +10,7 @@ export const S3FactoryProvider: FactoryProvider<S3> = {
     return new S3({
       region: configService.get<string>('region'),
       s3ForcePathStyle: stage === 'local',
-      endpoint: stage === 'local' ? 'http://localhost:4566' : null,
+      endpoint: stage === 'local' ? 'http://localhost:4566' : undefined,
     });
   },
 };

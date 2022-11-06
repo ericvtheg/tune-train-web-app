@@ -6,7 +6,7 @@ import { Listen } from "src/listen/listen.model";
 import { Song } from "src/song/song.model";
 import { SongService } from "src/song/song.service";
 
-@Resolver(of => Artist)
+@Resolver(() => Artist)
 export class ArtistResolver {
   constructor(
     private artistService: ArtistService,
@@ -15,7 +15,7 @@ export class ArtistResolver {
   ) {}
   
   @Query(returns => Artist,  { nullable: true })
-  async artist(@Args('id') id: ArtistId): Promise<Artist> {
+  async artist(@Args('id') id: ArtistId): Promise<Artist | null> {
     return await this.artistService.findArtistById(id);
   }
 

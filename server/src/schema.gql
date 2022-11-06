@@ -45,8 +45,8 @@ type User {
 
 type Query {
   song(id: String!): Song
-  findUnheardSong(userId: String!): Song!
-  listen(id: String!): Listen!
+  findUnheardSong(userId: String!): Song
+  listen(id: String!): Listen
   artist(id: String!): Artist
   user(id: String!): User
 }

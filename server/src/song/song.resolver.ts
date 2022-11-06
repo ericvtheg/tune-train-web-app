@@ -7,7 +7,7 @@ import { UserId } from "src/user/user.service";
 import { Listen } from 'src/listen/listen.model';
 import { ListenService } from 'src/listen/listen.service';
 
-@Resolver(of => Song)
+@Resolver(() => Song)
 export class SongResolver {
   constructor(
     private songService: SongService,
@@ -16,12 +16,12 @@ export class SongResolver {
   ) {}
 
     @Query(returns => Song,  { nullable: true })
-    async song(@Args('id') id: SongId): Promise<Song> {
+    async song(@Args('id') id: SongId): Promise<Song | null> {
       return await this.songService.findSongById(id);
     }
 
-    @Query(returns => Song)
-    async findUnheardSong(@Args('userId') userId: UserId): Promise<Song> {
+    @Query(returns => Song, { nullable: true })
+    async findUnheardSong(@Args('userId') userId: UserId): Promise<Song | null> {
       return await this.songService.findUnheardSong(userId);
     }
 
@@ -38,7 +38,7 @@ export class SongResolver {
     }
 
     @ResolveField("artist", returns => Artist)
-    async artist(@Parent() song: Song): Promise<Artist> {
+    async artist(@Parent() song: Song): Promise<Artist | null> {
       const { id } = song;
       return await this.artistService.findArtistBySongId(id as SongId);
     }

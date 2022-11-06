@@ -10,15 +10,15 @@ export type UserEntity = User;
 export class UserRepository {
   constructor(private prisma: PrismaService) {}
 
-  async findOneById(id: UserId): Promise<UserEntity> {
+  async findOneById(id: UserId): Promise<UserEntity | null> {
     return await this.prisma.user.findUnique({ where: { id } })
   }
 
-  async findOneByEmail(email: string): Promise<UserEntity> {
+  async findOneByEmail(email: string): Promise<UserEntity | null> {
     return await this.prisma.user.findUnique({ where: { email } })
   }
 
-  async findOneByListenId(listenId: ListenId): Promise<UserEntity> {
+  async findOneByListenId(listenId: ListenId): Promise<UserEntity | null> {
     return await this.prisma.listen.findUnique({ where: { id: listenId }}).user();
   }
 }

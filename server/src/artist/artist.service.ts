@@ -24,17 +24,17 @@ const transform = (entity: ArtistEntity): Artist => ({
 export class ArtistService {
   constructor(private artistRepository: ArtistRepository) {}
 
-  async findArtistById(id: ArtistId): Promise<Artist> {
+  async findArtistById(id: ArtistId): Promise<Artist | null> {
     const artistEntity = await this.artistRepository.findOneById(id);
     return artistEntity ? transform(artistEntity) : null;
   }
 
-  async findArtistBySongId(songId: SongId): Promise<Artist> {
+  async findArtistBySongId(songId: SongId): Promise<Artist | null> {
     const artistEntity = await this.artistRepository.findOneBySongId(songId);
     return artistEntity ? transform(artistEntity) : null;
   }
 
-  async findArtistByListenId(listenId: ListenId): Promise<Artist> {
+  async findArtistByListenId(listenId: ListenId): Promise<Artist | null> {
     const artistEntity = await this.artistRepository.findOneByListenId(listenId);
     return artistEntity ? transform(artistEntity) : null;
   }

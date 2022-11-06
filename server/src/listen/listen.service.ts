@@ -12,7 +12,7 @@ interface Listen {
   artistId: ArtistId;
   songId: SongId;
   userId: UserId;
-  liked: boolean | null;
+  liked: boolean;
 }
 
 const transform = (entity: ListenEntity): Listen => ({
@@ -31,7 +31,7 @@ export class ListenService {
   // would like this to be called by some sort of queue service
   // see what nestjs offers out of the box
 
-  async findListenById(id: ListenId): Promise<Listen> {
+  async findListenById(id: ListenId): Promise<Listen | null> {
     const listenEntity = await this.listenRepository.findOneById(id);
     return listenEntity ? transform(listenEntity) : null;
   }

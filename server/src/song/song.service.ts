@@ -31,12 +31,12 @@ export class SongService {
 
     // createSong
   
-  async findSongById(id: SongId): Promise<Song> {
+  async findSongById(id: SongId): Promise<Song | null> {
     const songEntity = await this.songRepository.findOneById(id);
     return songEntity ? transform(songEntity) : null;
   }
 
-  async findListenedToSong(listenId: ListenId): Promise<Song> {
+  async findListenedToSong(listenId: ListenId): Promise<Song | null> {
     const songEntity = await this.songRepository.findOneByListenId(listenId);
     return songEntity ? transform(songEntity) : null;
   }
@@ -46,13 +46,14 @@ export class SongService {
     return songEntities.map(songEntities => transform(songEntities));
   }
 
-  async findUnheardSong(userId: UserId): Promise<Song> {
+  async findUnheardSong(userId: UserId): Promise<Song | null> {
     const songEntity = await this.songRepository.findOneWithNoListensFromUser(userId);
     return songEntity ? transform(songEntity) : null;
   }
 
   async getSongDownloadLink(id: SongId): Promise<DownloadLink> {
-    // determine how to distribute keys in s3 dirs
+    // TODO determine how to distribute keys in s3 dirs
+    // TODO can we make this fail if the item doesn't exist?
     return await this.fileStorageService.generateDownloadLink(id);
   }
 

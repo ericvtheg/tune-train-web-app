@@ -9,7 +9,7 @@ export const SqsFactoryProvider: FactoryProvider<SQS> = {
     const stage = configService.get<string>('stage');
     return new SQS({
       region: configService.get<string>('region'),
-      endpoint: stage === 'local' ? 'http://localhost:4566' : null,
+      endpoint: stage === 'local' ? 'http://localhost:4566' : undefined,
     });
   },
 };

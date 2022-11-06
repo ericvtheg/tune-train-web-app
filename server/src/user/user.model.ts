@@ -16,8 +16,8 @@ export class User {
   @Field(type => String)
   firstName: string;
 
-  @Field({ nullable: true })
-  lastName?: string;
+  @Field(type => String, { nullable: true })
+  lastName: string | null;
 
   @Field(type => Artist, { nullable: true})
   artist?: Artist;
