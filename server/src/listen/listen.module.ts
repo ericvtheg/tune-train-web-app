@@ -7,13 +7,18 @@ import { ArtistModule } from "src/artist/artist.module";
 import { SongModule } from "src/song/song.module";
 import { UserModule } from "src/user/user.module";
 import { QueueModule } from "src/common/services/queue/queue.module";
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     forwardRef(() => ArtistModule), 
     forwardRef(() => SongModule), 
     forwardRef(() => UserModule),
-    QueueModule.register(""),
+    QueueModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => 
+        configService.get<string>("queue.listenQueue.url")
+    }),
   ],
   providers: [
     ListenResolver, 

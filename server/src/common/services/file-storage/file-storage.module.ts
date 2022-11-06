@@ -1,9 +1,8 @@
-import { Module, DynamicModule, ModuleMetadata, Provider, Type } from "@nestjs/common";
+import { Module, DynamicModule, ModuleMetadata, Provider } from "@nestjs/common";
 import { FileStorageService } from 'src/common/services/file-storage/file-storage.service';
 import { S3FactoryProvider } from "src/common/services/file-storage/s3.factory";
 import { S3Repository } from "src/common/services/file-storage/s3.repository";
 import { BUCKET_NAME } from 'src/common/symbols';
-import { ConfigService } from '@nestjs/config';
 
 export interface FileStorageModuleAsyncOptions
   extends Pick<ModuleMetadata, 'imports'> {

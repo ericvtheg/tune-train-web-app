@@ -14,8 +14,8 @@ import { ConfigService } from '@nestjs/config';
     forwardRef(() => ArtistModule),
     FileStorageModule.registerAsync({
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => 
-        configService.get<string>("fileStorage.songsBucket")
+      useFactory: (configService: ConfigService) => 
+        configService.get<string>("fileStorage.songBucket.name")
     })
   ],
   providers: [

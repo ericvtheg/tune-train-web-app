@@ -1,7 +1,14 @@
 export const config = (): Record<string, any> => ({
   appPort: parseInt(process.env.APP_PORT, 10),
   fileStorage: {
-    songsBucket: process.env.SONGS_BUCKET,
+    songBucket: {
+      name: process.env.SONG_BUCKET,
+    },
+  },
+  queue: {
+    listenQueue: {
+      url: process.env.LISTEN_QUEUE_URL,
+    },
   },
   stage: process.env.STAGE,
   database: {
