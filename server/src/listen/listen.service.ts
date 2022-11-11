@@ -32,6 +32,17 @@ export class ListenService {
   // would like this to be called by some sort of queue service
   // see what nestjs offers out of the box
 
+  async createListens(listens: Omit<Listen, 'id'>[]): Promise<void> {
+    // listen should be allowed to be undefined here
+    const listenEntityInputs = listens.map(listen => ({
+      song_id: listen.songId,
+      artist_id: listen.artistId,
+      user_id: listen.userId,
+      liked: listen.liked,
+    }));
+    return await this.listenRepository.saveMany(listenEntityInputs);
+  }
+
   async findListenById(id: ListenId): Promise<Listen | null> {
     const listenEntity = await this.listenRepository.findOneById(id);
     return listenEntity ? transform(listenEntity) : null;

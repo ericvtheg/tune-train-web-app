@@ -1,5 +1,5 @@
 import { Module, forwardRef } from '@nestjs/common';
-import { ListenConsumer } from 'src/listen/listen.consumer';
+import { ListenQueue } from 'src/listen/listen.queue';
 import { ListenResolver } from 'src/listen/listen.resolver';
 import { ListenService } from 'src/listen/listen.service';
 import { ListenRepository } from 'src/listen/listen.repository';
@@ -26,7 +26,7 @@ import { ConfigService } from '@nestjs/config';
     ListenResolver,
     ListenService,
     ListenRepository,
-    ListenConsumer,
+    ListenQueue,
   ],
   exports: [ListenService],
 })

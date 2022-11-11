@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
-import { Listen } from '@prisma/client';
+import { Listen, Prisma } from '@prisma/client';
 import { UserId } from 'src/user/user.service';
 import { SongId } from 'src/song/song.service';
 import { ArtistId } from 'src/artist/artist.service';
@@ -12,7 +12,10 @@ export type ListenEntity = Listen;
 export class ListenRepository {
   constructor(private prisma: PrismaService) {}
 
-  // async saveMany(listens: )
+  async saveMany(listens: Prisma.ListenCreateManyInput[]): Promise<void> {
+    // can't upsert with createMany currently...
+    await this.prisma.listen.createMany({ data: listens });
+  }
 
   async findOneById(id: ListenId): Promise<ListenEntity | null> {
     return await this.prisma.listen.findUnique({ where: { id } });

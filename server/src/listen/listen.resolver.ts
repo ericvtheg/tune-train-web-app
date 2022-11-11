@@ -1,8 +1,9 @@
 import { Resolver, Query, Args, ResolveField, Parent, Mutation } from '@nestjs/graphql';
 import { Listen, ListenToSongInput } from 'src/listen/listen.model';
-import { UserService } from 'src/user/user.service';
+import { UserId, UserService } from 'src/user/user.service';
 import { User } from 'src/user/user.model';
 import { ListenService, ListenId } from 'src/listen/listen.service';
+import { ListenQueue } from 'src/listen/listen.queue';
 import { Song } from 'src/song/song.model';
 import { SongService } from 'src/song/song.service';
 import { Artist } from 'src/artist/artist.model';
@@ -12,6 +13,7 @@ import { ArtistService } from 'src/artist/artist.service';
 export class ListenResolver {
   constructor(
     private listenService: ListenService,
+    private listenQueue: ListenQueue,
     private artistService: ArtistService,
     private songService: SongService,
     private userService: UserService,
@@ -20,7 +22,8 @@ export class ListenResolver {
   @Mutation(returns => Boolean)
   async listenToSong(@Args('listenToSongData') listenToSongData: ListenToSongInput): Promise<boolean> {
     // pull userId off auth token
-    // add to queue
+    const message = { userId: 'someUserId' as UserId, ...listenToSongData };
+    await this.listenQueue.produceListenMessage(message);
     return true;
     // what to return here
   }
