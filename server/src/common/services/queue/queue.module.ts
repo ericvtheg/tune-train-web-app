@@ -1,7 +1,7 @@
-import { Module, DynamicModule, ModuleMetadata, Provider, } from "@nestjs/common";
-import { QueueService } from "src/common/services/queue/queue.service";
-import { SqsFactoryProvider } from "src/common/services/queue/sqs.factory";
-import { SqsRepository } from "src/common/services/queue/sqs.repository";
+import { Module, DynamicModule, ModuleMetadata, Provider } from '@nestjs/common';
+import { QueueService } from 'src/common/services/queue/queue.service';
+import { SqsFactoryProvider } from 'src/common/services/queue/sqs.factory';
+import { SqsRepository } from 'src/common/services/queue/sqs.repository';
 import { QUEUE_URL } from 'src/common/symbols';
 
 export interface QueueModuleAsyncOptions
@@ -21,13 +21,13 @@ export class QueueModule {
       imports: options.imports,
       providers: [
         ...this.createAsyncProviders(options),
-        QueueService, 
-        SqsFactoryProvider, 
+        QueueService,
+        SqsFactoryProvider,
         SqsRepository,
         ...(options.extraProviders || []),
       ],
       exports: [QueueService],
-    }
+    };
   }
 
   private static createAsyncProviders(
@@ -39,10 +39,10 @@ export class QueueModule {
   private static createAsyncOptionsProvider(
     options: QueueModuleAsyncOptions,
   ): Provider {
-      return {
-        provide: QUEUE_URL,
-        useFactory: options.useFactory,
-        inject: options.inject || [],
-      };
+    return {
+      provide: QUEUE_URL,
+      useFactory: options.useFactory,
+      inject: options.inject || [],
+    };
   }
 }

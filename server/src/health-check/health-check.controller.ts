@@ -8,6 +8,6 @@ export class HealthCheckController {
   @Public()
   @Get()
   async healthCheck(): Promise<string>{
-    return "healthy";
-  } 
+    return 'healthy';
+  }
 }

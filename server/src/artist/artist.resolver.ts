@@ -1,10 +1,10 @@
 import { Query, Resolver, Args, ResolveField, Parent } from '@nestjs/graphql';
-import { Artist } from "src/artist/artist.model";
-import { ArtistService, ArtistId } from "src/artist/artist.service";
-import { ListenService } from "src/listen/listen.service";
-import { Listen } from "src/listen/listen.model";
-import { Song } from "src/song/song.model";
-import { SongService } from "src/song/song.service";
+import { Artist } from 'src/artist/artist.model';
+import { ArtistService, ArtistId } from 'src/artist/artist.service';
+import { ListenService } from 'src/listen/listen.service';
+import { Listen } from 'src/listen/listen.model';
+import { Song } from 'src/song/song.model';
+import { SongService } from 'src/song/song.service';
 
 @Resolver(() => Artist)
 export class ArtistResolver {
@@ -13,20 +13,20 @@ export class ArtistResolver {
     private listenService: ListenService,
     private songService: SongService,
   ) {}
-  
-  @Query(returns => Artist,  { nullable: true })
+
+  @Query(returns => Artist, { nullable: true })
   async artist(@Args('id') id: ArtistId): Promise<Artist | null> {
     return await this.artistService.findArtistById(id);
   }
 
-  @ResolveField("listens", returns => [Listen])
+  @ResolveField('listens', returns => [Listen])
   async listens(@Parent() artist: Artist): Promise<Listen[]> {
     const { id } = artist;
     return await this.listenService.findArtistListens(id as ArtistId);
   }
 
   // songs
-  @ResolveField("songs", returns => [Song])
+  @ResolveField('songs', returns => [Song])
   async songs(@Parent() artist: Artist): Promise<Song[]> {
     const { id } = artist;
     return await this.songService.findArtistSongs(id as ArtistId);

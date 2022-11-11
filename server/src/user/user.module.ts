@@ -8,6 +8,6 @@ import { ListenModule } from 'src/listen/listen.module';
 @Module({
   imports: [ArtistModule, ListenModule],
   providers: [UserResolver, UserService, UserRepository],
-  exports: [UserService]
+  exports: [UserService],
 })
 export class UserModule {}

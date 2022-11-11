@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Artist } from "src/artist/artist.model";
-import { Listen } from "src/listen/listen.model";
+import { Artist } from 'src/artist/artist.model';
+import { Listen } from 'src/listen/listen.model';
 
 @ObjectType({ description: 'user' })
 export class User {
@@ -19,7 +19,7 @@ export class User {
   @Field(type => String, { nullable: true })
   lastName: string | null;
 
-  @Field(type => Artist, { nullable: true})
+  @Field(type => Artist, { nullable: true })
   artist?: Artist;
 
   // TODO this should be a connection type

@@ -1,9 +1,9 @@
 import type { Opaque } from 'type-fest';
 import { Injectable } from '@nestjs/common';
-import { UserEntity, UserRepository } from "src/user/user.repository";
-import { ListenId } from "src/listen/listen.service";
+import { UserEntity, UserRepository } from 'src/user/user.repository';
+import { ListenId } from 'src/listen/listen.service';
 
-export type UserId = Opaque<string, "UserId">;
+export type UserId = Opaque<string, 'UserId'>;
 interface User {
   id: UserId;
   username: string;
@@ -29,7 +29,7 @@ export class UserService {
   constructor(private userRepository: UserRepository) {}
 
   async findUserById(id: UserId): Promise<User | null> {
-    const userEntity = await this.userRepository.findOneById(id)
+    const userEntity = await this.userRepository.findOneById(id);
     return userEntity ? transform(userEntity) : null;
   }
 
@@ -42,6 +42,6 @@ export class UserService {
     const userEntity = await this.userRepository.findOneByListenId(listenId);
     return userEntity ? transform(userEntity) : null;
   }
-  
+
   // createUser
 }

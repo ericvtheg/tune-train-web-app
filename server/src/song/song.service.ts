@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import type { Opaque } from 'type-fest';
-import { UserId } from "src/user/user.service";
-import { ArtistId } from "src/artist/artist.service";
+import { UserId } from 'src/user/user.service';
+import { ArtistId } from 'src/artist/artist.service';
 import { SongEntity, SongRepository } from 'src/song/song.repository';
 import { FileStorageService, DownloadLink } from 'src/common/services/file-storage/file-storage.service';
-import { ListenId } from "src/listen/listen.service";
+import { ListenId } from 'src/listen/listen.service';
 
-export type SongId = Opaque<string, "SongId">;
+export type SongId = Opaque<string, 'SongId'>;
 
 interface Song {
   id: SongId;
@@ -20,17 +20,17 @@ const transform = (entity: SongEntity): Song => ({
   artistId: entity.artist_id as ArtistId,
   title: entity.title,
   description: entity.description,
-})
+});
 
 @Injectable()
 export class SongService {
   constructor(
     private songRepository: SongRepository,
-    private fileStorageService: FileStorageService
-    ) {}
+    private fileStorageService: FileStorageService,
+  ) {}
 
-    // createSong
-  
+  // createSong
+
   async findSongById(id: SongId): Promise<Song | null> {
     const songEntity = await this.songRepository.findOneById(id);
     return songEntity ? transform(songEntity) : null;

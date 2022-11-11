@@ -1,17 +1,19 @@
 import { NestFactory, Reflector, HttpAdapterHost } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { AppModule } from './app.module';
-import { WrapResponseInterceptor } from './common/interceptors/wrap-response.interceptor';
-import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
+import { AppModule } from 'src/app.module';
+import { WrapResponseInterceptor } from 'src/common/interceptors/wrap-response.interceptor';
+import { TimeoutInterceptor } from 'src/common/interceptors/timeout.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
+import { TransformedConfig, STAGE } from "src/common/config/config";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const config = app.get(ConfigService);
+  // TODO why the heck do I need to pass this generic every dang time
+  const config = app.get(ConfigService<TransformedConfig, true>);
 
-  const stage = config.get<string>('stage');
+  const stage = config.get<STAGE>('stage');
 
   app.useGlobalPipes(
     new ValidationPipe({

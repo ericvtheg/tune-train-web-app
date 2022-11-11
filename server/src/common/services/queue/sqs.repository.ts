@@ -1,4 +1,4 @@
-import { Injectable, Inject } from "@nestjs/common";
+import { Injectable, Inject } from '@nestjs/common';
 import { SQS } from 'aws-sdk';
 import { QUEUE_URL } from 'src/common/symbols';
 
@@ -14,7 +14,7 @@ export class SqsRepository {
       {
         QueueUrl: this.queueUrl,
         MessageBody: body,
-      }
-    ).promise()
+      },
+    ).promise();
   }
 }

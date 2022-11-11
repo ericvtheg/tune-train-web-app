@@ -1,12 +1,13 @@
 import type { Opaque } from 'type-fest';
 import { Injectable } from '@nestjs/common';
 import { ArtistRepository, ArtistEntity } from 'src/artist/artist.repository';
-import { SongId } from "src/song/song.service";
-import { ListenId } from "src/listen/listen.service";
+import { SongId } from 'src/song/song.service';
+import { ListenId } from 'src/listen/listen.service';
 
 
-export type ArtistId = Opaque<string, "ArtistId">;
-interface Artist { 
+export type ArtistId = Opaque<string, 'ArtistId'>;
+
+interface Artist {
   id: ArtistId;
   stageName: string;
   bio: string;

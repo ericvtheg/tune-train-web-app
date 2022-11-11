@@ -1,10 +1,10 @@
-import { Injectable, Inject } from "@nestjs/common";
+import { Injectable, Inject } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
 import { BUCKET_NAME } from 'src/common/symbols';
 import { Opaque } from 'type-fest';
 
-export type UploadLink = Opaque<string, "UploadLink">;
-export type DownloadLink = Opaque<string, "DownloadLink">;
+export type UploadLink = Opaque<string, 'UploadLink'>;
+export type DownloadLink = Opaque<string, 'DownloadLink'>;
 
 
 @Injectable()

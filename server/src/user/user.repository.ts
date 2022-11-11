@@ -1,8 +1,8 @@
 import { PrismaService } from 'nestjs-prisma';
 import { UserId } from 'src/user/user.service';
 import { Injectable } from '@nestjs/common';
-import { User } from "@prisma/client";
-import { ListenId } from "src/listen/listen.service";
+import { User } from '@prisma/client';
+import { ListenId } from 'src/listen/listen.service';
 
 export type UserEntity = User;
 
@@ -11,14 +11,14 @@ export class UserRepository {
   constructor(private prisma: PrismaService) {}
 
   async findOneById(id: UserId): Promise<UserEntity | null> {
-    return await this.prisma.user.findUnique({ where: { id } })
+    return await this.prisma.user.findUnique({ where: { id } });
   }
 
   async findOneByEmail(email: string): Promise<UserEntity | null> {
-    return await this.prisma.user.findUnique({ where: { email } })
+    return await this.prisma.user.findUnique({ where: { email } });
   }
 
   async findOneByListenId(listenId: ListenId): Promise<UserEntity | null> {
-    return await this.prisma.listen.findUnique({ where: { id: listenId }}).user();
+    return await this.prisma.listen.findUnique({ where: { id: listenId } }).user();
   }
 }

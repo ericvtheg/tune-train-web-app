@@ -1,7 +1,7 @@
 import { Injectable, Scope } from '@nestjs/common';
-import { SqsRepository } from "src/common/services/queue/sqs.repository";
+import { SqsRepository } from 'src/common/services/queue/sqs.repository';
 
-@Injectable({scope: Scope.TRANSIENT})
+@Injectable({ scope: Scope.TRANSIENT })
 export class QueueService {
   constructor(private sqsRepository: SqsRepository) {}
 

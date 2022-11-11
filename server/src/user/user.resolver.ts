@@ -11,10 +11,10 @@ export class UserResolver {
   constructor(
     private userService: UserService,
     private artistService: ArtistService,
-    private listenService: ListenService
+    private listenService: ListenService,
   ) {}
 
-  @Query(returns => User,  { nullable: true })
+  @Query(returns => User, { nullable: true })
   async user(@Args('id') id: UserId): Promise<User | null> {
     return await this.userService.findUserById(id);
   }
