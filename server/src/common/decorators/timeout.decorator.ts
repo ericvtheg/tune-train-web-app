@@ -1,5 +1,5 @@
 import { applyDecorators, SetMetadata, UseInterceptors, CustomDecorator } from '@nestjs/common';
-import { TimeoutInterceptor } from '../interceptors/timeout.interceptor';
+import { TimeoutInterceptor } from 'src/common/interceptors/timeout.interceptor';
 
 
 export const REQUEST_TIMEOUT = 'requestTimeout';

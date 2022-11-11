@@ -13,7 +13,7 @@ import {
   TimeoutError,
 } from 'rxjs';
 import { Reflector } from '@nestjs/core';
-import { REQUEST_TIMEOUT } from '../decorators/timeout.decorator';
+import { REQUEST_TIMEOUT } from 'src/common/decorators/timeout.decorator';
 
 @Injectable()
 export class TimeoutInterceptor implements NestInterceptor {
