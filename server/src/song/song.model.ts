@@ -1,11 +1,13 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Artist } from 'src/artist/artist.model';
 import { Listen } from 'src/listen/listen.model';
+import { SongId } from 'src/song/song.service';
+import { DownloadLink } from 'src/common/services/file-storage/file-storage.service';
 
 @ObjectType({ description: 'song' })
 export class Song {
   @Field(type => ID)
-  id: string;
+  id: SongId;
 
   @Field(type => String)
   title: string;
@@ -14,7 +16,7 @@ export class Song {
   description: string;
 
   @Field(type => String)
-  downloadLink?: string;
+  downloadLink?: DownloadLink;
 
   // TODO this should be a connection type
   @Field(type => [Listen], { nullable: 'items' })

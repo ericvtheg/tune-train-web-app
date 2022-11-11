@@ -28,18 +28,18 @@ export class SongResolver {
   @ResolveField('downloadLink', returns => String)
   async downloadLink(@Parent() song: Song): Promise<string>{
     const { id } = song;
-    return await this.songService.getSongDownloadLink(id as SongId);
+    return await this.songService.getSongDownloadLink(id);
   }
 
   @ResolveField('listens', returns => [Listen], { nullable: 'items' })
   async listens(@Parent() song: Song): Promise<Listen[]> {
     const { id } = song;
-    return await this.listenService.findSongListens(id as SongId);
+    return await this.listenService.findSongListens(id);
   }
 
   @ResolveField('artist', returns => Artist)
   async artist(@Parent() song: Song): Promise<Artist | null> {
     const { id } = song;
-    return await this.artistService.findArtistBySongId(id as SongId);
+    return await this.artistService.findArtistBySongId(id);
   }
 }

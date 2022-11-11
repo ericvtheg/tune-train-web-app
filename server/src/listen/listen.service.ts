@@ -28,6 +28,7 @@ export class ListenService {
   constructor(private listenRepository: ListenRepository) {}
 
   // createListen
+  // upsert
   // would like this to be called by some sort of queue service
   // see what nestjs offers out of the box
 

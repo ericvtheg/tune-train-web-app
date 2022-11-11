@@ -14,6 +14,8 @@ export class ArtistResolver {
     private songService: SongService,
   ) {}
 
+  // TODO create artist
+
   @Query(returns => Artist, { nullable: true })
   async artist(@Args('id') id: ArtistId): Promise<Artist | null> {
     return await this.artistService.findArtistById(id);
@@ -22,13 +24,13 @@ export class ArtistResolver {
   @ResolveField('listens', returns => [Listen])
   async listens(@Parent() artist: Artist): Promise<Listen[]> {
     const { id } = artist;
-    return await this.listenService.findArtistListens(id as ArtistId);
+    return await this.listenService.findArtistListens(id);
   }
 
   // songs
   @ResolveField('songs', returns => [Song])
   async songs(@Parent() artist: Artist): Promise<Song[]> {
     const { id } = artist;
-    return await this.songService.findArtistSongs(id as ArtistId);
+    return await this.songService.findArtistSongs(id);
   }
 }

@@ -50,3 +50,13 @@ type Query {
   artist(id: String!): Artist
   user(id: String!): User
 }
+
+type Mutation {
+  listenToSong(listenToSongData: ListenToSongInput!): Boolean!
+}
+
+input ListenToSongInput {
+  songId: ID!
+  artistId: ID!
+  liked: Boolean!
+}

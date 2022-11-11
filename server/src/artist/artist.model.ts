@@ -2,11 +2,12 @@ import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Listen } from 'src/listen/listen.model';
 import { Song } from 'src/song/song.model';
 import { User } from 'src/user/user.model';
+import { ArtistId } from 'src/artist/artist.service';
 
 @ObjectType({ description: 'artist' })
 export class Artist {
   @Field(type => ID)
-  id: string;
+  id: ArtistId;
 
   @Field(type => String)
   stageName: string;

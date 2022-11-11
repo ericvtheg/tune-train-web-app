@@ -14,6 +14,8 @@ export class UserResolver {
     private listenService: ListenService,
   ) {}
 
+  // TODO createUser
+
   @Query(returns => User, { nullable: true })
   async user(@Args('id') id: UserId): Promise<User | null> {
     return await this.userService.findUserById(id);
@@ -22,18 +24,16 @@ export class UserResolver {
   @ResolveField('artist', returns => Artist)
   async artist(@Parent() user: User): Promise<Artist | null> {
     const { id } = user;
-    return await this.artistService.findArtistById(id as ArtistId);
+    return await this.artistService.findArtistByUserId(id);
   }
 
   @ResolveField('listens', returns => [Listen], { nullable: 'items' })
   async listens(@Parent() user: User): Promise<Listen[]> {
     const { id } = user;
-    const listens = await this.listenService.findUserListens(id as UserId);
+    const listens = await this.listenService.findUserListens(id);
     return listens.map(listen => ({
       id: listen.id,
       liked: listen.liked,
     }));
   }
-
-  // createUser ...do I want to implement this with a mutation?
 }
