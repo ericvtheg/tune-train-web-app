@@ -9,6 +9,7 @@ import { UserModule } from 'src/user/user.module';
 import { QueueModule } from 'src/common/services/queue/queue.module';
 import { TransformedConfig } from 'src/common/config/config';
 import { ConfigService } from '@nestjs/config';
+import { SqsModule } from '@ssut/nestjs-sqs';
 
 
 @Module({
@@ -20,6 +21,15 @@ import { ConfigService } from '@nestjs/config';
       inject: [ConfigService],
       useFactory: (configService: ConfigService<TransformedConfig, true>) =>
         configService.get<string>('queue.listenQueue.url', { infer: true }),
+    }),
+    SqsModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService<TransformedConfig, true>) => ({
+        consumers: [{
+          name: 'tune-train-listens-queue-sqs', // TODO use config service here
+          queueUrl: configService.get<string>('queue.listenQueue.url', { infer: true }),
+        }],
+      }),
     }),
   ],
   providers: [

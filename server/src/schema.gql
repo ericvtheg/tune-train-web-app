@@ -52,7 +52,7 @@ type Query {
 }
 
 type Mutation {
-  listenToSong(listenToSongData: ListenToSongInput!): Boolean!
+  listenToSong(listenToSongData: ListenToSongInput!): String!
 }
 
 input ListenToSongInput {

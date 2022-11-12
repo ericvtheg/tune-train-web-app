@@ -48,6 +48,7 @@
     "@nestjs/swagger": "^5.2.0",
     "@nestjs/typeorm": "^8.0.3",
     "@prisma/client": "^4.4.0",
+    "@ssut/nestjs-sqs": "^1.3.0",
     "apollo-server-express": "^3.10.3",
     "aws-sdk": "^2.1178.0",
     "bcrypt": "^5.0.1",

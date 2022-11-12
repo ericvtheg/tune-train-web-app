@@ -15,17 +15,7 @@ async function bootstrap() {
 
   const stage = config.get<STAGE>('stage');
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-      whitelist: true,
-      disableErrorMessages: stage === 'prod',
-      forbidNonWhitelisted: true,
-      transformOptions: {
-        enableImplicitConversion: true,
-      },
-    }),
-  );
+  app.useGlobalPipes();
 
   app.useGlobalInterceptors(
     new WrapResponseInterceptor(),

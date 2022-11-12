@@ -19,13 +19,12 @@ export class ListenResolver {
     private userService: UserService,
   ) {}
 
-  @Mutation(returns => Boolean)
-  async listenToSong(@Args('listenToSongData') listenToSongData: ListenToSongInput): Promise<boolean> {
+  @Mutation(returns => String)
+  async listenToSong(@Args('listenToSongData') listenToSongData: ListenToSongInput): Promise<string> {
     // pull userId off auth token
-    const message = { userId: 'someUserId' as UserId, ...listenToSongData };
+    const message = { userId: 'cl9f53ckr0000r13pf4hdgguy' as UserId, ...listenToSongData };
     await this.listenQueue.produceListenMessage(message);
-    return true;
-    // what to return here
+    return 'Sent to ingestion pipeline';
   }
 
   @Query(returns => Listen, { nullable: true })

@@ -27,19 +27,15 @@ const transform = (entity: ListenEntity): Listen => ({
 export class ListenService {
   constructor(private listenRepository: ListenRepository) {}
 
-  // createListen
-  // upsert
-  // would like this to be called by some sort of queue service
-  // see what nestjs offers out of the box
-
   async createListens(listens: Omit<Listen, 'id'>[]): Promise<void> {
-    // listen should be allowed to be undefined here
+    /* eslint-disable camelcase */
     const listenEntityInputs = listens.map(listen => ({
       song_id: listen.songId,
       artist_id: listen.artistId,
       user_id: listen.userId,
       liked: listen.liked,
     }));
+    /* eslint-enable camelcase */
     return await this.listenRepository.saveMany(listenEntityInputs);
   }
 
