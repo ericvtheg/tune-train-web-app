@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { ArtistId } from 'src/artist/artist.service';
 import { QueueService } from 'src/common/services/queue/queue.service';
 import { ListenService } from 'src/listen/listen.service';
@@ -20,15 +20,17 @@ export class ListenQueue {
     private listenService: ListenService,
   ) {}
 
-  @SqsMessageHandler(/** name: */ 'tune-train-listens-queue-sqs', /** batch: */ true)
+  @SqsMessageHandler(process.env.LISTEN_QUEUE_NAME as string, true)
   async consumeListenMessages(messages: AWS.SQS.Message[]): Promise<void> {
     const listenMessages: ListenMessage[] = [];
     messages.forEach((message) => {
       if (message.Body){
+        // try catch here? if fails throw back on queue with some retry logic thing
         const body: ListenMessage = JSON.parse(message.Body);
         listenMessages.push(body);
       }
     });
+    // want to test that one bad body doesn't break everything here
 
     return await this.listenService.createListens(listenMessages);
   }

@@ -26,7 +26,7 @@ import { SqsModule } from '@ssut/nestjs-sqs';
       inject: [ConfigService],
       useFactory: (configService: ConfigService<TransformedConfig, true>) => ({
         consumers: [{
-          name: 'tune-train-listens-queue-sqs', // TODO use config service here
+          name: configService.get<string>('queue.listenQueue.name', { infer: true }),
           queueUrl: configService.get<string>('queue.listenQueue.url', { infer: true }),
         }],
       }),

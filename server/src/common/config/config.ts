@@ -1,6 +1,5 @@
 import { plainToInstance } from 'class-transformer';
 import { IsEnum, IsUrl, IsString, IsNumber, validateSync } from 'class-validator';
-import { ConfigService } from '@nestjs/config';
 
 export enum STAGE {
   local = 'local',
@@ -40,6 +39,9 @@ class EnvironmentVariables {
   LISTEN_QUEUE_URL: string;
 
   @IsString()
+  LISTEN_QUEUE_NAME: string;
+
+  @IsString()
   AWS_REGION: string;
 
   @IsString()
@@ -65,6 +67,7 @@ export interface TransformedConfig {
   queue: {
     listenQueue: {
       url: string;
+      name: string;
     }
   }
   stage: STAGE;
@@ -87,7 +90,7 @@ export interface TransformedConfig {
   }
 }
 
-export const validate = (config: Record<string, unknown>) => {
+export const validate = (config: Record<string, unknown>): EnvironmentVariables => {
   const validatedConfig = plainToInstance(
     EnvironmentVariables,
     config,
@@ -111,6 +114,7 @@ export const loader = (): TransformedConfig => ({
   queue: {
     listenQueue: {
       url: process.env.LISTEN_QUEUE_URL as string,
+      name: process.env.LISTEN_QUEUE_NAME as string,
     },
   },
   stage: process.env.STAGE as unknown as STAGE,

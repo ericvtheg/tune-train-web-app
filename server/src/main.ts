@@ -15,7 +15,7 @@ async function bootstrap() {
 
   const stage = config.get<STAGE>('stage');
 
-  app.useGlobalPipes();
+  // app.useGlobalPipes();
 
   app.useGlobalInterceptors(
     new WrapResponseInterceptor(),

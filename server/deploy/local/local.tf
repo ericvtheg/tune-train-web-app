@@ -13,12 +13,17 @@ provider "aws" {
   }
 }
 
+variable "stage" {
+  type    = string
+  default = "local"
+}
+
 # Create SQS
 resource "aws_sqs_queue" "queue" {
-  name      =   "tune-train-listens-queue-sqs"
+  name      =   "tune-train-listen-sqs-queue-${var.stage}"
 }
 
 ### S3 
 resource "aws_s3_bucket" "tune-train-songs-bucket" {
-  bucket = "tune-train-songs-bucket"
+  bucket = "tune-train-song-bucket-${var.stage}"
 }
