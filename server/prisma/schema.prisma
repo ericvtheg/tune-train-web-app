@@ -52,6 +52,8 @@ model Song {
   artist      Artist   @relation(fields: [artist_id], references: [id])
   listens     Listen[]
 
+  @@unique([artist_id, title], map: "artist_id_title_unique_constraint")
+
   @@map("song")
 }
 
@@ -69,6 +71,8 @@ model Listen {
 
   @@index(song_id)
   @@index(user_id)
+
+  @@unique([song_id, user_id], map: "song_id_user_id_unique_constraint")
 
   @@map("listen")
 }
