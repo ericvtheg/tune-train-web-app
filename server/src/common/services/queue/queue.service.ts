@@ -5,7 +5,7 @@ import { SqsRepository } from 'src/common/services/queue/sqs.repository';
 export class QueueService {
   constructor(private sqsRepository: SqsRepository) {}
 
-  async sendMessage(message: Record<any, any>): Promise<void> {
+  async sendMessage<T>(message: T): Promise<void> {
     await this.sqsRepository.sendMessage(JSON.stringify(message));
   }
 }

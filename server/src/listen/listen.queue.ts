@@ -1,12 +1,12 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ArtistId } from 'src/artist/artist.service';
 import { QueueService } from 'src/common/services/queue/queue.service';
 import { ListenService } from 'src/listen/listen.service';
 import { SongId } from 'src/song/song.service';
 import { UserId } from 'src/user/user.service';
-import { SqsMessageHandler } from '@ssut/nestjs-sqs';
+import { SqsMessageHandler, SqsConsumerEventHandler } from '@ssut/nestjs-sqs';
 
-interface ListenMessage {
+interface ListenBody {
   songId: SongId;
   artistId: ArtistId;
   userId: UserId;
@@ -20,28 +20,42 @@ export class ListenQueue {
     private listenService: ListenService,
   ) {}
 
-  @SqsMessageHandler(process.env.LISTEN_QUEUE_NAME as string, true)
-  async consumeListenMessages(messages: AWS.SQS.Message[]): Promise<void> {
-    const listenMessages: ListenMessage[] = [];
-    messages.forEach((message) => {
-      if (message.Body){
-        // try catch here? if fails throw back on queue with some retry logic thing
-        const body: ListenMessage = JSON.parse(message.Body);
-        listenMessages.push(body);
+  async produceListenMessage(body: ListenBody): Promise<void> {
+    return await this.queueService.sendMessage<ListenBody>(body);
+  }
+
+  @SqsMessageHandler(process.env.LISTEN_QUEUE_NAME as string, false)
+  async consumeListenMessages(message: AWS.SQS.Message): Promise<void> {
+    let listenBody: ListenBody;
+    const body = message.Body;
+    if (body) {
+      try {
+        listenBody = JSON.parse(body);
+      } catch (error) {
+        console.error('Failed to parse listen message body', JSON.stringify(message));
+        throw error;
       }
-    });
-    // want to test that one bad body doesn't break everything here
+    } else {
+      const error = 'Undefined message body in listen queue';
+      console.error(error);
+      throw error;
+    }
 
-    return await this.listenService.createListens(listenMessages);
+    await this.listenService.createListen(listenBody);
   }
 
-  public onProcessingError(error: Error, message: AWS.SQS.Message) {
-    console.log('hit in onProcessingError', error, message);
-    // if error occurs, would like to throw message back on queue
-    // report errors here
+  @SqsConsumerEventHandler(process.env.LISTEN_QUEUE_NAME as string, 'error')
+  public onError(error: Error, message: AWS.SQS.Message): void {
+    console.error('hit in onError', error, JSON.stringify(message));
   }
 
-  async produceListenMessage(message: ListenMessage): Promise<void> {
-    return await this.queueService.sendMessage(message);
+  @SqsConsumerEventHandler(process.env.LISTEN_QUEUE_NAME as string, 'processing_error')
+  public onProcessingError(error: Error, message: AWS.SQS.Message): void {
+    console.error('hit in onProcessingError', error, JSON.stringify(message));
+  }
+
+  @SqsConsumerEventHandler(process.env.LISTEN_QUEUE_NAME as string, 'timeout_error')
+  public onTimeoutError(error: Error, message: AWS.SQS.Message): void {
+    console.error('hit in onTimeoutError', error, JSON.stringify(message));
   }
 }

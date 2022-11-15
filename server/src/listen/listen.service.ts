@@ -6,6 +6,7 @@ import { ArtistId } from 'src/artist/artist.service';
 import { ListenRepository, ListenEntity } from 'src/listen/listen.repository';
 
 export type ListenId = Opaque<string, 'ListenId'>;
+type toBeSavedListen = Omit<Listen, 'id'>;
 
 interface Listen {
   id: ListenId;
@@ -27,16 +28,16 @@ const transform = (entity: ListenEntity): Listen => ({
 export class ListenService {
   constructor(private listenRepository: ListenRepository) {}
 
-  async createListens(listens: Omit<Listen, 'id'>[]): Promise<void> {
+  async createListen(listen: toBeSavedListen): Promise<void> {
     /* eslint-disable camelcase */
-    const listenEntityInputs = listens.map(listen => ({
+    const listenEntityInput = {
       song_id: listen.songId,
       artist_id: listen.artistId,
       user_id: listen.userId,
       liked: listen.liked,
-    }));
+    };
     /* eslint-enable camelcase */
-    return await this.listenRepository.saveMany(listenEntityInputs);
+    return await this.listenRepository.saveOne(listenEntityInput);
   }
 
   async findListenById(id: ListenId): Promise<Listen | null> {
