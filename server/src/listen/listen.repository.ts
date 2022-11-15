@@ -12,9 +12,28 @@ export type ListenEntity = Listen;
 export class ListenRepository {
   constructor(private prisma: PrismaService) {}
 
+  /* eslint-disable camelcase */
   async saveMany(listens: Prisma.ListenCreateManyInput[]): Promise<void> {
-    // can't upsert with createMany currently...
-    await this.prisma.listen.createMany({ data: listens });
+    // TODO figure out how to best handle failed upserts here
+    // would like to put just them back on queue
+    const results = await Promise.allSettled(listens.map(
+      listen => this.prisma.listen.upsert({
+        where: {
+          song_id_user_id: {
+            song_id: listen.song_id,
+            user_id: listen.user_id,
+          },
+        },
+        create: listen,
+        update: {
+          liked: listen.liked,
+        },
+      }),
+    ));
+    const rejected = results.filter(result => result.status === 'rejected');
+    if (rejected.length){
+      console.log('rejected following listen upserts', rejected);
+    }
   }
 
   async findOneById(id: ListenId): Promise<ListenEntity | null> {
