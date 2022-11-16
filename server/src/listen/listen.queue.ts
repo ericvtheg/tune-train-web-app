@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ArtistId } from 'src/artist/artist.service';
 import { QueueService } from 'src/common/services/queue/queue.service';
 import { ListenService } from 'src/listen/listen.service';
@@ -32,12 +32,12 @@ export class ListenQueue {
       try {
         listenBody = JSON.parse(body);
       } catch (error) {
-        console.error('Failed to parse listen message body', JSON.stringify(message));
+        Logger.error('Failed to parse listen message body', JSON.stringify(message));
         throw error;
       }
     } else {
       const error = 'Undefined message body in listen queue';
-      console.error(error);
+      Logger.error(error);
       throw error;
     }
 
@@ -46,16 +46,16 @@ export class ListenQueue {
 
   @SqsConsumerEventHandler(process.env.LISTEN_QUEUE_NAME as string, 'error')
   public onError(error: Error, message: AWS.SQS.Message): void {
-    console.error('hit in onError', error, JSON.stringify(message));
+    Logger.error('hit in onError', error, JSON.stringify(message));
   }
 
   @SqsConsumerEventHandler(process.env.LISTEN_QUEUE_NAME as string, 'processing_error')
   public onProcessingError(error: Error, message: AWS.SQS.Message): void {
-    console.error('hit in onProcessingError', error, JSON.stringify(message));
+    Logger.error('hit in onProcessingError', error, JSON.stringify(message));
   }
 
   @SqsConsumerEventHandler(process.env.LISTEN_QUEUE_NAME as string, 'timeout_error')
   public onTimeoutError(error: Error, message: AWS.SQS.Message): void {
-    console.error('hit in onTimeoutError', error, JSON.stringify(message));
+    Logger.error('hit in onTimeoutError', error, JSON.stringify(message));
   }
 }

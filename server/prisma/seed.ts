@@ -11,35 +11,35 @@ async function main() {
     data: {
       email: randEmail(),
       username: randUserName(),
-      password: "somePassword",
-      first_name: "Firstname",
-      last_name: "Lastname",
+      password: 'somePassword',
+      first_name: 'Firstname',
+      last_name: 'Lastname',
       artist: {
         create: {
-          stage_name: "Some Stage Name",
-          bio: "some bio",
-          image: "someimageurl.com/image"
-        }
+          stage_name: 'Some Stage Name',
+          bio: 'some bio',
+          image: 'someimageurl.com/image',
+        },
       },
-    }
+    },
   });
-  
+
   const user = await prisma.user.create({
     data: {
       email: randEmail(),
       username: randUserName(),
-      password: "somePassword",
-      first_name: "Firstname",
-      last_name: "Lastname",
-    }
+      password: 'somePassword',
+      first_name: 'Firstname',
+      last_name: 'Lastname',
+    },
   });
 
   const song = await prisma.song.create({
     data: {
-      title: "Song Title",
-      description: "Song Description",
-      artist_id: artist.id
-    }
+      title: 'Song Title',
+      description: 'Song Description',
+      artist_id: artist.id,
+    },
   });
 
   await prisma.listen.create({
@@ -48,7 +48,7 @@ async function main() {
       song_id: song.id,
       user_id: user.id,
       artist_id: artist.id,
-    }
+    },
   });
 
   console.log('Seeding...');

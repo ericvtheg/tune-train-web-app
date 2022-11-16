@@ -55,7 +55,6 @@ module.exports = {
   rules: {
     // JS/TS RULES
     quotes: ['error', 'single'],
-    camelcase: 'error',
     'max-len': ['error', { 'code': 120 }],
     'no-else-return': 1,
     'no-irregular-whitespace': 'error',

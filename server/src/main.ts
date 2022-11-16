@@ -1,5 +1,4 @@
 import { NestFactory, Reflector, HttpAdapterHost } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from 'src/app.module';
 import { WrapResponseInterceptor } from 'src/common/interceptors/wrap-response.interceptor';
 import { TimeoutInterceptor } from 'src/common/interceptors/timeout.interceptor';
@@ -9,7 +8,9 @@ import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
 import { TransformedConfig, STAGE } from "src/common/config/config";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['error', 'warn', 'log'],
+  });
   // TODO why the heck do I need to pass this generic every dang time
   const config = app.get(ConfigService<TransformedConfig, true>);
 

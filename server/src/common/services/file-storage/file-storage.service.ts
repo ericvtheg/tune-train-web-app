@@ -10,12 +10,10 @@ export class FileStorageService {
   constructor(private s3Repository: S3Repository) {}
 
   async generateDownloadLink(key: string): Promise<DownloadLink> {
-    // TODO figure out why opaque types are compatible with string here
-    return await this.s3Repository.generateDownloadLink(key);
+    return await this.s3Repository.generateDownloadLink(key) as DownloadLink;
   }
 
   async generateUploadLink(key: string): Promise<UploadLink> {
-    // TODO figure out why opaque types are compatible with string here
-    return await this.s3Repository.generateUploadLink(key);
+    return await this.s3Repository.generateUploadLink(key) as UploadLink;
   }
 }

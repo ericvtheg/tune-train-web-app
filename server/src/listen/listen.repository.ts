@@ -12,7 +12,6 @@ export type ListenEntity = Listen;
 export class ListenRepository {
   constructor(private prisma: PrismaService) {}
 
-  /* eslint-disable camelcase */
   async saveOne(listen: Prisma.ListenUncheckedCreateInput): Promise<void> {
     await this.prisma.listen.upsert({
       where: {

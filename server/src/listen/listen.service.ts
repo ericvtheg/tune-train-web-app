@@ -29,14 +29,12 @@ export class ListenService {
   constructor(private listenRepository: ListenRepository) {}
 
   async createListen(listen: toBeSavedListen): Promise<void> {
-    /* eslint-disable camelcase */
     const listenEntityInput = {
       song_id: listen.songId,
       artist_id: listen.artistId,
       user_id: listen.userId,
       liked: listen.liked,
     };
-    /* eslint-enable camelcase */
     return await this.listenRepository.saveOne(listenEntityInput);
   }
 

@@ -3,6 +3,7 @@ import {
   ExecutionContext,
   Injectable,
   NestInterceptor,
+  Logger,
 } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 
@@ -13,7 +14,7 @@ export class WrapResponseInterceptor implements NestInterceptor {
     const now = Date.now();
     return next.handle().pipe(
       tap((value) =>
-        console.log({
+        Logger.log({
           duration: `${name}: ${Date.now() - now}ms`,
           data: value,
         }),
