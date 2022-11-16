@@ -4,6 +4,9 @@ import { UserEntity, UserRepository } from 'src/user/user.repository';
 import { ListenId } from 'src/listen/listen.service';
 
 export type UserId = Opaque<string, 'UserId'>;
+type toBeSavedUser = Omit<User, 'id'>;
+type updateUser = Partial<Omit<User, 'id' | 'email'>>;
+
 interface User {
   id: UserId;
   username: string;
@@ -27,6 +30,25 @@ const transform = (entity: UserEntity): User => ({
 @Injectable()
 export class UserService {
   constructor(private userRepository: UserRepository) {}
+
+  async createUser(user: toBeSavedUser): Promise<User> {
+    const userEntityInput = {
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      first_name: user.firstName,
+      last_name: user.lastName,
+      is_artist: user.isArtist,
+    };
+    const userEntity = await this.userRepository.saveOne(userEntityInput);
+    return transform(userEntity);
+  }
+
+  async updateUser(id: UserId, partialUser: updateUser): Promise<User> {
+    const userEntity = await this.userRepository.updateOne(id, partialUser);
+    return transform(userEntity);
+
+  }
 
   async findUserById(id: UserId): Promise<User | null> {
     const userEntity = await this.userRepository.findOneById(id);
