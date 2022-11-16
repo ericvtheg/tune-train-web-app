@@ -16,9 +16,9 @@ type Song {
 type Listen {
   id: ID!
   artist: Artist!
+  user: User!
   song: Song!
   liked: Boolean!
-  user: User!
 }
 
 """artist"""
@@ -53,10 +53,29 @@ type Query {
 
 type Mutation {
   listenToSong(listenToSongData: ListenToSongInput!): String!
+  createUser(createUserData: CreateUserInput!): User!
+  updateUser(updateUserData: UpdateUserInput!): User!
 }
 
 input ListenToSongInput {
   songId: ID!
   artistId: ID!
   liked: Boolean!
+}
+
+input CreateUserInput {
+  username: String!
+  password: String!
+  email: String!
+  firstName: String!
+  lastName: String
+  isArtist: Boolean = false
+}
+
+input UpdateUserInput {
+  username: String!
+  password: String!
+  firstName: String!
+  lastName: String
+  isArtist: Boolean = false
 }

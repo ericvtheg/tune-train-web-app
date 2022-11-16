@@ -28,14 +28,15 @@ const transform = (entity: ListenEntity): Listen => ({
 export class ListenService {
   constructor(private listenRepository: ListenRepository) {}
 
-  async createListen(listen: toBeSavedListen): Promise<void> {
+  async createListen(listen: toBeSavedListen): Promise<Listen > {
     const listenEntityInput = {
       song_id: listen.songId,
       artist_id: listen.artistId,
       user_id: listen.userId,
       liked: listen.liked,
     };
-    return await this.listenRepository.saveOne(listenEntityInput);
+    const listenEntity = await this.listenRepository.saveOne(listenEntityInput);
+    return transform(listenEntity);
   }
 
   async findListenById(id: ListenId): Promise<Listen | null> {

@@ -4,17 +4,19 @@ import { Song } from 'src/song/song.model';
 import { ListenId } from 'src/listen/listen.service';
 import { SongId } from 'src/song/song.service';
 import { ArtistId } from 'src/artist/artist.service';
+import { User } from 'src/user/user.model';
 
 @ObjectType({ description: 'listen' })
 export class Listen {
   @Field(type => ID)
   id: ListenId;
 
-  // do I need this? I can always find artist through song? This even affected my DB schema
+  // TODO do I need this? I can always find artist through song? This even affected my DB schema
   @Field(type => Artist)
   artist?: Artist;
 
-  // what about user?
+  @Field(type => User)
+  user?: User;
 
   @Field(type => Song)
   song?: Song;
@@ -30,8 +32,6 @@ export class ListenToSongInput {
 
   @Field(type => ID)
   artistId: ArtistId;
-
-  // userId here?
 
   @Field(type => Boolean)
   liked: boolean;

@@ -12,8 +12,8 @@ export type ListenEntity = Listen;
 export class ListenRepository {
   constructor(private prisma: PrismaService) {}
 
-  async saveOne(listen: Prisma.ListenUncheckedCreateInput): Promise<void> {
-    await this.prisma.listen.upsert({
+  async saveOne(listen: Prisma.ListenUncheckedCreateInput): Promise<ListenEntity> {
+    return await this.prisma.listen.upsert({
       where: {
         song_id_user_id: {
           song_id: listen.song_id,
