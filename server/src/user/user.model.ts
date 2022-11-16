@@ -44,9 +44,6 @@ export class CreateUserInput {
 
   @Field(type => String, { nullable: true })
   lastName: string | null;
-
-  @Field(type => Boolean, { defaultValue: false })
-  isArtist: boolean;
 }
 
 @InputType()
@@ -62,7 +59,4 @@ export class UpdateUserInput {
 
   @Field(type => String, { nullable: true })
   lastName: string | null;
-
-  @Field(type => Boolean, { defaultValue: false })
-  isArtist: boolean;
 }

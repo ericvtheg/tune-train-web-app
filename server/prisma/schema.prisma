@@ -19,7 +19,7 @@ model User {
   password   String
   first_name String
   last_name  String?
-  is_artist  Boolean  @default(false)
+  artist_id  String?  @unique
   artist     Artist?
   listens    Listen[]
 
@@ -33,9 +33,9 @@ model Artist {
   stage_name String
   bio        String
   image      String
-  user       User     @relation(fields: [id], references: [id])
   songs      Song[]
   listens    Listen[]
+  User       User     @relation(fields: [id], references: [artist_id])
 
   @@map("artist")
 }
@@ -53,7 +53,6 @@ model Song {
   listens     Listen[]
 
   @@unique([artist_id, title], map: "artist_id_title_unique_constraint")
-
   @@map("song")
 }
 
@@ -69,10 +68,8 @@ model Listen {
   song       Song     @relation(fields: [song_id], references: [id])
   artist     Artist   @relation(fields: [artist_id], references: [id])
 
+  @@unique([song_id, user_id], map: "song_id_user_id_unique_constraint")
   @@index(song_id)
   @@index(user_id)
-
-  @@unique([song_id, user_id], map: "song_id_user_id_unique_constraint")
-
   @@map("listen")
 }

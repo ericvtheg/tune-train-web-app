@@ -14,7 +14,6 @@ interface User {
   password: string;
   firstName: string;
   lastName: string | null;
-  isArtist: boolean;
 }
 
 const transform = (entity: UserEntity): User => ({
@@ -24,7 +23,6 @@ const transform = (entity: UserEntity): User => ({
   password: entity.password,
   firstName: entity.first_name,
   lastName: entity.last_name,
-  isArtist: entity.is_artist,
 });
 
 @Injectable()
@@ -38,7 +36,6 @@ export class UserService {
       password: user.password,
       first_name: user.firstName,
       last_name: user.lastName,
-      is_artist: user.isArtist,
     };
     const userEntity = await this.userRepository.saveOne(userEntityInput);
     return transform(userEntity);
@@ -47,7 +44,6 @@ export class UserService {
   async updateUser(id: UserId, partialUser: updateUser): Promise<User> {
     const userEntity = await this.userRepository.updateOne(id, partialUser);
     return transform(userEntity);
-
   }
 
   async findUserById(id: UserId): Promise<User | null> {
@@ -64,6 +60,4 @@ export class UserService {
     const userEntity = await this.userRepository.findOneByListenId(listenId);
     return userEntity ? transform(userEntity) : null;
   }
-
-  // createUser
 }
