@@ -53,6 +53,8 @@ type Query {
 
 type Mutation {
   listenToSong(listenToSongData: ListenToSongInput!): String!
+  createArtist(createArtistData: CreateArtistInput!): Artist!
+  updateArtist(artistId: String!, updateArtistData: UpdateArtistInput!): Artist!
   createUser(createUserData: CreateUserInput!): User!
   updateUser(updateUserData: UpdateUserInput!): User!
 }
@@ -61,6 +63,18 @@ input ListenToSongInput {
   songId: ID!
   artistId: ID!
   liked: Boolean!
+}
+
+input CreateArtistInput {
+  stageName: String!
+  bio: String!
+  image: String!
+}
+
+input UpdateArtistInput {
+  stageName: String
+  bio: String
+  image: String
 }
 
 input CreateUserInput {
@@ -72,8 +86,8 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
-  username: String!
-  password: String!
-  firstName: String!
+  username: String
+  password: String
+  firstName: String
   lastName: String
 }

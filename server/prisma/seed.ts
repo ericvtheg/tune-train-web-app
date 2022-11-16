@@ -5,7 +5,17 @@ const prisma = new PrismaClient();
 
 async function main() {
   // await prisma.user.deleteMany();
-  // await prisma.post.deleteMany();
+  console.log('Seeding...');
+
+  const user = await prisma.user.create({
+    data: {
+      email: randEmail(),
+      username: randUserName(),
+      password: 'somePassword',
+      first_name: 'Firstname',
+      last_name: 'Lastname',
+    },
+  });
 
   const artist = await prisma.user.create({
     data: {
@@ -21,16 +31,6 @@ async function main() {
           image: 'someimageurl.com/image',
         },
       },
-    },
-  });
-
-  const user = await prisma.user.create({
-    data: {
-      email: randEmail(),
-      username: randUserName(),
-      password: 'somePassword',
-      first_name: 'Firstname',
-      last_name: 'Lastname',
     },
   });
 
@@ -50,8 +50,6 @@ async function main() {
       artist_id: artist.id,
     },
   });
-
-  console.log('Seeding...');
 }
 
 main()

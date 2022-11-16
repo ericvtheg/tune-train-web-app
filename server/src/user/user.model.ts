@@ -48,15 +48,15 @@ export class CreateUserInput {
 
 @InputType()
 export class UpdateUserInput {
-  @Field(type => String)
-  username: string;
-
-  @Field(type => String)
-  password: string;
-
-  @Field(type => String)
-  firstName: string;
+  @Field(type => String, { nullable: true })
+  username?: string;
 
   @Field(type => String, { nullable: true })
-  lastName: string | null;
+  password?: string;
+
+  @Field(type => String, { nullable: true })
+  firstName?: string;
+
+  @Field(type => String, { nullable: true })
+  lastName?: string | null;
 }

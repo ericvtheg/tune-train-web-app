@@ -1,4 +1,4 @@
-import { Artist } from '@prisma/client';
+import { Artist, Prisma } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { ArtistId } from 'src/artist/artist.service';
@@ -11,6 +11,21 @@ export type ArtistEntity = Artist;
 @Injectable()
 export class ArtistRepository {
   constructor(private prisma: PrismaService) {}
+
+  async saveOne(artist: Prisma.ArtistUncheckedCreateInput): Promise<ArtistEntity> {
+    return await this.prisma.artist.create({
+      data: artist,
+    });
+  }
+
+  async updateOne(id: ArtistId, data: Prisma.ArtistUncheckedUpdateInput): Promise<ArtistEntity> {
+    return await this.prisma.artist.update({
+      data,
+      where: {
+        id,
+      },
+    });
+  }
 
   async findOneById(id: ArtistId): Promise<ArtistEntity | null> {
     return await this.prisma.artist.findUnique({ where: { id } });

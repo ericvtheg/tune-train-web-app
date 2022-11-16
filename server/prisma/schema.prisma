@@ -19,7 +19,6 @@ model User {
   password   String
   first_name String
   last_name  String?
-  artist_id  String?  @unique
   artist     Artist?
   listens    Listen[]
 
@@ -33,9 +32,10 @@ model Artist {
   stage_name String
   bio        String
   image      String
+  user_id    String   @unique
+  user       User     @relation(fields: [user_id], references: [id])
   songs      Song[]
   listens    Listen[]
-  User       User     @relation(fields: [id], references: [artist_id])
 
   @@map("artist")
 }

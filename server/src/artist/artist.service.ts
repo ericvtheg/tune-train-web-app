@@ -15,6 +15,15 @@ interface Artist {
   image: string;
 }
 
+type UpdateArtist = Partial<Omit<Artist, 'id'>>;
+
+type ToBeCreatedArtist = {
+  stageName: string;
+  bio: string;
+  image: string;
+  userId: UserId;
+};
+
 const transform = (entity: ArtistEntity): Artist => ({
   id: entity.id as ArtistId,
   stageName: entity.stage_name,
@@ -25,6 +34,27 @@ const transform = (entity: ArtistEntity): Artist => ({
 @Injectable()
 export class ArtistService {
   constructor(private artistRepository: ArtistRepository) {}
+
+  async createArtist(artist: ToBeCreatedArtist): Promise<Artist> {
+    const artistEntityInput = {
+      stage_name: artist.stageName,
+      bio: artist.bio,
+      image: artist.image,
+      user_id: artist.userId,
+    };
+    const artistEntity = await this.artistRepository.saveOne(artistEntityInput);
+    return transform(artistEntity);
+  }
+
+  async updateArtist(id: ArtistId, partialArtist: UpdateArtist): Promise<Artist> {
+    const artistEntityUpdateInput = {
+      stage_name: partialArtist.stageName,
+      bio: partialArtist.bio,
+      image: partialArtist.image,
+    };
+    const artistEntity = await this.artistRepository.updateOne(id, artistEntityUpdateInput);
+    return transform(artistEntity);
+  }
 
   async findArtistById(id: ArtistId): Promise<Artist | null> {
     const artistEntity = await this.artistRepository.findOneById(id);
@@ -45,6 +75,4 @@ export class ArtistService {
     const artistEntity = await this.artistRepository.findOneByListenId(listenId);
     return artistEntity ? transform(artistEntity) : null;
   }
-
-  // create artist
 }
