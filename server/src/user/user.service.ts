@@ -8,7 +8,7 @@ export type UserId = Opaque<string, 'UserId'>;
 type ToBeSavedUser = Omit<User, 'id'>;
 type UpdateUser = Partial<Omit<User, 'id' | 'email'>>;
 
-interface User {
+export interface User {
   id: UserId;
   username: string;
   email: string;

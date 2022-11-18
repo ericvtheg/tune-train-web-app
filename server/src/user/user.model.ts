@@ -29,6 +29,15 @@ export class User {
 }
 
 @InputType()
+export class UserLoginInput {
+  @Field(type => String)
+  email: string;
+
+  @Field(type => String)
+  password: string;
+}
+
+@InputType()
 export class CreateUserInput {
   @Field(type => String)
   username: string;

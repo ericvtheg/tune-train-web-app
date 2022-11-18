@@ -55,6 +55,7 @@ type Mutation {
   listenToSong(listenToSongData: ListenToSongInput!): String!
   createArtist(createArtistData: CreateArtistInput!): Artist!
   updateArtist(artistId: String!, updateArtistData: UpdateArtistInput!): Artist!
+  login(userLoginData: UserLoginInput!): User!
   createUser(createUserData: CreateUserInput!): User!
   updateUser(updateUserData: UpdateUserInput!): User!
 }
@@ -75,6 +76,11 @@ input UpdateArtistInput {
   stageName: String
   bio: String
   image: String
+}
+
+input UserLoginInput {
+  email: String!
+  password: String!
 }
 
 input CreateUserInput {
