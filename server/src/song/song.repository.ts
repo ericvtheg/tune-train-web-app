@@ -1,4 +1,4 @@
-import { Song } from '@prisma/client';
+import { Song, Prisma } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { SongId } from 'src/song/song.service';
@@ -11,6 +11,12 @@ export type SongEntity = Song;
 @Injectable()
 export class SongRepository {
   constructor(private prisma: PrismaService) {}
+
+  async saveOne(song: Prisma.SongUncheckedCreateInput): Promise<SongEntity> {
+    return await this.prisma.song.create({
+      data: song,
+    });
+  }
 
   async findOneById(id: SongId): Promise<SongEntity | null> {
     return await this.prisma.song.findUnique({ where: { id } });

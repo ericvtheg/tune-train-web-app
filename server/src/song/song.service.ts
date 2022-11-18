@@ -7,6 +7,7 @@ import { FileStorageService, DownloadLink } from 'src/common/services/file-stora
 import { ListenId } from 'src/listen/listen.service';
 
 export type SongId = Opaque<string, 'SongId'>;
+type ToBeSavedSong = Omit<Song, 'id'>;
 
 interface Song {
   id: SongId;
@@ -29,7 +30,16 @@ export class SongService {
     private fileStorageService: FileStorageService,
   ) {}
 
-  // createSong
+  async createSong(song: ToBeSavedSong): Promise<Song> {
+    const songEntityInput = {
+      title: song.title,
+      description: song.description,
+      artist_id: song.artistId,
+    };
+    // TODO check that it exists in s3 first?
+    const songEntity = await this.songRepository.saveOne(songEntityInput);
+    return transform(songEntity);
+  }
 
   async findSongById(id: SongId): Promise<Song | null> {
     const songEntity = await this.songRepository.findOneById(id);

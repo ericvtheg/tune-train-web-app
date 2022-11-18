@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, InputType } from '@nestjs/graphql';
 import { Artist } from 'src/artist/artist.model';
 import { Listen } from 'src/listen/listen.model';
 import { SongId } from 'src/song/song.service';
@@ -24,4 +24,13 @@ export class Song {
 
   @Field(type => Artist)
   artist?: Artist;
+}
+
+@InputType()
+export class CreateSongInput {
+  @Field(type => String)
+  title: string;
+
+  @Field(type => String)
+  description: string;
 }
