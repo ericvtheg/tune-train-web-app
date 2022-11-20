@@ -3,7 +3,7 @@ import type { Opaque } from 'type-fest';
 import { UserId } from 'src/user/user.service';
 import { ArtistId } from 'src/artist/artist.service';
 import { SongEntity, SongRepository } from 'src/song/song.repository';
-import { FileStorageService, DownloadLink } from 'src/common/services/file-storage/file-storage.service';
+import { FileStorageService, DownloadLink, UploadLink } from 'src/common/services/file-storage/file-storage.service';
 import { ListenId } from 'src/listen/listen.service';
 
 export type SongId = Opaque<string, 'SongId'>;
@@ -23,6 +23,10 @@ const transform = (entity: SongEntity): Song => ({
   description: entity.description,
 });
 
+const getKeyFromId = (id: SongId): string => {
+  return `${id.slice(-1)}/${id}`;
+};
+
 @Injectable()
 export class SongService {
   constructor(
@@ -36,7 +40,7 @@ export class SongService {
       description: song.description,
       artist_id: song.artistId,
     };
-    // TODO check that it exists in s3 first?
+    // TODO check that file has been successfully uploaded to s3 first?
     const songEntity = await this.songRepository.saveOne(songEntityInput);
     return transform(songEntity);
   }
@@ -62,11 +66,13 @@ export class SongService {
   }
 
   async getSongDownloadLink(id: SongId): Promise<DownloadLink> {
-    // TODO determine how to distribute keys in s3 dirs
     // TODO can we make this fail if the item doesn't exist?
-    return await this.fileStorageService.generateDownloadLink(id);
+    const key = getKeyFromId(id);
+    return await this.fileStorageService.generateDownloadLink(key);
   }
 
-  // getSongUploadLink
-  // determine how to distribute keys in s3 dirs
+  async getSongUploadLink(id: SongId): Promise<UploadLink> {
+    const key = getKeyFromId(id);
+    return await this.fileStorageService.generateUploadLink(key);
+  }
 }
