@@ -24,7 +24,11 @@ export class SongResolver {
     });
   }
 
-  // TODO delete song Mutation
+  @Mutation(returns => String)
+  async deleteSong(@Args('id') id: SongId): Promise<String> {
+    await this.songService.deleteSong(id);
+    return 'Successfully deleted song';
+  }
 
   @Query(returns => Song, { nullable: true })
   async song(@Args('id') id: SongId): Promise<Song | null> {

@@ -18,6 +18,10 @@ export class SongRepository {
     });
   }
 
+  async deleteOne(id: SongId): Promise<void> {
+    await this.prisma.song.delete({ where: { id } });
+  }
+
   async findOneById(id: SongId): Promise<SongEntity | null> {
     return await this.prisma.song.findUnique({ where: { id } });
   }

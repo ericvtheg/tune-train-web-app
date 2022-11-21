@@ -57,6 +57,7 @@ type Query {
 
 type Mutation {
   createSong(createSongData: CreateSongInput!): Song!
+  deleteSong(id: String!): String!
   listenToSong(listenToSongData: ListenToSongInput!): String!
   createArtist(createArtistData: CreateArtistInput!): Artist!
   updateArtist(artistId: String!, updateArtistData: UpdateArtistInput!): Artist!
