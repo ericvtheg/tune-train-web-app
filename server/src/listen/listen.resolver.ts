@@ -22,6 +22,7 @@ export class ListenResolver {
   @Mutation(returns => String)
   async listenToSong(@Args('listenToSongData') listenToSongData: ListenToSongInput): Promise<string> {
     // TODO pull userId off auth token
+    // this could emit an event instead?
     const body = { userId: 'cl9f53ckr0000r13pf4hdgguy' as UserId, ...listenToSongData };
     await this.listenQueue.produceListenMessage(body);
     return 'Sent to ingestion pipeline';

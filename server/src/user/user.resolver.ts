@@ -1,13 +1,15 @@
-import { Query, Resolver, Args, ResolveField, Parent, Mutation } from '@nestjs/graphql';
-import { BadRequestException } from '@nestjs/common';
+import { Query, Resolver, Args, ResolveField, Parent, Mutation, Context } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 import { HashPipe } from 'src/common/pipes/hash.pipe';
-import { User, CreateUserInput, UpdateUserInput, UserLoginInput } from 'src/user/user.model';
+import { User, CreateUserInput, UpdateUserInput, UserLoginInput, UserLoginOutput } from 'src/user/user.model';
 import { UserService, UserId } from 'src/user/user.service';
 import { Artist } from 'src/artist/artist.model';
 import { ArtistService } from 'src/artist/artist.service';
 import { Listen } from 'src/listen/listen.model';
 import { ListenService } from 'src/listen/listen.service';
 import { AuthService } from 'src/common/auth/auth.service';
+import { LocalAuthGuard } from 'src/common/guards/local-auth.guard';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -18,14 +20,11 @@ export class UserResolver {
     private authService: AuthService,
   ) {}
 
-  @Mutation(returns => User)
-  async login(@Args('userLoginData') userLoginData: UserLoginInput): Promise<User> {
-    const { email, password } = userLoginData;
-    const user = await this.authService.login(email, password);
-    if (!user) {
-      throw new BadRequestException('Email or password are invalid');
-    }
-    return user;
+  @Mutation(returns => UserLoginOutput)
+  @UseGuards(LocalAuthGuard)
+  async login(@Args('userLoginData') userLoginData: UserLoginInput, @Context() context: any): Promise<UserLoginOutput> {
+    const accessToken = context.req.user;
+    return { accessToken };
   }
 
   @Mutation(returns => User)
@@ -40,6 +39,7 @@ export class UserResolver {
   }
 
   @Query(returns => User, { nullable: true })
+  @UseGuards(JwtAuthGuard)
   async user(@Args('id') id: UserId): Promise<User | null> {
     return await this.userService.findUserById(id);
   }

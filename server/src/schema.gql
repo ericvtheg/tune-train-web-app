@@ -43,6 +43,10 @@ type User {
   listens: [Listen]!
 }
 
+type UserLoginOutput {
+  accessToken: String!
+}
+
 type Query {
   song(id: String!): Song
   findUnheardSong(userId: String!): Song
@@ -56,7 +60,7 @@ type Mutation {
   listenToSong(listenToSongData: ListenToSongInput!): String!
   createArtist(createArtistData: CreateArtistInput!): Artist!
   updateArtist(artistId: String!, updateArtistData: UpdateArtistInput!): Artist!
-  login(userLoginData: UserLoginInput!): User!
+  login(userLoginData: UserLoginInput!): UserLoginOutput!
   createUser(createUserData: CreateUserInput!): User!
   updateUser(updateUserData: UpdateUserInput!): User!
 }

@@ -37,6 +37,12 @@ export class UserLoginInput {
   password: string;
 }
 
+@ObjectType()
+export class UserLoginOutput {
+  @Field(() => String)
+  accessToken: string;
+}
+
 @InputType()
 export class CreateUserInput {
   @Field(type => String)

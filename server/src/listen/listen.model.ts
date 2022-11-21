@@ -11,7 +11,6 @@ export class Listen {
   @Field(type => ID)
   id: ListenId;
 
-  // TODO do I need this? I can always find artist through song? This even affected my DB schema
   @Field(type => Artist)
   artist?: Artist;
 

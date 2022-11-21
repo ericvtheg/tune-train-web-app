@@ -24,6 +24,8 @@ export class SongResolver {
     });
   }
 
+  // TODO delete song Mutation
+
   @Query(returns => Song, { nullable: true })
   async song(@Args('id') id: SongId): Promise<Song | null> {
     return await this.songService.findSongById(id);
