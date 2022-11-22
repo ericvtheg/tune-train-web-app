@@ -7,11 +7,9 @@ import { PasswordService } from 'src/common/auth/password.service';
 import { UserModule } from 'src/user/user.module';
 import { LocalStrategy } from 'src/common/auth/strategies/local.strategy';
 import { JwtStrategy } from 'src/common/auth/strategies/jwt.strategy';
-import { ArtistModule } from 'src/artist/artist.module';
 
 @Module({
   imports: [
-    ArtistModule,
     forwardRef(() => UserModule),
     PassportModule,
     JwtModule.registerAsync({

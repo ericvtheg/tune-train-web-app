@@ -12,9 +12,12 @@ export type ArtistEntity = Artist;
 export class ArtistRepository {
   constructor(private prisma: PrismaService) {}
 
-  async saveOne(artist: Prisma.ArtistUncheckedCreateInput): Promise<ArtistEntity> {
+  async saveOne(userId: UserId, artist: Prisma.ArtistUncheckedCreateInput): Promise<ArtistEntity> {
     return await this.prisma.artist.create({
-      data: artist,
+      data: {
+        id: userId,
+        ...artist,
+      },
     });
   }
 

@@ -32,8 +32,7 @@ model Artist {
   stage_name String
   bio        String
   image      String
-  user_id    String   @unique
-  user       User     @relation(fields: [user_id], references: [id])
+  user       User     @relation(fields: [id], references: [id])
   songs      Song[]
   listens    Listen[]
 

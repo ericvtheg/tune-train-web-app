@@ -1,4 +1,4 @@
-import { Query, Resolver, Args, ResolveField, Parent, Mutation, Context } from '@nestjs/graphql';
+import { Query, Resolver, Args, ResolveField, Parent, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { HashPipe } from 'src/common/pipes/hash.pipe';
 import { User, CreateUserInput, UpdateUserInput, UserLoginInput, UserLoginOutput } from 'src/user/user.model';
@@ -9,6 +9,8 @@ import { Listen } from 'src/listen/listen.model';
 import { ListenService } from 'src/listen/listen.service';
 import { LocalAuthGuard } from 'src/common/guards/local-auth.guard';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { Id } from 'src/common/decorators/id.decorator';
+import { AccessToken } from 'src/common/decorators/access-token.decorator';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -20,8 +22,10 @@ export class UserResolver {
 
   @Mutation(returns => UserLoginOutput)
   @UseGuards(LocalAuthGuard)
-  async login(@Args('userLoginData') userLoginData: UserLoginInput, @Context() context: any): Promise<UserLoginOutput> {
-    const accessToken = context.req.user;
+  async login(
+    @Args('userLoginData') userLoginData: UserLoginInput,
+      @AccessToken() accessToken: string,
+  ): Promise<UserLoginOutput> {
     return { accessToken };
   }
 
@@ -31,13 +35,15 @@ export class UserResolver {
   }
 
   @Mutation(returns => User)
-  async updateUser(@Args('updateUserData', HashPipe) updateUserData: UpdateUserInput): Promise<User> {
-    // TODO Pull userId off authorizer here
-    return await this.userService.updateUser('clals4xts000016az9o7wyte3' as UserId, updateUserData);
+  @UseGuards(JwtAuthGuard)
+  async updateUser(
+    @Args('updateUserData', HashPipe) updateUserData: UpdateUserInput,
+      @Id() id: UserId,
+  ): Promise<User> {
+    return await this.userService.updateUser(id, updateUserData);
   }
 
   @Query(returns => User, { nullable: true })
-  @UseGuards(JwtAuthGuard)
   async user(@Args('id') id: UserId): Promise<User | null> {
     return await this.userService.findUserById(id);
   }

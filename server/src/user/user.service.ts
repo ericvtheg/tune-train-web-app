@@ -5,7 +5,7 @@ import { ListenId } from 'src/listen/listen.service';
 import { ArtistId } from 'src/artist/artist.service';
 
 export type UserId = Opaque<string, 'UserId'>;
-type ToBeSavedUser = Omit<User, 'id'>;
+type ToBeCreatedUser = Omit<User, 'id'>;
 type UpdateUser = Partial<Omit<User, 'id' | 'email'>>;
 
 export interface User {
@@ -30,7 +30,7 @@ const transform = (entity: UserEntity): User => ({
 export class UserService {
   constructor(private userRepository: UserRepository) {}
 
-  async createUser(user: ToBeSavedUser): Promise<User> {
+  async createUser(user: ToBeCreatedUser): Promise<User> {
     const userEntityInput = {
       username: user.username,
       email: user.email,

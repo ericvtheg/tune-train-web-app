@@ -7,7 +7,7 @@ import { FileStorageService, DownloadLink, UploadLink } from 'src/common/service
 import { ListenId } from 'src/listen/listen.service';
 
 export type SongId = Opaque<string, 'SongId'>;
-type ToBeSavedSong = Omit<Song, 'id'>;
+type ToBeCreatedSong = Omit<Song, 'id'>;
 
 interface Song {
   id: SongId;
@@ -34,7 +34,7 @@ export class SongService {
     private fileStorageService: FileStorageService,
   ) {}
 
-  async createSong(song: ToBeSavedSong): Promise<Song> {
+  async createSong(song: ToBeCreatedSong): Promise<Song> {
     const songEntityInput = {
       title: song.title,
       description: song.description,

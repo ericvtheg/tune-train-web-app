@@ -6,7 +6,7 @@ import { ArtistId } from 'src/artist/artist.service';
 import { ListenRepository, ListenEntity } from 'src/listen/listen.repository';
 
 export type ListenId = Opaque<string, 'ListenId'>;
-type toBeSavedListen = Omit<Listen, 'id'>;
+type ToBeCreatedListen = Omit<Listen, 'id'>;
 
 interface Listen {
   id: ListenId;
@@ -28,7 +28,7 @@ const transform = (entity: ListenEntity): Listen => ({
 export class ListenService {
   constructor(private listenRepository: ListenRepository) {}
 
-  async createListen(listen: toBeSavedListen): Promise<Listen > {
+  async createListen(listen: ToBeCreatedListen): Promise<Listen > {
     const listenEntityInput = {
       song_id: listen.songId,
       artist_id: listen.artistId,

@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { PasswordService, HashedPassword } from 'src/common/auth/password.service';
 import { User, UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { ArtistService } from 'src/artist/artist.service';
 
 
 @Injectable()
@@ -11,7 +10,6 @@ export class AuthService {
     private readonly jwtTokenService: JwtService,
     private readonly passwordService: PasswordService,
     private readonly userService: UserService,
-    private readonly artistService: ArtistService,
   ) {}
 
   private async validatePassword(inputPassword: string, hashedPassword: HashedPassword): Promise<boolean> {
@@ -30,13 +28,9 @@ export class AuthService {
   }
 
   async generateUserCredentials(user: User): Promise<string> {
-    const artist = await this.artistService.findArtistByUserId(user.id);
     const payload = {
       sub: user.id,
-      artist: artist ? { id: artist.id, stageName: artist.stageName } : null,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
+      id: user.id,
     };
     return this.jwtTokenService.sign(payload);
   }

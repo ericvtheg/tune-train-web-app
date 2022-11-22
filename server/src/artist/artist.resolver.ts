@@ -1,4 +1,5 @@
 import { Query, Resolver, Args, ResolveField, Parent, Mutation } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 import { Artist, CreateArtistInput, UpdateArtistInput } from 'src/artist/artist.model';
 import { ArtistService, ArtistId } from 'src/artist/artist.service';
 import { ListenService } from 'src/listen/listen.service';
@@ -7,6 +8,8 @@ import { Song } from 'src/song/song.model';
 import { SongService } from 'src/song/song.service';
 import { User } from 'src/user/user.model';
 import { UserId, UserService } from 'src/user/user.service';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { Id } from 'src/common/decorators/id.decorator';
 
 @Resolver(() => Artist)
 export class ArtistResolver {
@@ -18,19 +21,22 @@ export class ArtistResolver {
   ) {}
 
   @Mutation(returns => Artist)
-  async createArtist(@Args('createArtistData') createArtistData: CreateArtistInput): Promise<Artist>{
-    // TODO pull userId off token
-    const userId: UserId = 'clak3bn9u000016d03xg3jbmu' as UserId;
-    return await this.artistService.createArtist({
+  @UseGuards(JwtAuthGuard)
+  async createArtist(
+    @Args('createArtistData') createArtistData: CreateArtistInput,
+      @Id() userId: UserId,
+  ): Promise<Artist>{
+    return await this.artistService.createArtist(
       userId,
-      ...createArtistData,
-    });
+      createArtistData,
+    );
   }
 
   @Mutation(returns => Artist)
+  @UseGuards(JwtAuthGuard)
   async updateArtist(
-    @Args('artistId') id: ArtistId,
-      @Args('updateArtistData') updateArtistData: UpdateArtistInput,
+    @Args('updateArtistData') updateArtistData: UpdateArtistInput,
+      @Id() id: ArtistId,
   ): Promise<Artist> {
     return await this.artistService.updateArtist(id, updateArtistData);
   }

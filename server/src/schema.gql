@@ -48,8 +48,8 @@ type UserLoginOutput {
 }
 
 type Query {
+  findUnheardSong: Song
   song(id: String!): Song
-  findUnheardSong(userId: String!): Song
   listen(id: String!): Listen
   artist(id: String!): Artist
   user(id: String!): User
@@ -60,7 +60,7 @@ type Mutation {
   deleteSong(id: String!): String!
   listenToSong(listenToSongData: ListenToSongInput!): String!
   createArtist(createArtistData: CreateArtistInput!): Artist!
-  updateArtist(artistId: String!, updateArtistData: UpdateArtistInput!): Artist!
+  updateArtist(updateArtistData: UpdateArtistInput!): Artist!
   login(userLoginData: UserLoginInput!): UserLoginOutput!
   createUser(createUserData: CreateUserInput!): User!
   updateUser(updateUserData: UpdateUserInput!): User!

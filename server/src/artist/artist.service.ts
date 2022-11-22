@@ -16,13 +16,7 @@ interface Artist {
 }
 
 type UpdateArtist = Partial<Omit<Artist, 'id'>>;
-
-type ToBeCreatedArtist = {
-  stageName: string;
-  bio: string;
-  image: string;
-  userId: UserId;
-};
+type ToBeCreatedArtist = Omit<Artist, 'id'>;
 
 const transform = (entity: ArtistEntity): Artist => ({
   id: entity.id as ArtistId,
@@ -35,14 +29,13 @@ const transform = (entity: ArtistEntity): Artist => ({
 export class ArtistService {
   constructor(private artistRepository: ArtistRepository) {}
 
-  async createArtist(artist: ToBeCreatedArtist): Promise<Artist> {
+  async createArtist(userId: UserId, artist: ToBeCreatedArtist): Promise<Artist> {
     const artistEntityInput = {
       stage_name: artist.stageName,
       bio: artist.bio,
       image: artist.image,
-      user_id: artist.userId,
     };
-    const artistEntity = await this.artistRepository.saveOne(artistEntityInput);
+    const artistEntity = await this.artistRepository.saveOne(userId, artistEntityInput);
     return transform(artistEntity);
   }
 
