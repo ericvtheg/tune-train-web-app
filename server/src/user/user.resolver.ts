@@ -7,7 +7,6 @@ import { Artist } from 'src/artist/artist.model';
 import { ArtistService } from 'src/artist/artist.service';
 import { Listen } from 'src/listen/listen.model';
 import { ListenService } from 'src/listen/listen.service';
-import { AuthService } from 'src/common/auth/auth.service';
 import { LocalAuthGuard } from 'src/common/guards/local-auth.guard';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
@@ -17,7 +16,6 @@ export class UserResolver {
     private userService: UserService,
     private artistService: ArtistService,
     private listenService: ListenService,
-    private authService: AuthService,
   ) {}
 
   @Mutation(returns => UserLoginOutput)
