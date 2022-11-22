@@ -18,7 +18,6 @@ export class AuthService {
     return await this.passwordService.validatePassword(inputPassword, hashedPassword);
   }
 
-  // TODO damn this return type is ugly
   async validateUser(email: string, password: string ): Promise<User | null> {
     const user = await this.userService.findUserByEmail(email);
     if (user) {
@@ -34,12 +33,11 @@ export class AuthService {
     const artist = await this.artistService.findArtistByUserId(user.id);
     const payload = {
       sub: user.id,
-      artistId: artist ? artist.id : null,
+      artist: artist ? { id: artist.id, stageName: artist.stageName } : null,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
     };
-
     return this.jwtTokenService.sign(payload);
   }
 }
