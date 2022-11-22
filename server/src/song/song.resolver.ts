@@ -40,7 +40,7 @@ export class SongResolver {
 
   @Query(returns => Song, { nullable: true })
   @UseGuards(JwtAuthGuard)
-  async findUnheardSong(@Id() userId: UserId): Promise<Song | null> {
+  async discoverSong(@Id() userId: UserId): Promise<Song | null> {
     // TODO would like to not require auth for this
     return await this.songService.findUnheardSong(userId);
   }

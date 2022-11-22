@@ -48,7 +48,7 @@ type UserLoginOutput {
 }
 
 type Query {
-  findUnheardSong: Song
+  discoverSong: Song
   song(id: String!): Song
   listen(id: String!): Listen
   artist(id: String!): Artist
