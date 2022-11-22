@@ -1,0 +1,48 @@
+Things that need to be done:
+* how to upload song
+
+Nice to haves: (sort these by priority)
+* findUnHeardSong -> discoverSong
+* listenToSong -> rateSong / critiqueSong / reviewSong / ?
+* highlight a portion of the song
+* need links to the direct song, not just spotify profile (this is different than socials)
+* fail if !exist for s3 download
+* socials 
+* fix up arg types for Prisma (i think they're broken?)
+* extra endpoint verification for 
+  * song delete
+  * listen to song
+* Test does my service/repo transient thing work?
+* global jwt auth guards where required
+* datetime scalar
+* apollo logging plugin
+* prisma logging middleware
+* https://github.com/slicknode/graphql-query-complexity
+* https://docs.nestjs.com/graphql/cli-plugin
+* connection types for pagination
+* get typesafe config service
+* how to better error handle in nestjs?
+* validate mutation inputs / queries
+* prisma data loader
+* add integration/e2e tests
+* figure out how to best mock providers/entities
+* better unit tests, service layer should only test for branching, entity repositories should have unit tests
+
+// aws sqs purge-queue --endpoint-url http://localhost:4566 --queue-url "http://localhost:4566/000000000000/tune-train-listens-queue-sqs"
+
+// https://stackoverflow.com/questions/62054703/avoiding-circular-dependencies-the-right-way-nestjs
+// https://stackoverflow.com/questions/61445185/how-to-implement-user-guards-in-nestjs-graphql
+
+// Login (authentication)
+// General authorization
+
+
+// ***** cloud stuff
+// destroy
+// make it so literally everything is built using just terraform CLI
+// cloudfront caching and rate limiting
+// add billing alerts through terraform
+// create new AWS account (add + in the email address)
+// only thing that should have to be manually done is transferring domain & the terraform state bucket
+// remember there was some weirdness with configuring ssl certificate and associating it with a domain/hosted zone
+// will need to run prisma generate or whatever on deployment
