@@ -15,8 +15,8 @@ interface Artist {
   image: string;
 }
 
-type UpdateArtist = Partial<Omit<Artist, 'id'>>;
 type ToBeCreatedArtist = Omit<Artist, 'id'>;
+type UpdateArtist = Partial<Omit<Artist, 'id'>>;
 
 const transform = (entity: ArtistEntity): Artist => ({
   id: entity.id as ArtistId,
