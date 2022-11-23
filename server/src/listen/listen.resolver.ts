@@ -7,8 +7,6 @@ import { ListenService, ListenId } from 'src/listen/listen.service';
 import { ListenQueue } from 'src/listen/listen.queue';
 import { Song } from 'src/song/song.model';
 import { SongService } from 'src/song/song.service';
-import { Artist } from 'src/artist/artist.model';
-import { ArtistService } from 'src/artist/artist.service';
 import { Id } from 'src/common/decorators/id.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
@@ -17,7 +15,6 @@ export class ListenResolver {
   constructor(
     private listenService: ListenService,
     private listenQueue: ListenQueue,
-    private artistService: ArtistService,
     private songService: SongService,
     private userService: UserService,
   ) {}
@@ -37,12 +34,6 @@ export class ListenResolver {
   @Query(returns => Listen, { nullable: true })
   async listen(@Args('id') id: ListenId): Promise<Listen | null>{
     return await this.listenService.findListenById(id);
-  }
-
-  @ResolveField('artist', returns => Artist)
-  async artist(@Parent() listen: Listen): Promise<Artist | null> {
-    const { id } = listen;
-    return await this.artistService.findArtistByListenId(id);
   }
 
   @ResolveField('song', returns => Song)

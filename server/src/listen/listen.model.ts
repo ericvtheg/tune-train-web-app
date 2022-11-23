@@ -1,5 +1,4 @@
 import { Field, ID, ObjectType, InputType } from '@nestjs/graphql';
-import { Artist } from 'src/artist/artist.model';
 import { Song } from 'src/song/song.model';
 import { ListenId } from 'src/listen/listen.service';
 import { SongId } from 'src/song/song.service';
@@ -10,9 +9,6 @@ import { User } from 'src/user/user.model';
 export class Listen {
   @Field(type => ID)
   id: ListenId;
-
-  @Field(type => Artist)
-  artist?: Artist;
 
   @Field(type => User)
   user?: User;

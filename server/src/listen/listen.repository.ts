@@ -3,7 +3,6 @@ import { PrismaService } from 'nestjs-prisma';
 import { Listen, Prisma } from '@prisma/client';
 import { UserId } from 'src/user/user.service';
 import { SongId } from 'src/song/song.service';
-import { ArtistId } from 'src/artist/artist.service';
 import { ListenId } from 'src/listen/listen.service';
 
 export type ListenEntity = Listen;
@@ -37,9 +36,5 @@ export class ListenRepository {
 
   async findManyBySongId(songId: SongId): Promise<ListenEntity[]> {
     return await this.prisma.song.findUnique({ where: { id: songId } }).listens() ?? [];
-  }
-
-  async findManyByArtistId(artistId: ArtistId): Promise<ListenEntity[]> {
-    return await this.prisma.artist.findUnique({ where: { id: artistId } }).listens() ?? [];
   }
 }

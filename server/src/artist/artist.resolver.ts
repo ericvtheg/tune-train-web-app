@@ -2,8 +2,6 @@ import { Query, Resolver, Args, ResolveField, Parent, Mutation } from '@nestjs/g
 import { UseGuards } from '@nestjs/common';
 import { Artist, CreateArtistInput, UpdateArtistInput } from 'src/artist/artist.model';
 import { ArtistService, ArtistId } from 'src/artist/artist.service';
-import { ListenService } from 'src/listen/listen.service';
-import { Listen } from 'src/listen/listen.model';
 import { Song } from 'src/song/song.model';
 import { SongService } from 'src/song/song.service';
 import { User } from 'src/user/user.model';
@@ -15,7 +13,6 @@ import { Id } from 'src/common/decorators/id.decorator';
 export class ArtistResolver {
   constructor(
     private artistService: ArtistService,
-    private listenService: ListenService,
     private songService: SongService,
     private userService: UserService,
   ) {}
@@ -44,12 +41,6 @@ export class ArtistResolver {
   @Query(returns => Artist, { nullable: true })
   async artist(@Args('id') id: ArtistId): Promise<Artist | null> {
     return await this.artistService.findArtistById(id);
-  }
-
-  @ResolveField('listens', returns => [Listen])
-  async listens(@Parent() artist: Artist): Promise<Listen[]> {
-    const { id } = artist;
-    return await this.listenService.findArtistListens(id);
   }
 
   @ResolveField('songs', returns => [Song])

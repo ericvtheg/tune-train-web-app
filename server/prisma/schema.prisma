@@ -34,7 +34,6 @@ model Artist {
   image      String
   user       User     @relation(fields: [id], references: [id])
   songs      Song[]
-  listens    Listen[]
 
   @@map("artist")
 }
@@ -61,11 +60,9 @@ model Listen {
   updated_at DateTime @updatedAt
   song_id    String
   user_id    String
-  artist_id  String
   liked      Boolean
   user       User     @relation(fields: [user_id], references: [id])
   song       Song     @relation(fields: [song_id], references: [id])
-  artist     Artist   @relation(fields: [artist_id], references: [id])
 
   @@unique([song_id, user_id], map: "song_id_user_id_unique_constraint")
   @@index(song_id)

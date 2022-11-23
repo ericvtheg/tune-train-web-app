@@ -63,9 +63,4 @@ export class ArtistService {
     const artistEntity = await this.artistRepository.findOneBySongId(songId);
     return artistEntity ? transform(artistEntity) : null;
   }
-
-  async findArtistByListenId(listenId: ListenId): Promise<Artist | null> {
-    const artistEntity = await this.artistRepository.findOneByListenId(listenId);
-    return artistEntity ? transform(artistEntity) : null;
-  }
 }

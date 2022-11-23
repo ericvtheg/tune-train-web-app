@@ -58,10 +58,6 @@ export class UserResolver {
   @ResolveField('listens', returns => [Listen], { nullable: 'items' })
   async listens(@Parent() user: User): Promise<Listen[]> {
     const { id } = user;
-    const listens = await this.listenService.findUserListens(id);
-    return listens.map(listen => ({
-      id: listen.id,
-      liked: listen.liked,
-    }));
+    return await this.listenService.findUserListens(id);
   }
 }

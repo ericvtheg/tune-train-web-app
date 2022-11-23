@@ -2,6 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+"""listen"""
+type Listen {
+  id: ID!
+  user: User!
+  song: Song!
+  liked: Boolean!
+}
+
 """song"""
 type Song {
   id: ID!
@@ -12,22 +20,12 @@ type Song {
   artist: Artist!
 }
 
-"""listen"""
-type Listen {
-  id: ID!
-  artist: Artist!
-  user: User!
-  song: Song!
-  liked: Boolean!
-}
-
 """artist"""
 type Artist {
   id: ID!
   stageName: String!
   bio: String!
   image: String!
-  listens: [Listen]!
   songs: [Song]!
   user: User!
 }

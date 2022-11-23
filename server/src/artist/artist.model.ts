@@ -19,10 +19,6 @@ export class Artist {
   image: string;
 
   // TODO this should be a connection type
-  @Field(type => [Listen], { nullable: 'items' })
-  listens?: [Listen];
-
-  // TODO this should be a connection type
   @Field(type => [Song], { nullable: 'items' })
   songs?: [Song];
 
