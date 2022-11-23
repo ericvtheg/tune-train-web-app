@@ -4,7 +4,6 @@ import { Listen, ListenToSongInput } from 'src/listen/listen.model';
 import { UserId, UserService } from 'src/user/user.service';
 import { User } from 'src/user/user.model';
 import { ListenService, ListenId } from 'src/listen/listen.service';
-import { ListenQueue } from 'src/listen/listen.queue';
 import { Song } from 'src/song/song.model';
 import { SongService } from 'src/song/song.service';
 import { Id } from 'src/common/decorators/id.decorator';

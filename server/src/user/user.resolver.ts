@@ -54,7 +54,6 @@ export class UserResolver {
     return await this.artistService.findArtistByUserId(id);
   }
 
-  // TODO something is very wrong here why cant I resolve subtypes
   @ResolveField('listens', returns => [Listen], { nullable: 'items' })
   async listens(@Parent() user: User): Promise<Listen[]> {
     const { id } = user;
