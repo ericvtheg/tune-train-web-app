@@ -5,7 +5,7 @@ import { SongId } from 'src/song/song.service';
 import { ListenRepository, ListenEntity } from 'src/listen/listen.repository';
 
 export type ListenId = Opaque<string, 'ListenId'>;
-type ToBeCreatedListen = Omit<Listen, 'id'>;
+export type ToBeCreatedListen = Omit<Listen, 'id'>;
 
 interface Listen {
   id: ListenId;

@@ -71,7 +71,6 @@ input CreateSongInput {
 
 input ListenToSongInput {
   songId: ID!
-  artistId: ID!
   liked: Boolean!
 }
 

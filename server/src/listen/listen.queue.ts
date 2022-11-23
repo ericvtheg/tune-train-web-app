@@ -1,14 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ArtistId } from 'src/artist/artist.service';
 import { QueueService } from 'src/common/services/queue/queue.service';
-import { ListenService } from 'src/listen/listen.service';
+import { ListenService, ToBeCreatedListen } from 'src/listen/listen.service';
 import { SongId } from 'src/song/song.service';
 import { UserId } from 'src/user/user.service';
 import { SqsMessageHandler, SqsConsumerEventHandler } from '@ssut/nestjs-sqs';
 
-interface ListenBody {
+interface ListenMessageBody {
   songId: SongId;
-  artistId: ArtistId;
   userId: UserId;
   liked: boolean;
 }
@@ -20,17 +18,17 @@ export class ListenQueue {
     private listenService: ListenService,
   ) {}
 
-  async produceListenMessage(body: ListenBody): Promise<void> {
-    return await this.queueService.sendMessage<ListenBody>(body);
+  async produceListenMessage(body: ListenMessageBody): Promise<void> {
+    return await this.queueService.sendMessage<ListenMessageBody>(body);
   }
 
   @SqsMessageHandler(process.env.LISTEN_QUEUE_NAME as string, false)
   async consumeListenMessages(message: AWS.SQS.Message): Promise<void> {
-    let listenBody: ListenBody;
+    let listen: ToBeCreatedListen;
     const body = message.Body;
     if (body) {
       try {
-        listenBody = JSON.parse(body);
+        listen = JSON.parse(body);
       } catch (error) {
         Logger.error('Failed to parse listen message body', JSON.stringify(message));
         throw error;
@@ -41,7 +39,7 @@ export class ListenQueue {
       throw error;
     }
 
-    await this.listenService.createListen(listenBody);
+    await this.listenService.createListen(listen);
   }
 
   @SqsConsumerEventHandler(process.env.LISTEN_QUEUE_NAME as string, 'error')
