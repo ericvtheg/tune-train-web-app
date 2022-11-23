@@ -1,7 +1,7 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SqsModule } from '@ssut/nestjs-sqs';
-import { ListenQueue } from 'src/listen/listen.queue';
+import { ListenConsumer } from 'src/listen/listen.consumer';
 import { ListenResolver } from 'src/listen/listen.resolver';
 import { ListenService } from 'src/listen/listen.service';
 import { ListenRepository } from 'src/listen/listen.repository';
@@ -34,7 +34,7 @@ import { TransformedConfig } from 'src/common/config/config';
     ListenResolver,
     ListenService,
     ListenRepository,
-    ListenQueue,
+    ListenConsumer,
   ],
   exports: [ListenService],
 })

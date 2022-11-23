@@ -2,7 +2,6 @@ import type { Opaque } from 'type-fest';
 import { Injectable } from '@nestjs/common';
 import { ArtistRepository, ArtistEntity } from 'src/artist/artist.repository';
 import { SongId } from 'src/song/song.service';
-import { ListenId } from 'src/listen/listen.service';
 import { UserId } from 'src/user/user.service';
 
 

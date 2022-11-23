@@ -3,7 +3,7 @@ import { ListenService, ToBeCreatedListen } from 'src/listen/listen.service';
 import { SqsMessageHandler, SqsConsumerEventHandler } from '@ssut/nestjs-sqs';
 
 @Injectable()
-export class ListenQueue {
+export class ListenConsumer {
   constructor(
     private listenService: ListenService,
   ) {}

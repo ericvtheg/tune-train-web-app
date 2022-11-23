@@ -40,7 +40,6 @@ export class SongService {
       description: song.description,
       artist_id: song.artistId,
     };
-    // TODO check that file has been successfully uploaded to s3 first?
     const songEntity = await this.songRepository.saveOne(songEntityInput);
     return transform(songEntity);
   }

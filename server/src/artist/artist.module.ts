@@ -8,7 +8,7 @@ import { UserModule } from 'src/user/user.module';
 @Module({
   imports: [
     forwardRef(() => UserModule),
-    SongModule,
+    forwardRef(() => SongModule),
   ],
   providers: [ArtistResolver, ArtistService, ArtistRepository],
   exports: [ArtistService],
