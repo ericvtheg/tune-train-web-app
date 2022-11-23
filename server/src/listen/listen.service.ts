@@ -3,6 +3,7 @@ import { Opaque } from 'type-fest';
 import { UserId } from 'src/user/user.service';
 import { SongId } from 'src/song/song.service';
 import { ListenRepository, ListenEntity } from 'src/listen/listen.repository';
+import { QueueService } from 'src/common/services/queue/queue.service';
 
 export type ListenId = Opaque<string, 'ListenId'>;
 export type ToBeCreatedListen = Omit<Listen, 'id'>;
@@ -23,7 +24,14 @@ const transform = (entity: ListenEntity): Listen => ({
 
 @Injectable()
 export class ListenService {
-  constructor(private listenRepository: ListenRepository) {}
+  constructor(
+    private listenRepository: ListenRepository,
+    private queueService: QueueService,
+  ) {}
+
+  async produceListenMessage(body: ToBeCreatedListen): Promise<void> {
+    return await this.queueService.sendMessage<ToBeCreatedListen>(body);
+  }
 
   async createListen(listen: ToBeCreatedListen): Promise<Listen > {
     const listenEntityInput = {

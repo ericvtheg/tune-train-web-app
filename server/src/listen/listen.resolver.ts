@@ -14,7 +14,6 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 export class ListenResolver {
   constructor(
     private listenService: ListenService,
-    private listenQueue: ListenQueue,
     private songService: SongService,
     private userService: UserService,
   ) {}
@@ -25,9 +24,8 @@ export class ListenResolver {
     @Args('listenToSongData') listenToSongData: ListenToSongInput,
       @Id() userId: UserId,
   ): Promise<string> {
-    // TODO this could emit an event instead of injection?
     const body = { userId, ...listenToSongData };
-    await this.listenQueue.produceListenMessage(body);
+    await this.listenService.produceListenMessage(body);
     return 'Sent to ingestion pipeline';
   }
 

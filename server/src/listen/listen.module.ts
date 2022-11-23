@@ -1,4 +1,6 @@
 import { Module, forwardRef } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { SqsModule } from '@ssut/nestjs-sqs';
 import { ListenQueue } from 'src/listen/listen.queue';
 import { ListenResolver } from 'src/listen/listen.resolver';
 import { ListenService } from 'src/listen/listen.service';
@@ -7,8 +9,7 @@ import { SongModule } from 'src/song/song.module';
 import { UserModule } from 'src/user/user.module';
 import { QueueModule } from 'src/common/services/queue/queue.module';
 import { TransformedConfig } from 'src/common/config/config';
-import { ConfigService } from '@nestjs/config';
-import { SqsModule } from '@ssut/nestjs-sqs';
+
 
 @Module({
   imports: [
