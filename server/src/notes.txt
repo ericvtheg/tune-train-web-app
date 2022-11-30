@@ -1,19 +1,23 @@
 Things that need to be done:
-* how to upload song
+* how to upload song safely (i.e. making 100% sure song is uploaded)
 
 Nice to haves: (sort these by priority)
 * findUnHeardSong -> discoverSong
+* profanity filter for description / etc
+* how to make sure description etc can't be used to embed javascript code
+* song of the day (first song shown when joining website)
+* ability to add genres to song and search by them?
+* add comments (make only visible after locking in like?)
 * listenToSong -> rateSong / critiqueSong / reviewSong / ?
 * highlight a portion of the song
 * need links to the direct song, not just spotify profile (this is different than socials)
 * fail if !exist for s3 download
+* make the necessary endpoints not require authentication
 * socials 
-* fix up arg types for Prisma (i think they're broken?)
 * extra endpoint verification for 
   * song delete
   * listen to song
 * Test does my service/repo transient thing work?
-* global jwt auth guards where required
 * datetime scalar
 * apollo logging plugin
 * prisma logging middleware
@@ -28,16 +32,12 @@ Nice to haves: (sort these by priority)
 * figure out how to best mock providers/entities
 * better unit tests, service layer should only test for branching, entity repositories should have unit tests
 
-// aws sqs purge-queue --endpoint-url http://localhost:4566 --queue-url "http://localhost:4566/000000000000/tune-train-listens-queue-sqs"
+// aws sqs purge-queue --endpoint-url http://localhost:4566 --queue-url "http://localhost:4566/000000000000/tune-train-listen-sqs-queue-local"
 
 // https://stackoverflow.com/questions/62054703/avoiding-circular-dependencies-the-right-way-nestjs
-// https://stackoverflow.com/questions/61445185/how-to-implement-user-guards-in-nestjs-graphql
-
-// Login (authentication)
-// General authorization
 
 
-// ***** cloud stuff
+// ***** cloud infra stuff
 // destroy
 // make it so literally everything is built using just terraform CLI
 // cloudfront caching and rate limiting

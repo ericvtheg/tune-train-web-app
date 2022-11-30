@@ -1,41 +1,5 @@
-UI Needs (TODO sort by priority ):
-* Logo
-* Discovery Tool
-  * artist avatar
-  * user avatar (?)
-  * stage name
-  * song title
-  * song description
-  * mp3 player (would like this to be pretty)
-  * like / dislike
-  * would like to look at artist page without leaving song
-  * socials (TBD)
-* Some sort of home bar that shows stageName/firstName w/ avatar
-* Discovered Songs for user page would be cool (kind of requires a connection graphql type)
-* Some sort of metrics page for artist would be cool
-* Account Page (iffy on how this one should work - overall I don't think people should need to leave the listening experience)
-  * ability to update account (user/artist) info if viewing user owns it
-  * ability to become artist
-* Upload song Modal
-* Sign up Modal (overall I would like artists to get a general feel for the website before uploading songs)
-  * User sign up > (should automatically log user in)
-  * Artist Sign up modal (optional)
-* Song upload modal
-  * Song name
-  * description
-  * file upload
-* General explanation of tune train's mission
 
-UX needs:
-* would like to be mobile friendly
-* solid branding
-* need to be able to discoverSongs without being logged in
 
-Call to actions:
-* discover music
-  * like / dislike
-  * artist profile 
-  * social media(s) / actual song saving
-* sign up as user
-* sign up as artist
-  * upload song
+https://www.gnoosic.com/suppose_summary.php
+https://www.gnod.com/
+
