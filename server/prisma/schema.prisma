@@ -34,11 +34,22 @@ model Artist {
   image      String
   user       User     @relation(fields: [id], references: [id])
   songs      Song[]
+  socials    Social?
 
   @@map("artist")
 }
 
-// model Social {}
+model Social {
+  id String   @id @default(cuid())
+  instagram   String?
+  tiktok      String?
+  twitter     String?
+  artist_id   String
+  artist      Artist   @relation(fields: [artist_id], references: [id])
+
+  @@unique([artist_id], map: "artist_id_social_unique_constraint")
+  @@map("social")
+}
 
 model Song {
   id          String   @id @default(cuid())

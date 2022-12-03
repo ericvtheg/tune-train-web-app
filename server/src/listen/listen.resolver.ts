@@ -1,6 +1,6 @@
 import { Resolver, Query, Args, ResolveField, Parent, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { Listen, ListenToSongInput } from 'src/listen/listen.model';
+import { Listen, ListenToSongInput, ListenToSongResponse } from 'src/listen/listen.model';
 import { UserId, UserService } from 'src/user/user.service';
 import { User } from 'src/user/user.model';
 import { ListenService, ListenId } from 'src/listen/listen.service';
@@ -17,15 +17,15 @@ export class ListenResolver {
     private userService: UserService,
   ) {}
 
-  @Mutation(returns => String)
+  @Mutation(returns => ListenToSongResponse)
   @UseGuards(JwtAuthGuard)
   async listenToSong(
     @Args('input') listenToSongData: ListenToSongInput,
       @Id() userId: UserId,
-  ): Promise<string> {
+  ): Promise<ListenToSongResponse> {
     const body = { userId, ...listenToSongData };
     await this.listenService.produceListenMessage(body);
-    return 'Sent to ingestion pipeline';
+    return { result: 'Sent to ingestion pipeline' };
   }
 
   @Query(returns => Listen, { nullable: true })

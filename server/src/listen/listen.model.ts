@@ -27,3 +27,9 @@ export class ListenToSongInput {
   @Field(type => Boolean)
   liked: boolean;
 }
+
+@ObjectType({ description: 'listen' })
+export class ListenToSongResponse {
+  @Field(type => String)
+  result: string;
+}
