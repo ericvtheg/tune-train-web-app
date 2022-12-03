@@ -54,14 +54,14 @@ type Query {
 }
 
 type Mutation {
-  createSong(createSongData: CreateSongInput!): Song!
+  createSong(input: CreateSongInput!): Song!
   deleteSong(id: String!): String!
-  listenToSong(listenToSongData: ListenToSongInput!): String!
-  createArtist(createArtistData: CreateArtistInput!): Artist!
-  updateArtist(updateArtistData: UpdateArtistInput!): Artist!
-  login(userLoginData: UserLoginInput!): UserLoginOutput!
-  createUser(createUserData: CreateUserInput!): User!
-  updateUser(updateUserData: UpdateUserInput!): User!
+  listenToSong(input: ListenToSongInput!): String!
+  createArtist(input: CreateArtistInput!): Artist!
+  updateArtist(input: UpdateArtistInput!): Artist!
+  login(input: UserLoginInput!): UserLoginOutput!
+  createUser(input: CreateUserInput!): User!
+  updateUser(input: UpdateUserInput!): User!
 }
 
 input CreateSongInput {

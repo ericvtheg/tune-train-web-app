@@ -20,7 +20,7 @@ export class ListenResolver {
   @Mutation(returns => String)
   @UseGuards(JwtAuthGuard)
   async listenToSong(
-    @Args('listenToSongData') listenToSongData: ListenToSongInput,
+    @Args('input') listenToSongData: ListenToSongInput,
       @Id() userId: UserId,
   ): Promise<string> {
     const body = { userId, ...listenToSongData };

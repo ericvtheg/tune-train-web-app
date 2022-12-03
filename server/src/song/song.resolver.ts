@@ -21,7 +21,7 @@ export class SongResolver {
   @Mutation(returns => Song)
   @UseGuards(JwtAuthGuard)
   async createSong(
-    @Args('createSongData') createSongData: CreateSongInput,
+    @Args('input') createSongData: CreateSongInput,
       @Id() artistId: ArtistId,
   ): Promise<Song> {
     return await this.songService.createSong({

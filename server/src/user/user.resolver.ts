@@ -23,21 +23,21 @@ export class UserResolver {
   @Mutation(returns => UserLoginOutput)
   @UseGuards(LocalAuthGuard)
   async login(
-    @Args('userLoginData') userLoginData: UserLoginInput,
+    @Args('input') userLoginData: UserLoginInput,
       @AccessToken() accessToken: string,
   ): Promise<UserLoginOutput> {
     return { accessToken };
   }
 
   @Mutation(returns => User)
-  async createUser(@Args('createUserData', HashPipe) createUserData: CreateUserInput): Promise<User> {
+  async createUser(@Args('input', HashPipe) createUserData: CreateUserInput): Promise<User> {
     return await this.userService.createUser(createUserData);
   }
 
   @Mutation(returns => User)
   @UseGuards(JwtAuthGuard)
   async updateUser(
-    @Args('updateUserData', HashPipe) updateUserData: UpdateUserInput,
+    @Args('input', HashPipe) updateUserData: UpdateUserInput,
       @Id() id: UserId,
   ): Promise<User> {
     return await this.userService.updateUser(id, updateUserData);

@@ -20,7 +20,7 @@ export class ArtistResolver {
   @Mutation(returns => Artist)
   @UseGuards(JwtAuthGuard)
   async createArtist(
-    @Args('createArtistData') createArtistData: CreateArtistInput,
+    @Args('input') createArtistData: CreateArtistInput,
       @Id() userId: UserId,
   ): Promise<Artist>{
     return await this.artistService.createArtist(
@@ -32,7 +32,7 @@ export class ArtistResolver {
   @Mutation(returns => Artist)
   @UseGuards(JwtAuthGuard)
   async updateArtist(
-    @Args('updateArtistData') updateArtistData: UpdateArtistInput,
+    @Args('input') updateArtistData: UpdateArtistInput,
       @Id() id: ArtistId,
   ): Promise<Artist> {
     return await this.artistService.updateArtist(id, updateArtistData);
