@@ -1,6 +1,6 @@
 import { Query, Resolver, Args, ResolveField, Parent, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { Song, CreateSongInput } from 'src/song/song.model';
+import { Song, CreateSongInput, DeleteSongResponse, CreateSongResponse, Download } from 'src/song/song.model';
 import { SongService, SongId } from 'src/song/song.service';
 import { ArtistService, ArtistId } from 'src/artist/artist.service';
 import { Artist } from 'src/artist/artist.model';
@@ -18,24 +18,25 @@ export class SongResolver {
     private artistService: ArtistService,
   ) {}
 
-  @Mutation(returns => Song)
+  @Mutation(returns => CreateSongResponse)
   @UseGuards(JwtAuthGuard)
   async createSong(
     @Args('input') createSongData: CreateSongInput,
       @Id() artistId: ArtistId,
-  ): Promise<Song> {
-    return await this.songService.createSong({
+  ): Promise<CreateSongResponse> {
+    const song = await this.songService.createSong({
       artistId,
       ...createSongData,
     });
+    return { song };
   }
 
-  @Mutation(returns => String)
+  @Mutation(returns => DeleteSongResponse)
   @UseGuards(JwtAuthGuard)
-  async deleteSong(@Args('id') id: SongId): Promise<String> {
+  async deleteSong(@Args('id') id: SongId): Promise<DeleteSongResponse> {
     // TODO should I use artistId here to make sure people can only delete their own songs?
     await this.songService.deleteSong(id);
-    return 'Successfully deleted song';
+    return { result: 'Successfully deleted song' };
   }
 
   @Query(returns => Song, { nullable: true })
@@ -50,10 +51,11 @@ export class SongResolver {
     return await this.songService.findSongById(id);
   }
 
-  @ResolveField('downloadLink', returns => String)
-  async downloadLink(@Parent() song: Song): Promise<string>{
+  @ResolveField('download', returns => Download)
+  async downloadLink(@Parent() song: Song): Promise<Download>{
     const { id } = song;
-    return await this.songService.getSongDownloadLink(id);
+    const link = await this.songService.getSongDownloadLink(id);
+    return { link };
   }
 
   @ResolveField('listens', returns => [Listen], { nullable: 'items' })

@@ -10,9 +10,12 @@ type Listen {
   liked: Boolean!
 }
 
-"""listen"""
 type ListenToSongResponse {
   result: String!
+}
+
+type Download {
+  link: String!
 }
 
 """song"""
@@ -20,9 +23,17 @@ type Song {
   id: ID!
   title: String!
   description: String!
-  downloadLink: String!
+  download: Download!
   listens: [Listen]!
   artist: Artist!
+}
+
+type CreateSongResponse {
+  song: Song!
+}
+
+type DeleteSongResponse {
+  result: String!
 }
 
 """artist"""
@@ -59,8 +70,8 @@ type Query {
 }
 
 type Mutation {
-  createSong(input: CreateSongInput!): Song!
-  deleteSong(id: String!): String!
+  createSong(input: CreateSongInput!): CreateSongResponse!
+  deleteSong(id: String!): DeleteSongResponse!
   listenToSong(input: ListenToSongInput!): ListenToSongResponse!
   createArtist(input: CreateArtistInput!): Artist!
   updateArtist(input: UpdateArtistInput!): Artist!
