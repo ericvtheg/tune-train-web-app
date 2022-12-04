@@ -1,6 +1,14 @@
 import { Query, Resolver, Args, ResolveField, Parent, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { Song, CreateSongInput, DeleteSongResponse, CreateSongResponse, Download } from 'src/song/song.model';
+import {
+  Song,
+  SongResponse,
+  CreateSongInput,
+  DeleteSongResponse,
+  CreateSongResponse,
+  DiscoverSongResponse,
+  FileDownload,
+} from 'src/song/song.model';
 import { SongService, SongId } from 'src/song/song.service';
 import { ArtistService, ArtistId } from 'src/artist/artist.service';
 import { Artist } from 'src/artist/artist.model';
@@ -39,20 +47,22 @@ export class SongResolver {
     return { result: 'Successfully deleted song' };
   }
 
-  @Query(returns => Song, { nullable: true })
+  @Query(returns => DiscoverSongResponse)
   @UseGuards(JwtAuthGuard)
-  async discoverSong(@Id() userId: UserId): Promise<Song | null> {
+  async discoverSong(@Id() userId: UserId): Promise<DiscoverSongResponse> {
     // TODO would like to not require auth for this
-    return await this.songService.findUnheardSong(userId);
+    const song = await this.songService.findUnheardSong(userId);
+    return { song };
   }
 
-  @Query(returns => Song, { nullable: true })
-  async song(@Args('id') id: SongId): Promise<Song | null> {
-    return await this.songService.findSongById(id);
+  @Query(returns => SongResponse)
+  async song(@Args('id') id: SongId): Promise<SongResponse> {
+    const song = await this.songService.findSongById(id);
+    return { song };
   }
 
-  @ResolveField('fileDownload', returns => Download)
-  async downloadLink(@Parent() song: Song): Promise<Download>{
+  @ResolveField('fileDownload', returns => FileDownload)
+  async downloadLink(@Parent() song: Song): Promise<FileDownload>{
     const { id } = song;
     const link = await this.songService.getSongDownloadLink(id);
     return { link };

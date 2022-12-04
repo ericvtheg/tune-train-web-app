@@ -2,6 +2,7 @@ import { Query, Resolver, Args, ResolveField, Parent, Mutation } from '@nestjs/g
 import { UseGuards } from '@nestjs/common';
 import {
   Artist,
+  ArtistResponse,
   CreateArtistInput,
   CreateArtistResponse,
   UpdateArtistInput,
@@ -46,9 +47,10 @@ export class ArtistResolver {
     return { artist };
   }
 
-  @Query(returns => Artist, { nullable: true })
-  async artist(@Args('id') id: ArtistId): Promise<Artist | null> {
-    return await this.artistService.findArtistById(id);
+  @Query(returns => ArtistResponse)
+  async artist(@Args('id') id: ArtistId): Promise<ArtistResponse> {
+    const artist = await this.artistService.findArtistById(id);
+    return { artist };
   }
 
   @ResolveField('songs', returns => [Song])

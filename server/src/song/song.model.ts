@@ -6,7 +6,7 @@ import { DownloadLink } from 'src/common/services/file-storage/file-storage.serv
 
 
 @ObjectType()
-export class Download {
+export class FileDownload {
   @Field(type => String)
   link: DownloadLink;
 }
@@ -22,8 +22,8 @@ export class Song {
   @Field(type => String)
   description: string;
 
-  @Field(type => Download)
-  fileDownload?: Download;
+  @Field(type => FileDownload)
+  fileDownload?: FileDownload;
 
   // TODO this should be a connection type
   @Field(type => [Listen], { nullable: 'items' })
@@ -40,6 +40,18 @@ export class CreateSongInput {
 
   @Field(type => String)
   description: string;
+}
+
+@ObjectType()
+export class SongResponse {
+  @Field(type => Song, { nullable: true })
+  song: Song | null;
+}
+
+@ObjectType()
+export class DiscoverSongResponse {
+  @Field(type => Song, { nullable: true })
+  song: Song | null;
 }
 
 @ObjectType()

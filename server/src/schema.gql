@@ -2,7 +2,7 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-"""listen"""
+"""An abstract type for the act of listening to a song"""
 type Listen {
   id: ID!
   user: User!
@@ -10,11 +10,15 @@ type Listen {
   liked: Boolean!
 }
 
+type ListenResponse {
+  listen: Listen
+}
+
 type ListenToSongResponse {
   result: String!
 }
 
-type Download {
+type FileDownload {
   link: String!
 }
 
@@ -23,9 +27,17 @@ type Song {
   id: ID!
   title: String!
   description: String!
-  fileDownload: Download!
+  fileDownload: FileDownload!
   listens: [Listen]!
   artist: Artist!
+}
+
+type SongResponse {
+  song: Song
+}
+
+type DiscoverSongResponse {
+  song: Song
 }
 
 type CreateSongResponse {
@@ -44,6 +56,10 @@ type Artist {
   image: String!
   songs: [Song]!
   user: User!
+}
+
+type ArtistResponse {
+  artist: Artist
 }
 
 type CreateArtistResponse {
@@ -69,6 +85,10 @@ type UserLoginResponse {
   accessToken: String!
 }
 
+type UserResponse {
+  user: UserResponse
+}
+
 type CreateUserResponse {
   user: User!
 }
@@ -78,11 +98,11 @@ type UpdateUserResponse {
 }
 
 type Query {
-  discoverSong: Song
-  song(id: String!): Song
-  listen(id: String!): Listen
-  artist(id: String!): Artist
-  user(id: String!): User
+  discoverSong: DiscoverSongResponse!
+  song(id: String!): SongResponse!
+  listen(id: String!): ListenResponse!
+  artist(id: String!): ArtistResponse!
+  user(id: String!): UserResponse!
 }
 
 type Mutation {

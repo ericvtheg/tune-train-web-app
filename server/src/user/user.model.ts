@@ -62,6 +62,12 @@ export class CreateUserInput {
 }
 
 @ObjectType()
+export class UserResponse {
+  @Field(type => UserResponse, { nullable: true })
+  user: User | null;
+}
+
+@ObjectType()
 export class CreateUserResponse {
   @Field(type => User)
   user: User;

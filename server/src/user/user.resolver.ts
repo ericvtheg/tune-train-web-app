@@ -1,7 +1,9 @@
 import { Query, Resolver, Args, ResolveField, Parent, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { HashPipe } from 'src/common/pipes/hash.pipe';
-import { User,
+import {
+  User,
+  UserResponse,
   CreateUserInput,
   UpdateUserInput,
   UserLoginInput,
@@ -52,9 +54,10 @@ export class UserResolver {
     return { user };
   }
 
-  @Query(returns => User, { nullable: true })
-  async user(@Args('id') id: UserId): Promise<User | null> {
-    return await this.userService.findUserById(id);
+  @Query(returns => UserResponse)
+  async user(@Args('id') id: UserId): Promise<UserResponse> {
+    const user = await this.userService.findUserById(id);
+    return { user };
   }
 
   @ResolveField('artist', returns => Artist)
