@@ -38,6 +38,12 @@ export class CreateArtistInput {
   image: string;
 }
 
+@ObjectType()
+export class CreateArtistResponse {
+  @Field(type => Artist)
+  artist: Artist;
+}
+
 @InputType()
 export class UpdateArtistInput {
   @Field(type => String, { nullable: true })
@@ -48,4 +54,10 @@ export class UpdateArtistInput {
 
   @Field(type => String, { nullable: true })
   image?: string;
+}
+
+@ObjectType()
+export class UpdateArtistResponse {
+  @Field(type => Artist)
+  artist: Artist;
 }

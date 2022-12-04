@@ -1,7 +1,14 @@
 import { Query, Resolver, Args, ResolveField, Parent, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { HashPipe } from 'src/common/pipes/hash.pipe';
-import { User, CreateUserInput, UpdateUserInput, UserLoginInput, UserLoginOutput } from 'src/user/user.model';
+import { User,
+  CreateUserInput,
+  UpdateUserInput,
+  UserLoginInput,
+  UserLoginResponse,
+  CreateUserResponse,
+  UpdateUserResponse,
+} from 'src/user/user.model';
 import { UserService, UserId } from 'src/user/user.service';
 import { Artist } from 'src/artist/artist.model';
 import { ArtistService } from 'src/artist/artist.service';
@@ -20,27 +27,29 @@ export class UserResolver {
     private listenService: ListenService,
   ) {}
 
-  @Mutation(returns => UserLoginOutput)
+  @Mutation(returns => UserLoginResponse)
   @UseGuards(LocalAuthGuard)
   async login(
     @Args('input') userLoginData: UserLoginInput,
       @AccessToken() accessToken: string,
-  ): Promise<UserLoginOutput> {
+  ): Promise<UserLoginResponse> {
     return { accessToken };
   }
 
-  @Mutation(returns => User)
-  async createUser(@Args('input', HashPipe) createUserData: CreateUserInput): Promise<User> {
-    return await this.userService.createUser(createUserData);
+  @Mutation(returns => CreateUserResponse)
+  async createUser(@Args('input', HashPipe) createUserData: CreateUserInput): Promise<CreateUserResponse> {
+    const user = await this.userService.createUser(createUserData);
+    return { user };
   }
 
-  @Mutation(returns => User)
+  @Mutation(returns => UpdateUserResponse)
   @UseGuards(JwtAuthGuard)
   async updateUser(
     @Args('input', HashPipe) updateUserData: UpdateUserInput,
       @Id() id: UserId,
-  ): Promise<User> {
-    return await this.userService.updateUser(id, updateUserData);
+  ): Promise<UpdateUserResponse> {
+    const user = await this.userService.updateUser(id, updateUserData);
+    return { user };
   }
 
   @Query(returns => User, { nullable: true })

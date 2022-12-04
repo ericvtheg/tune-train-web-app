@@ -38,7 +38,7 @@ export class UserLoginInput {
 }
 
 @ObjectType()
-export class UserLoginOutput {
+export class UserLoginResponse {
   @Field(() => String)
   accessToken: string;
 }
@@ -61,6 +61,12 @@ export class CreateUserInput {
   lastName: string | null;
 }
 
+@ObjectType()
+export class CreateUserResponse {
+  @Field(type => User)
+  user: User;
+}
+
 @InputType()
 export class UpdateUserInput {
   @Field(type => String, { nullable: true })
@@ -74,4 +80,10 @@ export class UpdateUserInput {
 
   @Field(type => String, { nullable: true })
   lastName?: string | null;
+}
+
+@ObjectType()
+export class UpdateUserResponse {
+  @Field(type => User)
+  user: User;
 }

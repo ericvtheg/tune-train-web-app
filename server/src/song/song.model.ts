@@ -23,7 +23,7 @@ export class Song {
   description: string;
 
   @Field(type => Download)
-  download?: Download;
+  fileDownload?: Download;
 
   // TODO this should be a connection type
   @Field(type => [Listen], { nullable: 'items' })

@@ -23,7 +23,7 @@ type Song {
   id: ID!
   title: String!
   description: String!
-  download: Download!
+  fileDownload: Download!
   listens: [Listen]!
   artist: Artist!
 }
@@ -46,6 +46,14 @@ type Artist {
   user: User!
 }
 
+type CreateArtistResponse {
+  artist: Artist!
+}
+
+type UpdateArtistResponse {
+  artist: Artist!
+}
+
 """user"""
 type User {
   id: ID!
@@ -57,8 +65,16 @@ type User {
   listens: [Listen]!
 }
 
-type UserLoginOutput {
+type UserLoginResponse {
   accessToken: String!
+}
+
+type CreateUserResponse {
+  user: User!
+}
+
+type UpdateUserResponse {
+  user: User!
 }
 
 type Query {
@@ -73,11 +89,11 @@ type Mutation {
   createSong(input: CreateSongInput!): CreateSongResponse!
   deleteSong(id: String!): DeleteSongResponse!
   listenToSong(input: ListenToSongInput!): ListenToSongResponse!
-  createArtist(input: CreateArtistInput!): Artist!
-  updateArtist(input: UpdateArtistInput!): Artist!
-  login(input: UserLoginInput!): UserLoginOutput!
-  createUser(input: CreateUserInput!): User!
-  updateUser(input: UpdateUserInput!): User!
+  createArtist(input: CreateArtistInput!): CreateArtistResponse!
+  updateArtist(input: UpdateArtistInput!): UpdateArtistResponse!
+  login(input: UserLoginInput!): UserLoginResponse!
+  createUser(input: CreateUserInput!): CreateUserResponse!
+  updateUser(input: UpdateUserInput!): UpdateUserResponse!
 }
 
 input CreateSongInput {
