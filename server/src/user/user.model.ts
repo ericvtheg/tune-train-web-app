@@ -28,6 +28,12 @@ export class User {
   listens?: [Listen];
 }
 
+@ObjectType()
+export class UserResponse {
+  @Field(type => UserResponse, { nullable: true })
+  user: User | null;
+}
+
 @InputType()
 export class UserLoginInput {
   @Field(type => String)
@@ -59,12 +65,6 @@ export class CreateUserInput {
 
   @Field(type => String, { nullable: true })
   lastName: string | null;
-}
-
-@ObjectType()
-export class UserResponse {
-  @Field(type => UserResponse, { nullable: true })
-  user: User | null;
 }
 
 @ObjectType()
