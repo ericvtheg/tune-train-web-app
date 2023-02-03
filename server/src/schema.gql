@@ -81,12 +81,12 @@ type User {
   listens: [Listen]!
 }
 
-type UserLoginResponse {
-  accessToken: String!
-}
-
 type UserResponse {
   user: UserResponse
+}
+
+type UserLoginResponse {
+  accessToken: String!
 }
 
 type CreateUserResponse {
