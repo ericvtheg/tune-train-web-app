@@ -37,12 +37,6 @@ export class CreateSongInput {
 }
 
 @ObjectType()
-export class SongResponse {
-  @Field(type => Song, { nullable: true })
-  song: Song | null;
-}
-
-@ObjectType()
 export class DiscoverSongResponse {
   @Field(type => Song, { nullable: true })
   song: Song | null;
@@ -52,10 +46,4 @@ export class DiscoverSongResponse {
 export class CreateSongResponse {
   @Field(type => Song)
   song: Song;
-}
-
-@ObjectType()
-export class DeleteSongResponse {
-  @Field(type => String)
-  result: string;
 }
