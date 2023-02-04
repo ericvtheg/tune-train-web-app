@@ -43,12 +43,6 @@ export class SongResolver {
     return { song };
   }
 
-  @Query(returns => SongResponse)
-  async song(@Args('id') id: SongId): Promise<SongResponse> {
-    const song = await this.songService.findSongById(id);
-    return { song };
-  }
-
   @ResolveField('fileDownload', returns => FileDownload)
   async downloadLink(@Parent() song: Song): Promise<FileDownload>{
     const { id } = song;

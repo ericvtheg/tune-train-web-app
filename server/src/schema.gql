@@ -15,10 +15,6 @@ type Song {
   artist: Artist!
 }
 
-type SongResponse {
-  song: Song
-}
-
 type DiscoverSongResponse {
   song: Song
 }
@@ -94,7 +90,6 @@ type UpdateUserResponse {
 
 type Query {
   discoverSong: DiscoverSongResponse!
-  song(id: String!): SongResponse!
   artist(id: String!): ArtistResponse!
   user(id: String!): UserResponse!
   listen(id: String!): ListenResponse!
