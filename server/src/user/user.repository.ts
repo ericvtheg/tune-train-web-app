@@ -2,8 +2,6 @@ import { PrismaService } from 'nestjs-prisma';
 import { UserId } from 'src/user/user.service';
 import { Injectable } from '@nestjs/common';
 import { User, Prisma } from '@prisma/client';
-import { ListenId } from 'src/listen/listen.service';
-import { ArtistId } from 'src/artist/artist.service';
 
 export type UserEntity = User;
 
@@ -17,28 +15,7 @@ export class UserRepository {
     });
   }
 
-  async updateOne(id: UserId, data: Prisma.UserUncheckedUpdateInput): Promise<UserEntity> {
-    return await this.prisma.user.update({
-      data,
-      where: {
-        id,
-      },
-    });
-  }
-
-  async findOneById(id: UserId): Promise<UserEntity | null> {
-    return await this.prisma.user.findUnique({ where: { id } });
-  }
-
   async findOneByEmail(email: string): Promise<UserEntity | null> {
     return await this.prisma.user.findUnique({ where: { email } });
-  }
-
-  async findOneByListenId(listenId: ListenId): Promise<UserEntity | null> {
-    return await this.prisma.listen.findUnique({ where: { id: listenId } }).user();
-  }
-
-  async findOneByArtistId(artistId: ArtistId): Promise<UserEntity | null> {
-    return await this.prisma.artist.findUnique({ where: { id: artistId } }).user();
   }
 }

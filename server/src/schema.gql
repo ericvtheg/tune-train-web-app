@@ -72,10 +72,6 @@ type User {
   listens: [Listen]!
 }
 
-type UserResponse {
-  user: UserResponse
-}
-
 type UserLoginResponse {
   accessToken: String!
 }
@@ -84,14 +80,9 @@ type CreateUserResponse {
   user: User!
 }
 
-type UpdateUserResponse {
-  user: User!
-}
-
 type Query {
   discoverSong: DiscoverSongResponse!
   artist(id: String!): ArtistResponse!
-  user(id: String!): UserResponse!
   listen(id: String!): ListenResponse!
 }
 
@@ -101,7 +92,6 @@ type Mutation {
   updateArtist(input: UpdateArtistInput!): UpdateArtistResponse!
   login(input: UserLoginInput!): UserLoginResponse!
   createUser(input: CreateUserInput!): CreateUserResponse!
-  updateUser(input: UpdateUserInput!): UpdateUserResponse!
   listenToSong(input: ListenToSongInput!): ListenToSongResponse!
 }
 
@@ -132,13 +122,6 @@ input CreateUserInput {
   password: String!
   email: String!
   firstName: String!
-  lastName: String
-}
-
-input UpdateUserInput {
-  username: String
-  password: String
-  firstName: String
   lastName: String
 }
 
