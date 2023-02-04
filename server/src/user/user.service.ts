@@ -31,6 +31,7 @@ export class UserService {
       email: user.email,
       password: user.password,
       first_name: user.firstName,
+      artist_id: null,
     };
     const userEntity = await this.userRepository.saveOne(userEntityInput);
     return transform(userEntity);
