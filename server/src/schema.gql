@@ -59,17 +59,12 @@ type Listen {
   liked: Boolean!
 }
 
-type ListenResponse {
-  listen: Listen
-}
-
 type ListenToSongResponse {
   result: String!
 }
 
 type Query {
   discoverSong: DiscoverSongResponse!
-  listen(id: String!): ListenResponse!
 }
 
 type Mutation {

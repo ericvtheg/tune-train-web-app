@@ -42,19 +42,4 @@ export class ListenService {
     const listenEntity = await this.listenRepository.saveOne(listenEntityInput);
     return transform(listenEntity);
   }
-
-  async findListenById(id: ListenId): Promise<Listen | null> {
-    const listenEntity = await this.listenRepository.findOneById(id);
-    return listenEntity ? transform(listenEntity) : null;
-  }
-
-  async findUserListens(userId: UserId): Promise<Listen[]> {
-    const listenEntities = await this.listenRepository.findManyByUserId(userId);
-    return listenEntities.map(listenEntity => transform(listenEntity));
-  }
-
-  async findSongListens(songId: SongId): Promise<Listen[]> {
-    const listenEntities = await this.listenRepository.findManyBySongId(songId);
-    return listenEntities.map(listenEntity => transform(listenEntity));
-  }
 }

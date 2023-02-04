@@ -4,8 +4,7 @@ import { ArtistService } from 'src/artist/artist.service';
 import { ArtistRepository } from 'src/artist/artist.repository';
 
 @Module({
-  imports: [
-  ],
+  imports: [],
   providers: [ArtistResolver, ArtistService, ArtistRepository],
   exports: [ArtistService],
 })
