@@ -11,7 +11,6 @@ export interface User {
   email: string;
   password: string;
   firstName: string;
-  lastName: string | null;
 }
 
 const transform = (entity: UserEntity): User => ({
@@ -20,7 +19,6 @@ const transform = (entity: UserEntity): User => ({
   email: entity.email,
   password: entity.password,
   firstName: entity.first_name,
-  lastName: entity.last_name,
 });
 
 @Injectable()
@@ -33,7 +31,6 @@ export class UserService {
       email: user.email,
       password: user.password,
       first_name: user.firstName,
-      last_name: user.lastName,
     };
     const userEntity = await this.userRepository.saveOne(userEntityInput);
     return transform(userEntity);

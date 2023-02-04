@@ -14,9 +14,6 @@ export class User {
 
   @Field(type => String)
   firstName: string;
-
-  @Field(type => String, { nullable: true })
-  lastName: string | null;
 }
 
 @InputType()
@@ -47,9 +44,6 @@ export class CreateUserInput {
 
   @Field(type => String)
   firstName: string;
-
-  @Field(type => String, { nullable: true })
-  lastName: string | null;
 }
 
 @ObjectType()
