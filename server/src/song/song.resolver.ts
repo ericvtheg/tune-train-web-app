@@ -8,18 +8,14 @@ import {
   FileDownload,
 } from 'src/song/song.model';
 import { SongService } from 'src/song/song.service';
-import { ArtistService, ArtistId } from 'src/artist/artist.service';
-import { Artist } from 'src/artist/artist.model';
+import { ArtistId } from 'src/artist/artist.service';
 import { UserId } from 'src/user/user.service';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { Id } from 'src/common/decorators/id.decorator';
 
 @Resolver(() => Song)
 export class SongResolver {
-  constructor(
-    private songService: SongService,
-    private artistService: ArtistService,
-  ) {}
+  constructor(private songService: SongService) {}
 
   @Mutation(returns => CreateSongResponse)
   @UseGuards(JwtAuthGuard)
@@ -47,11 +43,5 @@ export class SongResolver {
     const { id } = song;
     const link = await this.songService.getSongDownloadLink(id);
     return { link };
-  }
-
-  @ResolveField('artist', returns => Artist)
-  async artist(@Parent() song: Song): Promise<Artist | null> {
-    const { id } = song;
-    return await this.artistService.findArtistBySongId(id);
   }
 }

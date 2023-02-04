@@ -37,29 +37,4 @@ export class ArtistService {
     const artistEntity = await this.artistRepository.saveOne(userId, artistEntityInput);
     return transform(artistEntity);
   }
-
-  async updateArtist(id: ArtistId, partialArtist: UpdateArtist): Promise<Artist> {
-    const artistEntityUpdateInput = {
-      stage_name: partialArtist.stageName,
-      bio: partialArtist.bio,
-      image: partialArtist.image,
-    };
-    const artistEntity = await this.artistRepository.updateOne(id, artistEntityUpdateInput);
-    return transform(artistEntity);
-  }
-
-  async findArtistById(id: ArtistId): Promise<Artist | null> {
-    const artistEntity = await this.artistRepository.findOneById(id);
-    return artistEntity ? transform(artistEntity) : null;
-  }
-
-  async findArtistByUserId(id: UserId): Promise<Artist | null> {
-    const artistEntity = await this.artistRepository.findOneByUserId(id);
-    return artistEntity ? transform(artistEntity) : null;
-  }
-
-  async findArtistBySongId(songId: SongId): Promise<Artist | null> {
-    const artistEntity = await this.artistRepository.findOneBySongId(songId);
-    return artistEntity ? transform(artistEntity) : null;
-  }
 }

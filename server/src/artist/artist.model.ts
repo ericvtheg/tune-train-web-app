@@ -1,6 +1,4 @@
 import { Field, ID, ObjectType, InputType } from '@nestjs/graphql';
-import { Song } from 'src/song/song.model';
-import { User } from 'src/user/user.model';
 import { ArtistId } from 'src/artist/artist.service';
 
 @ObjectType({ description: 'artist' })
@@ -16,13 +14,6 @@ export class Artist {
 
   @Field(type => String)
   image: string;
-
-  // TODO this should be a connection type
-  @Field(type => [Song], { nullable: 'items' })
-  songs?: [Song];
-
-  @Field(type => User)
-  user?: User;
 }
 
 @InputType()
@@ -45,24 +36,6 @@ export class ArtistResponse {
 
 @ObjectType()
 export class CreateArtistResponse {
-  @Field(type => Artist)
-  artist: Artist;
-}
-
-@InputType()
-export class UpdateArtistInput {
-  @Field(type => String, { nullable: true })
-  stageName?: string;
-
-  @Field(type => String, { nullable: true })
-  bio?: string;
-
-  @Field(type => String, { nullable: true })
-  image?: string;
-}
-
-@ObjectType()
-export class UpdateArtistResponse {
   @Field(type => Artist)
   artist: Artist;
 }

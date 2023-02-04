@@ -2,6 +2,35 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+"""user"""
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  firstName: String!
+  lastName: String
+}
+
+type UserLoginResponse {
+  accessToken: String!
+}
+
+type CreateUserResponse {
+  user: User!
+}
+
+"""artist"""
+type Artist {
+  id: ID!
+  stageName: String!
+  bio: String!
+  image: String!
+}
+
+type CreateArtistResponse {
+  artist: Artist!
+}
+
 type FileDownload {
   link: String!
 }
@@ -23,28 +52,6 @@ type CreateSongResponse {
   song: Song!
 }
 
-"""artist"""
-type Artist {
-  id: ID!
-  stageName: String!
-  bio: String!
-  image: String!
-  songs: [Song]!
-  user: User!
-}
-
-type ArtistResponse {
-  artist: Artist
-}
-
-type CreateArtistResponse {
-  artist: Artist!
-}
-
-type UpdateArtistResponse {
-  artist: Artist!
-}
-
 """An abstract type for the act of listening to a song"""
 type Listen {
   id: ID!
@@ -61,38 +68,17 @@ type ListenToSongResponse {
   result: String!
 }
 
-"""user"""
-type User {
-  id: ID!
-  username: String!
-  email: String!
-  firstName: String!
-  lastName: String
-  artist: Artist
-  listens: [Listen]!
-}
-
-type UserLoginResponse {
-  accessToken: String!
-}
-
-type CreateUserResponse {
-  user: User!
-}
-
 type Query {
   discoverSong: DiscoverSongResponse!
-  artist(id: String!): ArtistResponse!
   listen(id: String!): ListenResponse!
 }
 
 type Mutation {
   createSong(input: CreateSongInput!): CreateSongResponse!
-  createArtist(input: CreateArtistInput!): CreateArtistResponse!
-  updateArtist(input: UpdateArtistInput!): UpdateArtistResponse!
+  listenToSong(input: ListenToSongInput!): ListenToSongResponse!
   login(input: UserLoginInput!): UserLoginResponse!
   createUser(input: CreateUserInput!): CreateUserResponse!
-  listenToSong(input: ListenToSongInput!): ListenToSongResponse!
+  createArtist(input: CreateArtistInput!): CreateArtistResponse!
 }
 
 input CreateSongInput {
@@ -100,16 +86,9 @@ input CreateSongInput {
   description: String!
 }
 
-input CreateArtistInput {
-  stageName: String!
-  bio: String!
-  image: String!
-}
-
-input UpdateArtistInput {
-  stageName: String
-  bio: String
-  image: String
+input ListenToSongInput {
+  songId: ID!
+  liked: Boolean!
 }
 
 input UserLoginInput {
@@ -125,7 +104,8 @@ input CreateUserInput {
   lastName: String
 }
 
-input ListenToSongInput {
-  songId: ID!
-  liked: Boolean!
+input CreateArtistInput {
+  stageName: String!
+  bio: String!
+  image: String!
 }

@@ -33,16 +33,4 @@ export class ListenResolver {
     const listen = await this.listenService.findListenById(id);
     return { listen };
   }
-
-  @ResolveField('song', returns => Song)
-  async song(@Parent() listen: Listen): Promise<Song | null> {
-    const { id } = listen;
-    return await this.songService.findListenedToSong(id);
-  }
-
-  @ResolveField('user', returns => User)
-  async user(@Parent() listen: Listen): Promise<User | null> {
-    const { id } = listen;
-    return await this.userService.findUserByListenId(id);
-  }
 }

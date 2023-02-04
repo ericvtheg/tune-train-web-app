@@ -44,6 +44,7 @@ export class SongService {
   }
 
   async findUnheardSong(userId: UserId): Promise<Song | null> {
+    // TODO this should also return artist via prisma
     const songEntity = await this.songRepository.findOneWithNoListensFromUser(userId);
     return songEntity ? transform(songEntity) : null;
   }
