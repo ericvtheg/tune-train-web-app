@@ -2,13 +2,12 @@ import { Query, Resolver, Args, ResolveField, Parent, Mutation } from '@nestjs/g
 import { UseGuards } from '@nestjs/common';
 import {
   Song,
-  SongResponse,
   CreateSongInput,
   CreateSongResponse,
   DiscoverSongResponse,
   FileDownload,
 } from 'src/song/song.model';
-import { SongService, SongId } from 'src/song/song.service';
+import { SongService } from 'src/song/song.service';
 import { ArtistService, ArtistId } from 'src/artist/artist.service';
 import { Artist } from 'src/artist/artist.model';
 import { UserId } from 'src/user/user.service';

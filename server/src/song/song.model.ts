@@ -3,7 +3,6 @@ import { Artist } from 'src/artist/artist.model';
 import { SongId } from 'src/song/song.service';
 import { DownloadLink } from 'src/common/services/file-storage/file-storage.service';
 
-
 @ObjectType()
 export class FileDownload {
   @Field(type => String)
