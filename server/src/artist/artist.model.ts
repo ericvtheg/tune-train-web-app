@@ -11,9 +11,6 @@ export class Artist {
 
   @Field(type => String)
   bio: string;
-
-  @Field(type => String)
-  image: string;
 }
 
 @InputType()
@@ -23,9 +20,6 @@ export class CreateArtistInput {
 
   @Field(type => String)
   bio: string;
-
-  @Field(type => String)
-  image: string;
 }
 
 @ObjectType()

@@ -31,7 +31,6 @@ model Artist {
   updated_at DateTime @updatedAt
   stage_name String
   bio        String
-  image      String
   user       User     @relation(fields: [id], references: [id])
   songs      Song[]
   socials    Social?

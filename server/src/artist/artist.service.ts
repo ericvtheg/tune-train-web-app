@@ -11,17 +11,14 @@ interface Artist {
   id: ArtistId;
   stageName: string;
   bio: string;
-  image: string;
 }
 
 type ToBeCreatedArtist = Omit<Artist, 'id'>;
-type UpdateArtist = Partial<Omit<Artist, 'id'>>;
 
 const transform = (entity: ArtistEntity): Artist => ({
   id: entity.id as ArtistId,
   stageName: entity.stage_name,
   bio: entity.bio,
-  image: entity.image,
 });
 
 @Injectable()
@@ -32,7 +29,6 @@ export class ArtistService {
     const artistEntityInput = {
       stage_name: artist.stageName,
       bio: artist.bio,
-      image: artist.image,
     };
     const artistEntity = await this.artistRepository.saveOne(userId, artistEntityInput);
     return transform(artistEntity);
