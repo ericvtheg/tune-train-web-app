@@ -4,7 +4,6 @@ import { UserId } from 'src/user/user.service';
 import { ArtistId } from 'src/artist/artist.service';
 import { SongEntity, SongRepository } from 'src/song/song.repository';
 import { FileStorageService, DownloadLink, UploadLink } from 'src/common/services/file-storage/file-storage.service';
-import { ListenId } from 'src/listen/listen.service';
 
 export type SongId = Opaque<string, 'SongId'>;
 type ToBeCreatedSong = Omit<Song, 'id'>;

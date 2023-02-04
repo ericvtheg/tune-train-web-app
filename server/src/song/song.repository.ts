@@ -1,10 +1,7 @@
 import { Song, Prisma } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
-import { SongId } from 'src/song/song.service';
 import { UserId } from 'src/user/user.service';
-import { ListenId } from 'src/listen/listen.service';
-import { ArtistId } from 'src/artist/artist.service';
 
 export type SongEntity = Song;
 
