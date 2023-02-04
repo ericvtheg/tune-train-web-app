@@ -4,7 +4,6 @@ import {
   Song,
   SongResponse,
   CreateSongInput,
-  DeleteSongResponse,
   CreateSongResponse,
   DiscoverSongResponse,
   FileDownload,
@@ -13,8 +12,6 @@ import { SongService, SongId } from 'src/song/song.service';
 import { ArtistService, ArtistId } from 'src/artist/artist.service';
 import { Artist } from 'src/artist/artist.model';
 import { UserId } from 'src/user/user.service';
-import { Listen } from 'src/listen/listen.model';
-import { ListenService } from 'src/listen/listen.service';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { Id } from 'src/common/decorators/id.decorator';
 
@@ -22,7 +19,6 @@ import { Id } from 'src/common/decorators/id.decorator';
 export class SongResolver {
   constructor(
     private songService: SongService,
-    private listenService: ListenService,
     private artistService: ArtistService,
   ) {}
 
@@ -58,12 +54,6 @@ export class SongResolver {
     const { id } = song;
     const link = await this.songService.getSongDownloadLink(id);
     return { link };
-  }
-
-  @ResolveField('listens', returns => [Listen], { nullable: 'items' })
-  async listens(@Parent() song: Song): Promise<Listen[]> {
-    const { id } = song;
-    return await this.listenService.findSongListens(id);
   }
 
   @ResolveField('artist', returns => Artist)

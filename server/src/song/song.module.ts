@@ -10,7 +10,6 @@ import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    forwardRef(() => ListenModule),
     forwardRef(() => ArtistModule),
     FileStorageModule.registerAsync({
       inject: [ConfigService],
