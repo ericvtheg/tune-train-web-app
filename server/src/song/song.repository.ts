@@ -18,14 +18,6 @@ export class SongRepository {
     });
   }
 
-  async findOneByListenId(listenId: ListenId): Promise<SongEntity | null> {
-    return await this.prisma.listen.findUnique({ where: { id: listenId } }).song();
-  }
-
-  async findManyByArtistId(artistId: ArtistId): Promise<SongEntity[]> {
-    return await this.prisma.artist.findUnique({ where: { id: artistId } }).songs() ?? [];
-  }
-
   async findOneWithNoListensFromUser(userId: UserId): Promise<SongEntity> {
     return (await this.prisma.$queryRaw<SongEntity[]>`
       SELECT *

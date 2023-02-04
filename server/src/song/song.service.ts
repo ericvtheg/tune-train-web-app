@@ -44,16 +44,6 @@ export class SongService {
     return transform(songEntity);
   }
 
-  async findListenedToSong(listenId: ListenId): Promise<Song | null> {
-    const songEntity = await this.songRepository.findOneByListenId(listenId);
-    return songEntity ? transform(songEntity) : null;
-  }
-
-  async findArtistSongs(artistId: ArtistId): Promise<Song[]> {
-    const songEntities = await this.songRepository.findManyByArtistId(artistId);
-    return songEntities.map(songEntities => transform(songEntities));
-  }
-
   async findUnheardSong(userId: UserId): Promise<Song | null> {
     const songEntity = await this.songRepository.findOneWithNoListensFromUser(userId);
     return songEntity ? transform(songEntity) : null;
