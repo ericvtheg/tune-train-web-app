@@ -39,14 +39,6 @@ export class SongResolver {
     return { song };
   }
 
-  @Mutation(returns => DeleteSongResponse)
-  @UseGuards(JwtAuthGuard)
-  async deleteSong(@Args('id') id: SongId): Promise<DeleteSongResponse> {
-    // TODO should I use artistId here to make sure people can only delete their own songs?
-    await this.songService.deleteSong(id);
-    return { result: 'Successfully deleted song' };
-  }
-
   @Query(returns => DiscoverSongResponse)
   @UseGuards(JwtAuthGuard)
   async discoverSong(@Id() userId: UserId): Promise<DiscoverSongResponse> {

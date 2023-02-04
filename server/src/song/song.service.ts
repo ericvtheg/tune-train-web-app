@@ -44,10 +44,6 @@ export class SongService {
     return transform(songEntity);
   }
 
-  async deleteSong(id: SongId): Promise<void> {
-    await this.songRepository.deleteOne(id);
-  }
-
   async findSongById(id: SongId): Promise<Song | null> {
     const songEntity = await this.songRepository.findOneById(id);
     return songEntity ? transform(songEntity) : null;

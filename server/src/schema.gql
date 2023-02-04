@@ -44,10 +44,6 @@ type CreateSongResponse {
   song: Song!
 }
 
-type DeleteSongResponse {
-  result: String!
-}
-
 """artist"""
 type Artist {
   id: ID!
@@ -107,7 +103,6 @@ type Query {
 
 type Mutation {
   createSong(input: CreateSongInput!): CreateSongResponse!
-  deleteSong(id: String!): DeleteSongResponse!
   listenToSong(input: ListenToSongInput!): ListenToSongResponse!
   createArtist(input: CreateArtistInput!): CreateArtistResponse!
   updateArtist(input: UpdateArtistInput!): UpdateArtistResponse!
