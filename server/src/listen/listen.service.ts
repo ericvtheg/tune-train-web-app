@@ -5,7 +5,7 @@ import { SongId } from 'src/song/song.service';
 import { ListenRepository, ListenEntity } from 'src/listen/listen.repository';
 import { QueueService } from 'src/common/services/queue/queue.service';
 
-export type ListenId = Opaque<string, 'ListenId'>;
+export type ListenId = Opaque<number, 'ListenId'>;
 export type ToBeCreatedListen = Omit<Listen, 'id'>;
 
 interface Listen {

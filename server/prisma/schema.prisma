@@ -11,14 +11,14 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(cuid())
+  id         Int      @id @default(autoincrement())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   email      String   @unique
   username   String   @unique
   password   String
   first_name String
-  artist_id  String?
+  artist_id  Int?
   artist     Artist?
   listens    Listen[]
 
@@ -27,7 +27,7 @@ model User {
 }
 
 model Artist {
-  id         String   @id @default(cuid())
+  id         Int      @id @default(autoincrement())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   stage_name String
@@ -52,12 +52,12 @@ model Artist {
 // }
 
 model Song {
-  id          String   @id @default(cuid())
+  id          Int      @id @default(autoincrement())
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
   title       String
   description String
-  artist_id   String
+  artist_id   Int
   artist      Artist   @relation(fields: [artist_id], references: [id])
   listens     Listen[]
 
@@ -66,17 +66,15 @@ model Song {
 }
 
 model Listen {
-  id         String   @id @default(cuid())
+  id         Int      @id @default(autoincrement())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  song_id    String
-  user_id    String
+  song_id    Int
+  user_id    Int
   liked      Boolean
   user       User     @relation(fields: [user_id], references: [id])
   song       Song     @relation(fields: [song_id], references: [id])
 
   @@unique([song_id, user_id], map: "song_id_user_id_unique_constraint")
-  @@index(song_id)
-  @@index(user_id)
   @@map("listen")
 }

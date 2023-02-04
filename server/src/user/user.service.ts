@@ -2,7 +2,7 @@ import type { Opaque } from 'type-fest';
 import { Injectable } from '@nestjs/common';
 import { UserEntity, UserRepository } from 'src/user/user.repository';
 
-export type UserId = Opaque<string, 'UserId'>;
+export type UserId = Opaque<number, 'UserId'>;
 type ToBeCreatedUser = Omit<User, 'id'>;
 
 export interface User {

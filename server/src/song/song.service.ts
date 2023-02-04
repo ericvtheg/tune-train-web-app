@@ -5,7 +5,7 @@ import { ArtistId } from 'src/artist/artist.service';
 import { SongEntity, SongRepository } from 'src/song/song.repository';
 import { FileStorageService, DownloadLink, UploadLink } from 'src/common/services/file-storage/file-storage.service';
 
-export type SongId = Opaque<string, 'SongId'>;
+export type SongId = Opaque<number, 'SongId'>;
 type ToBeCreatedSong = Omit<Song, 'id'>;
 
 interface Song {
@@ -23,7 +23,7 @@ const transform = (entity: SongEntity): Song => ({
 });
 
 const getKeyFromId = (id: SongId): string => {
-  return `${id.slice(-1)}/${id}`;
+  return `${id.toString().slice(-1)}/${id}`;
 };
 
 @Injectable()
