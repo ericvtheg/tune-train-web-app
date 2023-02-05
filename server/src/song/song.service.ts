@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import type { Opaque } from 'type-fest';
 import { UserId } from 'src/user/user.service';
-import { ArtistId } from 'src/artist/artist.service';
+import { ArtistId, Artist, transform as artistTransform } from 'src/artist/artist.service';
 import { FileStorageService, DownloadLink, UploadLink } from 'src/common/services/file-storage/file-storage.service';
 import { PrismaService } from 'nestjs-prisma';
-import { Song as SongEntity } from '@prisma/client';
+import { Song as SongEntity, Artist as ArtistEntity } from '@prisma/client';
 
 export type SongId = Opaque<number, 'SongId'>;
-type ToBeCreatedSong = Omit<Song, 'id'>;
 
 interface Song {
   id: SongId;
   artistId: ArtistId;
   title: string;
   description: string;
+  artist: Artist;
 }
 
-const transform = (entity: SongEntity): Song => ({
+interface ToBeCreatedSong {
+  artistId: ArtistId;
+  title: string;
+  description: string;
+}
+
+type SongAndArtistEntity = SongEntity & { artist: ArtistEntity };
+
+const transform = (entity: SongAndArtistEntity): Song => ({
   id: entity.id as SongId,
   artistId: entity.artist_id as ArtistId,
   title: entity.title,
   description: entity.description,
+  artist: artistTransform(entity.artist),
 });
 
 const getKeyFromId = (id: SongId): string => {
@@ -32,12 +41,14 @@ export class SongService {
   constructor(private fileStorageService: FileStorageService, private prisma: PrismaService) {}
 
   async createSong(song: ToBeCreatedSong): Promise<Song> {
+    // TODO how to validate there is a file for this song
     const songEntity = await this.prisma.song.create({
       data: {
         title: song.title,
         description: song.description,
         artist_id: song.artistId,
       },
+      include: { artist: true },
     });
     return transform(songEntity);
   }
