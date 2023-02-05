@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import type { Opaque } from 'type-fest';
 import { UserId } from 'src/user/user.service';
 import { ArtistId } from 'src/artist/artist.service';
-import { SongEntity, SongRepository } from 'src/song/song.repository';
 import { FileStorageService, DownloadLink, UploadLink } from 'src/common/services/file-storage/file-storage.service';
+import { PrismaService } from 'nestjs-prisma';
+import { Song as SongEntity } from '@prisma/client';
 
 export type SongId = Opaque<number, 'SongId'>;
 type ToBeCreatedSong = Omit<Song, 'id'>;
@@ -28,24 +29,33 @@ const getKeyFromId = (id: SongId): string => {
 
 @Injectable()
 export class SongService {
-  constructor(
-    private songRepository: SongRepository,
-    private fileStorageService: FileStorageService,
-  ) {}
+  constructor(private fileStorageService: FileStorageService, private prisma: PrismaService) {}
 
   async createSong(song: ToBeCreatedSong): Promise<Song> {
-    const songEntityInput = {
-      title: song.title,
-      description: song.description,
-      artist_id: song.artistId,
-    };
-    const songEntity = await this.songRepository.saveOne(songEntityInput);
+    const songEntity = await this.prisma.song.create({
+      data: {
+        title: song.title,
+        description: song.description,
+        artist_id: song.artistId,
+      },
+    });
     return transform(songEntity);
   }
 
   async findUnheardSong(userId: UserId): Promise<Song | null> {
     // TODO this should also return artist via prisma
-    const songEntity = await this.songRepository.findOneWithNoListensFromUser(userId);
+    const songEntity = (await this.prisma.$queryRaw<SongEntity[]>`
+    SELECT *
+    FROM song
+    WHERE NOT EXISTS (
+      SELECT listen.id 
+      FROM listen 
+      WHERE song.id = listen.song_id
+      AND listen.user_id = ${userId}
+    )
+    ORDER BY random()
+    LIMIT 1;
+  `)?.[0];
     return songEntity ? transform(songEntity) : null;
   }
 

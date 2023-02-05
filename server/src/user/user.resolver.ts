@@ -14,9 +14,7 @@ import { AccessToken } from 'src/common/decorators/access-token.decorator';
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(
-    private userService: UserService,
-  ) {}
+  constructor(private userService: UserService) {}
 
   @Mutation(returns => UserLoginResponse)
   @UseGuards(LocalAuthGuard)

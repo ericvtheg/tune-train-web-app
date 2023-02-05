@@ -1,10 +1,8 @@
-import { Module, forwardRef } from '@nestjs/common';
-import { SongRepository } from 'src/song/song.repository';
+import { Module } from '@nestjs/common';
 import { SongService } from 'src/song/song.service';
 import { SongResolver } from 'src/song/song.resolver';
 import { FileStorageModule } from 'src/common/services/file-storage/file-storage.module';
 import { ConfigService } from '@nestjs/config';
-
 
 @Module({
   imports: [
@@ -17,7 +15,6 @@ import { ConfigService } from '@nestjs/config';
   providers: [
     SongResolver,
     SongService,
-    SongRepository,
   ],
   exports: [SongService],
 })
