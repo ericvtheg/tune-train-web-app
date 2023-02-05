@@ -3,7 +3,7 @@ import { UserModule } from 'src/domain-objects/user/user.module';
 import { SongModule } from 'src/domain-objects/song/song.module';
 import { ListenModule } from 'src/domain-objects/listen/listen.module';
 import { CommonModule } from 'src/common/common.module';
-import { HealthCheckModule } from 'src/health-check/health-check.module';
+import { HealthCheckController } from 'src/health-check.controller';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { PrismaModule, loggingMiddleware, QueryInfo } from 'nestjs-prisma';
@@ -30,7 +30,7 @@ import { PrismaModule, loggingMiddleware, QueryInfo } from 'nestjs-prisma';
     ListenModule,
     UserModule,
     CommonModule,
-    HealthCheckModule,
   ],
+  controllers: [HealthCheckController],
 })
 export class AppModule {}
