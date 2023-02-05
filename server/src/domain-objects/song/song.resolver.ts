@@ -6,9 +6,9 @@ import {
   CreateSongResponse,
   DiscoverSongResponse,
   FileDownload,
-} from 'src/song/song.model';
-import { SongService } from 'src/song/song.service';
-import { UserId } from 'src/user/user.service';
+} from 'src/domain-objects/song/song.model';
+import { SongService } from 'src/domain-objects/song/song.service';
+import { UserId } from 'src/domain-objects/user/user.service';
 
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { Id } from 'src/common/decorators/id.decorator';

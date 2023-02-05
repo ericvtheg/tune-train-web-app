@@ -7,8 +7,8 @@ import {
   UserLoginInput,
   UserLoginResponse,
   CreateUserResponse,
-} from 'src/user/user.model';
-import { UserService } from 'src/user/user.service';
+} from 'src/domain-objects/user/user.model';
+import { UserService } from 'src/domain-objects/user/user.service';
 import { LocalAuthGuard } from 'src/common/guards/local-auth.guard';
 import { AccessToken } from 'src/common/decorators/access-token.decorator';
 

@@ -1,6 +1,6 @@
 import { Module, forwardRef } from '@nestjs/common';
-import { UserResolver } from 'src/user/user.resolver';
-import { UserService } from 'src/user/user.service';
+import { UserResolver } from 'src/domain-objects/user/user.resolver';
+import { UserService } from 'src/domain-objects/user/user.service';
 import { AuthModule } from 'src/auth/auth.module';
 
 @Module({

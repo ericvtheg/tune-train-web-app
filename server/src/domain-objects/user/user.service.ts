@@ -2,7 +2,7 @@ import { PrismaService } from 'nestjs-prisma';
 import type { Opaque } from 'type-fest';
 import { Injectable } from '@nestjs/common';
 import { User as UserEntity, Artist as ArtistEntity } from '@prisma/client';
-import { ToBeCreatedArtist, Artist, transform as artistTransform } from 'src/artist/artist.service';
+import { ToBeCreatedArtist, Artist, transform as artistTransform } from 'src/domain-objects/artist/artist.service';
 
 export type UserId = Opaque<number, 'UserId'>;
 

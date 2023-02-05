@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SqsModule } from '@ssut/nestjs-sqs';
-import { ListenConsumer } from 'src/listen/listen.consumer';
-import { ListenResolver } from 'src/listen/listen.resolver';
-import { ListenService } from 'src/listen/listen.service';
+import { ListenConsumer } from 'src/domain-objects/listen/listen.consumer';
+import { ListenResolver } from 'src/domain-objects/listen/listen.resolver';
+import { ListenService } from 'src/domain-objects/listen/listen.service';
 import { QueueModule } from 'src/services/queue/queue.module';
 import { TransformedConfig } from 'src/common/config/config';
 

@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType, InputType } from '@nestjs/graphql';
-import { SongId } from 'src/song/song.service';
+import { SongId } from 'src/domain-objects/song/song.service';
 
 @InputType()
 export class ListenToSongInput {

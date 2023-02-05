@@ -1,6 +1,6 @@
 import { Field, ObjectType, InputType } from '@nestjs/graphql';
-import { CreateArtistInput, Artist as ArtistModel } from 'src/artist/artist.model';
-import { ToBeCreatedArtist, Artist } from 'src/artist/artist.service';
+import { CreateArtistInput, Artist as ArtistModel } from 'src/domain-objects/artist/artist.model';
+import { ToBeCreatedArtist, Artist } from 'src/domain-objects/artist/artist.service';
 
 @ObjectType({ description: 'user' })
 export class User {

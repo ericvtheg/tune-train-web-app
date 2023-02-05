@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType, InputType } from '@nestjs/graphql';
-import { Artist } from 'src/artist/artist.model';
-import { SongId } from 'src/song/song.service';
+import { Artist } from 'src/domain-objects/artist/artist.model';
+import { SongId } from 'src/domain-objects/song/song.service';
 import { DownloadLink } from 'src/services/file-storage/file-storage.service';
 
 @ObjectType()

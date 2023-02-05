@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ListenService, ToBeCreatedListen } from 'src/listen/listen.service';
+import { ListenService, ToBeCreatedListen } from 'src/domain-objects/listen/listen.service';
 import { SqsMessageHandler, SqsConsumerEventHandler } from '@ssut/nestjs-sqs';
 
 @Injectable()

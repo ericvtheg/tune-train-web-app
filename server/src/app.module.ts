@@ -1,7 +1,7 @@
 import { Module, Logger } from '@nestjs/common';
-import { UserModule } from 'src/user/user.module';
-import { SongModule } from 'src/song/song.module';
-import { ListenModule } from 'src/listen/listen.module';
+import { UserModule } from 'src/domain-objects/user/user.module';
+import { SongModule } from 'src/domain-objects/song/song.module';
+import { ListenModule } from 'src/domain-objects/listen/listen.module';
 import { CommonModule } from 'src/common/common.module';
 import { HealthCheckModule } from 'src/health-check/health-check.module';
 import { GraphQLModule } from '@nestjs/graphql';
