@@ -8,8 +8,8 @@ import {
   FileDownload,
 } from 'src/song/song.model';
 import { SongService } from 'src/song/song.service';
-import { ArtistId } from 'src/artist/artist.service';
 import { UserId } from 'src/user/user.service';
+
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { Id } from 'src/common/decorators/id.decorator';
 
@@ -21,12 +21,9 @@ export class SongResolver {
   @UseGuards(JwtAuthGuard)
   async createSong(
     @Args('input') createSongData: CreateSongInput,
-      @Id() artistId: ArtistId,
+      @Id() userId: UserId,
   ): Promise<CreateSongResponse> {
-    const song = await this.songService.createSong({
-      artistId,
-      ...createSongData,
-    });
+    const song = await this.songService.createSong(createSongData, userId);
     return { song };
   }
 
