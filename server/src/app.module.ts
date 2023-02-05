@@ -4,9 +4,8 @@ import { SongModule } from 'src/domain-objects/song/song.module';
 import { ListenModule } from 'src/domain-objects/listen/listen.module';
 import { CommonModule } from 'src/common/common.module';
 import { HealthCheckController } from 'src/health-check.controller';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { PrismaModule, loggingMiddleware, QueryInfo } from 'nestjs-prisma';
+import { GraphQLModule } from 'src/graphql/graphql.module';
 
 @Module({
   imports: [
@@ -21,11 +20,7 @@ import { PrismaModule, loggingMiddleware, QueryInfo } from 'nestjs-prisma';
         })],
       },
     }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: `${process.cwd()}/src/schema.gql`,
-    }),
-    PrismaModule,
+    GraphQLModule,
     SongModule,
     ListenModule,
     UserModule,
