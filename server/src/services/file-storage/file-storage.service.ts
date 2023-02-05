@@ -1,5 +1,5 @@
 import { Injectable, Scope } from '@nestjs/common';
-import { S3Repository } from 'src/common/services/file-storage/s3.repository';
+import { S3Repository } from 'src/services/file-storage/s3.repository';
 import type { Opaque } from 'type-fest';
 
 export type DownloadLink = Opaque<string, 'DownloadLink'>;

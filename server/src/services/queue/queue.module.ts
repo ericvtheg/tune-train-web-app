@@ -1,7 +1,7 @@
 import { Module, DynamicModule, ModuleMetadata, Provider } from '@nestjs/common';
-import { QueueService } from 'src/common/services/queue/queue.service';
-import { SqsFactoryProvider } from 'src/common/services/queue/sqs.factory';
-import { SqsRepository } from 'src/common/services/queue/sqs.repository';
+import { QueueService } from 'src/services/queue/queue.service';
+import { SqsFactoryProvider } from 'src/services/queue/sqs.factory';
+import { SqsRepository } from 'src/services/queue/sqs.repository';
 import { QUEUE_URL } from 'src/common/symbols';
 
 export interface QueueModuleAsyncOptions

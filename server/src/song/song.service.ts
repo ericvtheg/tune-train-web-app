@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import type { Opaque } from 'type-fest';
 import { UserId } from 'src/user/user.service';
 import { ArtistId, Artist, transform as artistTransform } from 'src/artist/artist.service';
-import { FileStorageService, DownloadLink, UploadLink } from 'src/common/services/file-storage/file-storage.service';
+import { FileStorageService, DownloadLink, UploadLink } from 'src/services/file-storage/file-storage.service';
 import { PrismaService } from 'nestjs-prisma';
 import { Song as SongEntity, Artist as ArtistEntity } from '@prisma/client';
 

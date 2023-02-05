@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Opaque } from 'type-fest';
 import { UserId } from 'src/user/user.service';
 import { SongId } from 'src/song/song.service';
-import { QueueService } from 'src/common/services/queue/queue.service';
+import { QueueService } from 'src/services/queue/queue.service';
 import { PrismaService } from 'nestjs-prisma';
 import { Listen as ListenEntity } from '@prisma/client';
 
