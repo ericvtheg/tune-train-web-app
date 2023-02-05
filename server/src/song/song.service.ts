@@ -10,7 +10,6 @@ export type SongId = Opaque<number, 'SongId'>;
 
 interface Song {
   id: SongId;
-  artistId: ArtistId;
   title: string;
   description: string;
   artist: Artist;
@@ -25,7 +24,6 @@ type SongAndArtistEntity = SongEntity & { artist: ArtistEntity };
 
 const transform = (entity: SongAndArtistEntity): Song => ({
   id: entity.id as SongId,
-  artistId: entity.artist_id as ArtistId,
   title: entity.title,
   description: entity.description,
   artist: artistTransform(entity.artist),
@@ -89,7 +87,6 @@ export class SongService {
       id: queryRawResult.id as SongId,
       title: queryRawResult.title,
       description: queryRawResult.description,
-      artistId: queryRawResult.artist_id as ArtistId,
       artist: {
         id: queryRawResult.artist_id as ArtistId,
         stageName: queryRawResult.stage_name,
