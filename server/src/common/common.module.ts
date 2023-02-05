@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AuthModule } from 'src/common/auth/auth.module';
+import { AuthModule } from 'src/auth/auth.module';
 import { GlobalGuard } from 'src/common/guards/global.guard';
 import { LoggingMiddleware } from 'src/common/middleware/logging.middleware';
 import { HashPipe } from 'src/common/pipes/hash.pipe';

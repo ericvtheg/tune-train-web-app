@@ -3,7 +3,7 @@ import {
   Injectable,
   ArgumentMetadata,
 } from '@nestjs/common';
-import { PasswordService } from 'src/common/auth/password.service';
+import { PasswordService } from 'src/auth/password.service';
 
 interface InputBody {
   [k: string]: any;
