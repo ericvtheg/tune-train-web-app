@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { Opaque } from 'type-fest';
 import { UserId } from 'src/user/user.service';
 import { SongId } from 'src/song/song.service';
-import { ListenRepository, ListenEntity } from 'src/listen/listen.repository';
 import { QueueService } from 'src/common/services/queue/queue.service';
+import { PrismaService } from 'nestjs-prisma';
+import { Listen as ListenEntity } from '@prisma/client';
 
 export type ListenId = Opaque<number, 'ListenId'>;
 export type ToBeCreatedListen = Omit<Listen, 'id'>;
@@ -25,7 +26,7 @@ const transform = (entity: ListenEntity): Listen => ({
 @Injectable()
 export class ListenService {
   constructor(
-    private listenRepository: ListenRepository,
+    private prisma: PrismaService,
     private queueService: QueueService,
   ) {}
 
@@ -34,12 +35,23 @@ export class ListenService {
   }
 
   async createListen(listen: ToBeCreatedListen): Promise<Listen > {
-    const listenEntityInput = {
-      song_id: listen.songId,
-      user_id: listen.userId,
-      liked: listen.liked,
-    };
-    const listenEntity = await this.listenRepository.saveOne(listenEntityInput);
+    const listenEntity = await this.prisma.listen.upsert({
+      where: {
+        song_id_user_id: {
+          song_id: listen.songId,
+          user_id: listen.userId,
+        },
+      },
+      create: {
+        song_id: listen.songId,
+        user_id: listen.userId,
+        liked: listen.liked,
+      },
+      update: {
+        liked: listen.liked,
+      },
+    });
+
     return transform(listenEntity);
   }
 }

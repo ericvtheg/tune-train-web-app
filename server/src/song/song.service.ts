@@ -80,7 +80,7 @@ export class SongService {
 
     if (!queryRawResult){
       // TODO handle this error
-      throw new Error('No new songs found!');
+      throw new Error('No unheard songs found!');
     }
 
     return {

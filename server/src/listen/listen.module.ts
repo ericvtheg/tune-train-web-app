@@ -4,7 +4,6 @@ import { SqsModule } from '@ssut/nestjs-sqs';
 import { ListenConsumer } from 'src/listen/listen.consumer';
 import { ListenResolver } from 'src/listen/listen.resolver';
 import { ListenService } from 'src/listen/listen.service';
-import { ListenRepository } from 'src/listen/listen.repository';
 import { QueueModule } from 'src/common/services/queue/queue.module';
 import { TransformedConfig } from 'src/common/config/config';
 
@@ -29,7 +28,6 @@ import { TransformedConfig } from 'src/common/config/config';
   providers: [
     ListenResolver,
     ListenService,
-    ListenRepository,
     ListenConsumer,
   ],
   exports: [ListenService],
