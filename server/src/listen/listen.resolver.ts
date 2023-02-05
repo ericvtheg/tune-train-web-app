@@ -1,12 +1,12 @@
 import { Resolver, Args, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { Listen, ListenToSongInput, ListenToSongResponse } from 'src/listen/listen.model';
+import { ListenToSongInput, ListenToSongResponse } from 'src/listen/listen.model';
 import { ListenService } from 'src/listen/listen.service';
 import { Id } from 'src/common/decorators/id.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { UserId } from 'src/user/user.service';
 
-@Resolver(() => Listen)
+@Resolver()
 export class ListenResolver {
   constructor(private listenService: ListenService) {}
 

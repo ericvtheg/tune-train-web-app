@@ -2,12 +2,18 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+"""artist"""
+type Artist {
+  stageName: String!
+  bio: String!
+}
+
 """user"""
 type User {
-  id: ID!
   username: String!
   email: String!
   firstName: String!
+  artist: Artist
 }
 
 type UserLoginResponse {
@@ -16,17 +22,6 @@ type UserLoginResponse {
 
 type CreateUserResponse {
   user: User!
-}
-
-"""artist"""
-type Artist {
-  id: ID!
-  stageName: String!
-  bio: String!
-}
-
-type CreateArtistResponse {
-  artist: Artist!
 }
 
 type FileDownload {
@@ -50,14 +45,6 @@ type CreateSongResponse {
   song: Song!
 }
 
-"""An abstract type for the act of listening to a song"""
-type Listen {
-  id: ID!
-  user: User!
-  song: Song!
-  liked: Boolean!
-}
-
 type ListenToSongResponse {
   result: String!
 }
@@ -71,7 +58,6 @@ type Mutation {
   listenToSong(input: ListenToSongInput!): ListenToSongResponse!
   login(input: UserLoginInput!): UserLoginResponse!
   createUser(input: CreateUserInput!): CreateUserResponse!
-  createArtist(input: CreateArtistInput!): CreateArtistResponse!
 }
 
 input CreateSongInput {
@@ -94,6 +80,7 @@ input CreateUserInput {
   password: String!
   email: String!
   firstName: String!
+  artist: CreateArtistInput
 }
 
 input CreateArtistInput {

@@ -1,11 +1,9 @@
-import { Field, ID, ObjectType, InputType } from '@nestjs/graphql';
-import { UserId } from 'src/user/user.service';
+import { Field, ObjectType, InputType } from '@nestjs/graphql';
+import { CreateArtistInput, Artist as ArtistModel } from 'src/artist/artist.model';
+import { ToBeCreatedArtist, Artist } from 'src/artist/artist.service';
 
 @ObjectType({ description: 'user' })
 export class User {
-  @Field(type => ID)
-  id: UserId;
-
   @Field(type => String)
   username: string;
 
@@ -14,6 +12,9 @@ export class User {
 
   @Field(type => String)
   firstName: string;
+
+  @Field(type => ArtistModel, { nullable: true })
+  artist: Artist | null;
 }
 
 @InputType()
@@ -44,6 +45,9 @@ export class CreateUserInput {
 
   @Field(type => String)
   firstName: string;
+
+  @Field(type => CreateArtistInput, { nullable: true })
+  artist?: ToBeCreatedArtist;
 }
 
 @ObjectType()

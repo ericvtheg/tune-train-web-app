@@ -18,11 +18,9 @@ model User {
   username   String   @unique
   password   String
   first_name String
-  artist_id  Int?
   artist     Artist?
   listens    Listen[]
 
-  @@unique([artist_id], map: "artist_id_social_unique_constraint")
   @@map("user")
 }
 
@@ -32,10 +30,12 @@ model Artist {
   updated_at DateTime @updatedAt
   stage_name String
   bio        String
-  user       User     @relation(fields: [id], references: [artist_id])
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    Int
   songs      Song[]
   // socials    Social?
 
+  @@unique([user_id], map: "user_id_artist_unique_constraint")
   @@map("artist")
 }
 

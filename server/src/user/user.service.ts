@@ -1,9 +1,10 @@
+import { PrismaService } from 'nestjs-prisma';
 import type { Opaque } from 'type-fest';
 import { Injectable } from '@nestjs/common';
-import { UserEntity, UserRepository } from 'src/user/user.repository';
+import { User as UserEntity, Artist as ArtistEntity } from '@prisma/client';
+import { ToBeCreatedArtist, Artist, transform as artistTransform } from 'src/artist/artist.service';
 
 export type UserId = Opaque<number, 'UserId'>;
-type ToBeCreatedUser = Omit<User, 'id'>;
 
 export interface User {
   id: UserId;
@@ -11,34 +12,59 @@ export interface User {
   email: string;
   password: string;
   firstName: string;
+  artist: Artist | null;
 }
 
-const transform = (entity: UserEntity): User => ({
+interface ToBeCreatedUser {
+  username: string;
+  email: string;
+  firstName: string;
+  password: string;
+  artist?: ToBeCreatedArtist;
+}
+
+type UserAndArtistEntity = UserEntity & { artist: ArtistEntity | null};
+
+const transform = (entity: UserAndArtistEntity): User => ({
   id: entity.id as UserId,
   username: entity.username,
   email: entity.email,
   password: entity.password,
   firstName: entity.first_name,
+  artist: entity.artist ? artistTransform(entity.artist) : null,
 });
 
 @Injectable()
 export class UserService {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private prisma: PrismaService) {}
 
   async createUser(user: ToBeCreatedUser): Promise<User> {
-    const userEntityInput = {
-      username: user.username,
-      email: user.email,
-      password: user.password,
-      first_name: user.firstName,
-      artist_id: null,
-    };
-    const userEntity = await this.userRepository.saveOne(userEntityInput);
-    return transform(userEntity);
+    const createdUser = await this.prisma.user.create({
+      data: {
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        first_name: user.firstName,
+        artist: user?.artist ? {
+          create: {
+            stage_name: user.artist.stageName,
+            bio: user.artist.bio,
+          },
+        } : undefined,
+      },
+      include: {
+        artist: true,
+      },
+    });
+
+    return transform(createdUser);
   }
 
   async findUserByEmail(email: string): Promise<User | null> {
-    const userEntity = await this.userRepository.findOneByEmail(email);
+    const userEntity = await this.prisma.user.findUnique({
+      where: { email },
+      include: { artist: true },
+    });
     return userEntity ? transform(userEntity) : null;
   }
 }
