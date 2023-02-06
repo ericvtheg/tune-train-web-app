@@ -1,10 +1,9 @@
 import { Module, DynamicModule, ModuleMetadata, Provider } from '@nestjs/common';
-import { QueueService } from 'src/services/queue/queue.service';
-import { SqsFactoryProvider } from 'src/services/queue/sqs.factory';
-import { SqsRepository } from 'src/services/queue/sqs.repository';
-import { QUEUE_URL } from 'src/common/symbols';
+import { SnsFactoryProvider } from 'src/services/publish/sns.factory';
+import { TOPIC_ARN } from 'src/common/symbols';
+import { PublishService } from 'src/services/publish/publish.service';
 
-export interface QueueModuleAsyncOptions
+export interface PublishModuleAsyncOptions
   extends Pick<ModuleMetadata, 'imports'> {
   useFactory: (
     ...args: any[]
@@ -14,33 +13,32 @@ export interface QueueModuleAsyncOptions
 }
 
 @Module({})
-export class QueueModule {
-  static registerAsync(options: QueueModuleAsyncOptions): DynamicModule {
+export class PublishModule {
+  static registerAsync(options: PublishModuleAsyncOptions): DynamicModule {
     return {
-      module: QueueModule,
+      module: PublishModule,
       imports: options.imports,
       providers: [
         ...this.createAsyncProviders(options),
-        QueueService,
-        SqsFactoryProvider,
-        SqsRepository,
+        SnsFactoryProvider,
+        PublishService,
         ...(options.extraProviders || []),
       ],
-      exports: [QueueService],
+      exports: [PublishService],
     };
   }
 
   private static createAsyncProviders(
-    options: QueueModuleAsyncOptions,
+    options: PublishModuleAsyncOptions,
   ): Provider[] {
     return [this.createAsyncOptionsProvider(options)];
   }
 
   private static createAsyncOptionsProvider(
-    options: QueueModuleAsyncOptions,
+    options: PublishModuleAsyncOptions,
   ): Provider {
     return {
-      provide: QUEUE_URL,
+      provide: TOPIC_ARN,
       useFactory: options.useFactory,
       inject: options.inject || [],
     };

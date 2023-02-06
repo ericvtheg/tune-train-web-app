@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Opaque } from 'type-fest';
 import { UserId } from 'src/domain-objects/user/user.service';
 import { SongId } from 'src/domain-objects/song/song.service';
-import { QueueService } from 'src/services/queue/queue.service';
+import { PublishService } from 'src/services/publish/publish.service';
 import { PrismaService } from 'nestjs-prisma';
 import { Listen as ListenEntity } from '@prisma/client';
 
@@ -27,11 +27,11 @@ const transform = (entity: ListenEntity): Listen => ({
 export class ListenService {
   constructor(
     private prisma: PrismaService,
-    private queueService: QueueService,
+    private publishService: PublishService,
   ) {}
 
-  async produceListenMessage(body: ToBeCreatedListen): Promise<void> {
-    return await this.queueService.sendMessage<ToBeCreatedListen>(body);
+  async publishMessage(message: ToBeCreatedListen): Promise<void> {
+    return await this.publishService.publishMessage(JSON.stringify(message));
   }
 
   async createListen(listen: ToBeCreatedListen): Promise<Listen > {

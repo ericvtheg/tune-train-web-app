@@ -1,13 +1,13 @@
-import { SQS } from 'aws-sdk';
+import { SNS } from 'aws-sdk';
 import { ConfigService } from '@nestjs/config';
 import { FactoryProvider } from '@nestjs/common';
 
-export const SqsFactoryProvider: FactoryProvider<SQS> = {
-  provide: SQS,
+export const SnsFactoryProvider: FactoryProvider<SNS> = {
+  provide: SNS,
   inject: [ConfigService],
   useFactory: (configService: ConfigService) => {
     const stage = configService.get<string>('stage');
-    return new SQS({
+    return new SNS({
       region: configService.get<string>('region'),
       endpoint: stage === 'local' ? 'http://localhost:4566' : undefined,
     });

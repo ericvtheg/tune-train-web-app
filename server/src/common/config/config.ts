@@ -42,6 +42,9 @@ class EnvironmentVariables {
   LISTEN_QUEUE_NAME: string;
 
   @IsString()
+  LISTEN_TOPIC_ARN: string;
+
+  @IsString()
   AWS_REGION: string;
 
   @IsString()
@@ -68,6 +71,11 @@ export interface TransformedConfig {
     listenQueue: {
       url: string;
       name: string;
+    }
+  }
+  topic: {
+    listenTopic: {
+      arn: string;
     }
   }
   stage: STAGE;
@@ -115,6 +123,11 @@ export const loader = (): TransformedConfig => ({
     listenQueue: {
       url: process.env.LISTEN_QUEUE_URL as string,
       name: process.env.LISTEN_QUEUE_NAME as string,
+    },
+  },
+  topic: {
+    listenTopic: {
+      arn: process.env.LISTEN_TOPIC_ARN as string,
     },
   },
   stage: process.env.STAGE as unknown as STAGE,

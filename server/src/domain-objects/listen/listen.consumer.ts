@@ -10,22 +10,21 @@ export class ListenConsumer {
 
   @SqsMessageHandler(process.env.LISTEN_QUEUE_NAME as string, false)
   async consumeListenMessages(message: AWS.SQS.Message): Promise<void> {
-    let listen: ToBeCreatedListen;
     const body = message.Body;
-    if (body) {
-      try {
-        listen = JSON.parse(body);
-      } catch (error) {
-        Logger.error('Failed to parse listen message body', JSON.stringify(message));
-        throw error;
-      }
-    } else {
+    if (!body) {
       const error = 'Undefined message body in listen queue';
       Logger.error(error);
-      throw error;
+      throw new Error(error);
     }
 
-    await this.listenService.createListen(listen);
+    try {
+      const unparsedListenMessage = JSON.parse(body).Message as string;
+      const listen = JSON.parse(unparsedListenMessage) as ToBeCreatedListen;
+      await this.listenService.createListen(listen);
+    } catch (error) {
+      Logger.error('Failed to consume listen message', JSON.stringify(message));
+      throw new Error(error);
+    }
   }
 
   @SqsConsumerEventHandler(process.env.LISTEN_QUEUE_NAME as string, 'error')

@@ -17,7 +17,7 @@ export class ListenResolver {
       @Id() userId: UserId,
   ): Promise<ListenToSongResponse> {
     const body = { userId, ...listenToSongData };
-    await this.listenService.produceListenMessage(body);
+    await this.listenService.publishMessage(body);
     return { result: 'Sent to ingestion pipeline' };
   }
 }
