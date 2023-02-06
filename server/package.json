@@ -10,7 +10,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "yarn start:dev:db && yarn migrate:dev && yarn start:dev:infra && nest start --watch",
+    "start:dev": "npm run start:dev:db && npm run migrate:dev && npm run start:dev:infra && nest start --watch",
     "start:dev:db": "docker-compose up -d",
     "start:dev:infra": "tflocal -chdir=deploy/local init && tflocal -chdir=deploy/local apply -auto-approve",
     "dev:infra:destroy": "tflocal -chdir=deploy/local destroy",
