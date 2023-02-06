@@ -10,6 +10,7 @@ provider "aws" {
   endpoints {
     sqs = "http://localhost:4566"
     s3 = "http://localhost:4566"
+    sns = "http://localhost:4566"
   }
 }
 
@@ -18,12 +19,23 @@ variable "stage" {
   default = "local"
 }
 
-# Create SQS
-resource "aws_sqs_queue" "queue" {
+# SQS
+resource "aws_sqs_queue" "tune-train-sqs-queue" {
   name      =   "tune-train-listen-sqs-queue-${var.stage}"
 }
 
-### S3 
+# sns
+resource "aws_sns_topic" "tune-train-sns-topic" {
+  name      =   "tune-train-listen-sns-topic-${var.stage}"
+}
+
+resource "aws_sns_topic_subscription" "tune-train-listen-sqs-target" {
+  topic_arn = aws_sns_topic.tune-train-sns-topic.arn
+  protocol  = "sqs"
+  endpoint  = aws_sqs_queue.tune-train-sqs-queue.arn
+}
+
+# S3 
 resource "aws_s3_bucket" "tune-train-songs-bucket" {
   bucket = "tune-train-song-bucket-${var.stage}"
 }
