@@ -7,10 +7,15 @@ import { PrismaService } from 'nestjs-prisma';
 import { Listen as ListenEntity } from '@prisma/client';
 
 export type ListenId = Opaque<number, 'ListenId'>;
-export type ToBeCreatedListen = Omit<Listen, 'id'>;
 
 interface Listen {
   id: ListenId;
+  songId: SongId;
+  userId: UserId;
+  liked: boolean;
+}
+
+export interface ToBeCreatedListen {
   songId: SongId;
   userId: UserId;
   liked: boolean;

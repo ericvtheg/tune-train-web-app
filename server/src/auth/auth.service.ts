@@ -4,6 +4,7 @@ import { User, UserService } from 'src/domain-objects/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'nestjs-prisma';
 import { DateTime } from 'luxon';
+import { lib } from 'crypto-js';
 
 
 @Injectable()
@@ -40,6 +41,7 @@ export class AuthService {
         },
       },
     });
+
     if (result?.reset_password_token === resetToken && result.email === email) {
       return true;
     }
@@ -56,8 +58,9 @@ export class AuthService {
 
   async generateResetToken(email: string): Promise<string> {
     try {
-      const resetToken = crypto.randomUUID();
-      this.prismaService.auth.create({
+      const resetToken = lib.WordArray.random(16).toString();
+
+      await this.prismaService.auth.create({
         data: {
           email,
           reset_password_token: resetToken,

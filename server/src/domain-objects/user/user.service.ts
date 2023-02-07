@@ -1,6 +1,6 @@
 import { PrismaService } from 'nestjs-prisma';
 import type { Opaque } from 'type-fest';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { User as UserEntity, Artist as ArtistEntity } from '@prisma/client';
 import { ToBeCreatedArtist, Artist, transform as artistTransform } from 'src/domain-objects/artist/artist.service';
 
@@ -23,6 +23,23 @@ interface ToBeCreatedUser {
   artist?: ToBeCreatedArtist;
 }
 
+interface UpdatableUserFields {
+  username: string;
+  email: string;
+  password: string;
+  firstName: string;
+}
+
+interface UserIdObject {
+  id: UserId;
+}
+
+interface UserEmailObject {
+  email: string;
+}
+
+type UpdateUserFilter = UserIdObject | UserEmailObject;
+
 type UserAndArtistEntity = UserEntity & { artist: ArtistEntity | null};
 
 const transform = (entity: UserAndArtistEntity): User => ({
@@ -39,7 +56,7 @@ export class UserService {
   constructor(private prisma: PrismaService) {}
 
   async createUser(user: ToBeCreatedUser): Promise<User> {
-    const createdUser = await this.prisma.user.create({
+    const userEntity = await this.prisma.user.create({
       data: {
         username: user.username,
         email: user.email,
@@ -57,7 +74,7 @@ export class UserService {
       },
     });
 
-    return transform(createdUser);
+    return transform(userEntity);
   }
 
   async findUserByEmail(email: string): Promise<User | null> {
@@ -65,6 +82,34 @@ export class UserService {
       where: { email },
       include: { artist: true },
     });
+
     return userEntity ? transform(userEntity) : null;
+  }
+
+  async updateUser(filter: UpdateUserFilter, payload: Partial<UpdatableUserFields>): Promise<User> {
+    let idFilter;
+    let emailFilter;
+
+    if ('id' in filter){
+      idFilter = filter.id;
+    } else if ('email' in filter) {
+      emailFilter = filter.email;
+    } else {
+      Logger.error('No filterable args provided in updatedUser');
+      throw new Error('No filterable args provided');
+    }
+
+    const userEntity = await this.prisma.user.update({
+      where: {
+        id: idFilter,
+        email: emailFilter,
+      },
+      data: payload,
+      include: {
+        artist: true,
+      },
+    });
+
+    return transform(userEntity);
   }
 }
