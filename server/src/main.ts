@@ -7,8 +7,11 @@ import { ConfigService } from '@nestjs/config';
 import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
 import { TransformedConfig, STAGE } from "src/common/config/config";
 import helmet from 'helmet';
+import { Settings } from "luxon";
 
 async function bootstrap() {
+  Settings.defaultZone = "utc";
+
   const app = await NestFactory.create(AppModule, {
     logger: ['error', 'warn', 'log'],
   });

@@ -7,6 +7,7 @@ import { PasswordService } from 'src/auth/password.service';
 import { UserModule } from 'src/domain-objects/user/user.module';
 import { LocalStrategy } from 'src/auth/strategies/local.strategy';
 import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
+import { AuthResolver } from 'src/auth/auth.resolver';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
     }),
   ],
   providers: [
+    AuthResolver,
     AuthService,
     PasswordService,
     LocalStrategy,

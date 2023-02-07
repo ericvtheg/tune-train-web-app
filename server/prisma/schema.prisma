@@ -78,3 +78,15 @@ model Listen {
   @@unique([song_id, user_id], map: "song_id_user_id_unique_constraint")
   @@map("listen")
 }
+
+model Auth {
+  id                          Int      @id @default(autoincrement())
+  created_at                  DateTime @default(now())
+  updated_at                  DateTime @updatedAt
+  email                       String
+  reset_password_token        String
+  reset_password_token_expiry DateTime @default(dbgenerated("NOW() + interval '1 hour'"))
+
+  @@index(email)
+  @@map("auth")
+}
