@@ -16,12 +16,12 @@ type User {
   artist: Artist
 }
 
-type UserLoginResponse {
-  accessToken: String!
-}
-
 type CreateUserResponse {
   user: User!
+}
+
+type LoginResponse {
+  accessToken: String!
 }
 
 type ResetPasswordResponse {
@@ -64,8 +64,8 @@ type Query {
 type Mutation {
   createSong(input: CreateSongInput!): CreateSongResponse!
   listenToSong(input: ListenToSongInput!): ListenToSongResponse!
-  login(input: UserLoginInput!): UserLoginResponse!
   createUser(input: CreateUserInput!): CreateUserResponse!
+  login(input: LoginInput!): LoginResponse!
   forgotPassword(input: ForgotPasswordInput!): ForgotPasswordResponse!
   resetPassword(input: ResetPasswordInput!): ResetPasswordResponse!
 }
@@ -80,11 +80,6 @@ input ListenToSongInput {
   liked: Boolean!
 }
 
-input UserLoginInput {
-  email: String!
-  password: String!
-}
-
 input CreateUserInput {
   username: String!
   password: String!
@@ -96,6 +91,11 @@ input CreateUserInput {
 input CreateArtistInput {
   stageName: String!
   bio: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
 }
 
 input ForgotPasswordInput {

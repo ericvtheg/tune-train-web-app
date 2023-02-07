@@ -1,16 +1,28 @@
 import { Resolver, Args, Mutation } from '@nestjs/graphql';
 import {
+  LoginInput,
+  LoginResponse,
   ForgotPasswordInput,
   ForgotPasswordResponse,
   ResetPasswordInput,
   ResetPasswordResponse,
 } from 'src/auth/auth.model';
 import { AuthService } from './auth.service';
+import { UseGuards } from '@nestjs/common';
+import { LocalAuthGuard } from 'src/common/guards/local-auth.guard';
+import { AccessToken } from 'src/common/decorators/access-token.decorator';
 
 @Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
-  // TODO login?
+  @Mutation(returns => LoginResponse)
+  @UseGuards(LocalAuthGuard)
+  async login(
+    @Args('input') loginData: LoginInput,
+      @AccessToken() accessToken: string,
+  ): Promise<LoginResponse> {
+    return { accessToken };
+  }
 
   @Mutation(returns => ForgotPasswordResponse)
   async forgotPassword(@Args('input') forgotPasswordData: ForgotPasswordInput): Promise<ForgotPasswordResponse>{
