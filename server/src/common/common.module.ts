@@ -1,23 +1,15 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AuthModule } from 'src/auth/auth.module';
-import { GlobalGuard } from 'src/common/guards/global.guard';
 import { LoggingMiddleware } from 'src/common/middleware/logging.middleware';
-import { HashPipe } from 'src/common/pipes/hash.pipe';
 import { ConfigModule } from '@nestjs/config';
 import { validate, loader } from 'src/common/config/config';
 
 @Module({
   imports: [
-    AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [loader],
       validate,
     }),
-  ],
-  providers: [
-    GlobalGuard,
-    HashPipe,
   ],
 })
 export class CommonModule implements NestModule {

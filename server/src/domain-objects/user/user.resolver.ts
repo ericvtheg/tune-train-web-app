@@ -1,6 +1,4 @@
 import { Resolver, Args, Mutation } from '@nestjs/graphql';
-
-import { HashPipe } from 'src/common/pipes/hash.pipe';
 import {
   User,
   CreateUserInput,
@@ -14,7 +12,7 @@ export class UserResolver {
 
 
   @Mutation(returns => CreateUserResponse)
-  async createUser(@Args('input', HashPipe) createUserData: CreateUserInput): Promise<CreateUserResponse> {
+  async createUser(@Args('input') createUserData: CreateUserInput): Promise<CreateUserResponse> {
     const user = await this.userService.createUser(createUserData);
     return { user };
   }

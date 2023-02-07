@@ -8,6 +8,8 @@ import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
 import { TransformedConfig, STAGE } from "src/common/config/config";
 import helmet from 'helmet';
 import { Settings } from "luxon";
+import { PasswordHashPipe } from 'src/common/pipes/password-hash.pipe';
+import { PasswordService } from 'src/auth/password.service';
 
 async function bootstrap() {
   Settings.defaultZone = "utc";
@@ -22,7 +24,10 @@ async function bootstrap() {
 
   const stage = config.get<STAGE>('stage');
 
-  // app.useGlobalPipes();
+  const passwordService = app.get(PasswordService);
+  app.useGlobalPipes(
+    new PasswordHashPipe(passwordService)
+  );
 
   app.useGlobalInterceptors(
     new WrapResponseInterceptor(),

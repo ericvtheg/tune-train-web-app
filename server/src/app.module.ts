@@ -6,6 +6,7 @@ import { CommonModule } from 'src/common/common.module';
 import { HealthCheckController } from 'src/health-check.controller';
 import { PrismaModule, loggingMiddleware, QueryInfo } from 'nestjs-prisma';
 import { GraphQLModule } from 'src/graphql/graphql.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { GraphQLModule } from 'src/graphql/graphql.module';
     SongModule,
     ListenModule,
     UserModule,
+    AuthModule,
     CommonModule,
   ],
   controllers: [HealthCheckController],

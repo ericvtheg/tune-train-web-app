@@ -12,7 +12,6 @@ import { UseGuards } from '@nestjs/common';
 import { LocalAuthGuard } from 'src/common/guards/local-auth.guard';
 import { AccessToken } from 'src/common/decorators/access-token.decorator';
 import { UserService } from 'src/domain-objects/user/user.service';
-import { HashPipe } from '../common/pipes/hash.pipe';
 
 
 @Resolver()
@@ -36,7 +35,7 @@ export class AuthResolver {
   }
 
   @Mutation(returns => ResetPasswordResponse)
-  async resetPassword(@Args('input', HashPipe) resetPasswordData: ResetPasswordInput): Promise<ResetPasswordResponse>{
+  async resetPassword(@Args('input') resetPasswordData: ResetPasswordInput): Promise<ResetPasswordResponse>{
     // check if included reset token is in database for specified email AND that expiryTime has not passed
     const { email, password, resetToken } = resetPasswordData;
     console.log(resetPasswordData);

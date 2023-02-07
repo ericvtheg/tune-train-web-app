@@ -20,18 +20,6 @@ type CreateUserResponse {
   user: User!
 }
 
-type LoginResponse {
-  accessToken: String!
-}
-
-type ResetPasswordResponse {
-  status: String!
-}
-
-type ForgotPasswordResponse {
-  status: String!
-}
-
 type FileDownload {
   link: String!
 }
@@ -55,6 +43,18 @@ type CreateSongResponse {
 
 type ListenToSongResponse {
   result: String!
+}
+
+type LoginResponse {
+  accessToken: String!
+}
+
+type ResetPasswordResponse {
+  status: String!
+}
+
+type ForgotPasswordResponse {
+  status: String!
 }
 
 type Query {
