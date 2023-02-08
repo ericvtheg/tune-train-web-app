@@ -1,7 +1,7 @@
 import { Field, ObjectType, InputType } from '@nestjs/graphql';
 
-@ObjectType({ description: 'artist' })
-export class Artist {
+@ObjectType('Artist')
+export class ArtistModel {
   @Field(type => String)
   stageName: string;
 

@@ -1,21 +1,22 @@
 import { Query, Resolver, Args, ResolveField, Parent, Mutation } from '@nestjs/graphql';
-import { UseGuards } from '@nestjs/common';
+import { Logger, UseGuards } from '@nestjs/common';
 import {
-  Song,
+  SongModel,
   CreateSongInput,
   CreateSongResponse,
   DiscoverSongResponse,
   FileDownload,
 } from 'src/domain-objects/song/song.model';
-import { SongService } from 'src/domain-objects/song/song.service';
+import { SongService, Song } from 'src/domain-objects/song/song.service';
+import { FileStorageService } from 'src/services/file-storage/file-storage.service';
 import { UserId } from 'src/domain-objects/user/user.service';
 
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { Id } from 'src/common/decorators/id.decorator';
 
-@Resolver(() => Song)
+@Resolver(() => SongModel)
 export class SongResolver {
-  constructor(private songService: SongService) {}
+  constructor(private songService: SongService, private fileStorageService: FileStorageService) {}
 
   @Mutation(returns => CreateSongResponse)
   @UseGuards(JwtAuthGuard)
@@ -23,6 +24,13 @@ export class SongResolver {
     @Args('input') createSongData: CreateSongInput,
       @Id() userId: UserId,
   ): Promise<CreateSongResponse> {
+    // check that song file exists
+    const fileExists = await this.fileStorageService.fileExists(createSongData.fileName);
+    if(!fileExists){
+      Logger.error('Attempted to create song with non existent file');
+      throw new Error('Can not create song with non existent file');
+    }
+
     const song = await this.songService.createSong(createSongData, userId);
     return { song };
   }
@@ -37,8 +45,8 @@ export class SongResolver {
 
   @ResolveField('fileDownload', returns => FileDownload)
   async downloadLink(@Parent() song: Song): Promise<FileDownload>{
-    const { id } = song;
-    const link = await this.songService.getSongDownloadLink(id);
+    const { fileName } = song;
+    const link = await this.songService.getSongDownloadLink(fileName);
     return { link };
   }
 }

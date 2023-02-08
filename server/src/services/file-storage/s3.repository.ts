@@ -10,6 +10,21 @@ export class S3Repository {
     @Inject(BUCKET_NAME) private readonly bucketName: string,
   ) {}
 
+  async getHeadObject(key: string): Promise<S3.HeadObjectOutput | null> {
+    try{
+      return await this.s3.headObject({
+        Bucket: this.bucketName,
+        Key: key,
+      }).promise();
+    } catch (error) {
+      if (error?.code === 'NotFound') {
+        return null;
+      }
+      throw error;
+    }
+
+  }
+
   async generateDownloadLink(key: string): Promise<string> {
     return await this.s3.getSignedUrlPromise('getObject', {
       Bucket: this.bucketName,

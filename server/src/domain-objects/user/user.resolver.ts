@@ -1,12 +1,12 @@
 import { Resolver, Args, Mutation } from '@nestjs/graphql';
 import {
-  User,
+  UserModel,
   CreateUserInput,
   CreateUserResponse,
 } from 'src/domain-objects/user/user.model';
 import { UserService } from 'src/domain-objects/user/user.service';
 
-@Resolver(() => User)
+@Resolver(() => UserModel)
 export class UserResolver {
   constructor(private userService: UserService) {}
 

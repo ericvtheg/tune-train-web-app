@@ -59,6 +59,7 @@ model Song {
   title       String
   description String
   artist_id   Int
+  file_name   String
   artist      Artist   @relation(fields: [artist_id], references: [id])
   listens     Listen[]
 

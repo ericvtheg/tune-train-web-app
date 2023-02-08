@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType, InputType } from '@nestjs/graphql';
-import { Artist } from 'src/domain-objects/artist/artist.model';
+import { ArtistModel } from 'src/domain-objects/artist/artist.model';
 import { SongId } from 'src/domain-objects/song/song.service';
 import { DownloadLink } from 'src/services/file-storage/file-storage.service';
 
@@ -9,8 +9,8 @@ export class FileDownload {
   link: DownloadLink;
 }
 
-@ObjectType({ description: 'song' })
-export class Song {
+@ObjectType('Song',{ description: 'song' })
+export class SongModel {
   @Field(type => ID)
   id: SongId;
 
@@ -23,8 +23,8 @@ export class Song {
   @Field(type => FileDownload)
   fileDownload?: FileDownload;
 
-  @Field(type => Artist)
-  artist?: Artist;
+  @Field(type => ArtistModel)
+  artist?: ArtistModel;
 }
 
 @InputType()
@@ -34,16 +34,19 @@ export class CreateSongInput {
 
   @Field(type => String)
   description: string;
+
+  @Field(type => String)
+  fileName: string;
 }
 
 @ObjectType()
 export class DiscoverSongResponse {
-  @Field(type => Song, { nullable: true })
-  song: Song | null;
+  @Field(type => SongModel, { nullable: true })
+  song: SongModel | null;
 }
 
 @ObjectType()
 export class CreateSongResponse {
-  @Field(type => Song)
-  song: Song;
+  @Field(type => SongModel)
+  song: SongModel;
 }

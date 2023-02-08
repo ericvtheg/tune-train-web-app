@@ -1,9 +1,9 @@
 import { Field, ObjectType, InputType } from '@nestjs/graphql';
-import { CreateArtistInput, Artist as ArtistModel } from 'src/domain-objects/artist/artist.model';
+import { CreateArtistInput, ArtistModel } from 'src/domain-objects/artist/artist.model';
 import { ToBeCreatedArtist, Artist } from 'src/domain-objects/artist/artist.service';
 
-@ObjectType({ description: 'user' })
-export class User {
+@ObjectType('User')
+export class UserModel {
   @Field(type => String)
   username: string;
 
@@ -37,6 +37,6 @@ export class CreateUserInput {
 
 @ObjectType()
 export class CreateUserResponse {
-  @Field(type => User)
-  user: User;
+  @Field(type => UserModel)
+  user: UserModel;
 }

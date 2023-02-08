@@ -2,13 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-"""artist"""
 type Artist {
   stageName: String!
   bio: String!
 }
 
-"""user"""
 type User {
   username: String!
   email: String!
@@ -73,6 +71,7 @@ type Mutation {
 input CreateSongInput {
   title: String!
   description: String!
+  fileName: String!
 }
 
 input ListenToSongInput {
