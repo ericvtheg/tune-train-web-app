@@ -10,7 +10,6 @@ import { UserService } from 'src/domain-objects/user/user.service';
 export class UserResolver {
   constructor(private userService: UserService) {}
 
-
   @Mutation(returns => CreateUserResponse)
   async createUser(@Args('input') createUserData: CreateUserInput): Promise<CreateUserResponse> {
     const user = await this.userService.createUser(createUserData);

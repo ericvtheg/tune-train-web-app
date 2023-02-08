@@ -8,9 +8,6 @@ module.exports = {
     },
   },
   settings: {
-    react: {
-      version: '14.18',
-    },
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx'],
     },
@@ -43,11 +40,10 @@ module.exports = {
     browser: true,
     node: true,
   },
-  plugins: ['react', '@typescript-eslint', 'prettier'],
+  plugins: ['@typescript-eslint', 'prettier'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:react/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
@@ -87,16 +83,5 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/no-var-requires': 'off',
-    // JSX RULES
-    'jsx-quotes': ['error', 'prefer-single'],
-    'react/jsx-boolean-value': 'error',
-    'react/jsx-closing-bracket-location': 'error',
-    'react/jsx-equals-spacing': 'error',
-    'react/jsx-indent-props': ['error', 2],
-    'react/jsx-indent': ['error', 2],
-    'react/jsx-max-props-per-line': ['error', { maximum: 4 }],
-    'react/jsx-no-bind': 'error',
-    'react/jsx-no-literals': 'off',
-    'react/jsx-tag-spacing': ['error', { beforeSelfClosing: 'always' }],
   },
 };
