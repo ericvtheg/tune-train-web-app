@@ -33,6 +33,9 @@ class EnvironmentVariables {
   STAGE: STAGE;
 
   @IsString()
+  FROM_EMAIL_ADDRESS: string;
+
+  @IsString()
   SONG_BUCKET: string;
 
   @IsUrl({ require_tld: false })
@@ -90,6 +93,9 @@ export interface TransformedConfig {
   aws: {
     region: string;
   }
+  email: {
+    fromEmailAddress: string
+  }
   jwt: {
     accessTokenSecret: string;
     accessTokenExpirationTime: string;
@@ -141,6 +147,9 @@ export const loader = (): TransformedConfig => ({
   },
   aws: {
     region: process.env.AWS_REGION as string,
+  },
+  email: {
+    fromEmailAddress: process.env.fromEmailAddress as string,
   },
   jwt: {
     accessTokenSecret: process.env.JWT_ACCESS_TOKEN_SECRET as string,

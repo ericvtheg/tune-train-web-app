@@ -8,9 +8,11 @@ import { UserModule } from 'src/domain-objects/user/user.module';
 import { LocalStrategy } from 'src/auth/strategies/local.strategy';
 import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
 import { AuthResolver } from 'src/auth/auth.resolver';
+import { EmailModule } from 'src/services/email/email.module';
 
 @Module({
   imports: [
+    EmailModule,
     UserModule,
     PassportModule,
     JwtModule.registerAsync({

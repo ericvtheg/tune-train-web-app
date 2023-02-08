@@ -20,6 +20,7 @@ model User {
   first_name String
   artist     Artist?
   listens    Listen[]
+  Auth       Auth[]
 
   @@map("user")
 }
@@ -86,6 +87,7 @@ model Auth {
   email                       String
   reset_password_token        String
   reset_password_token_expiry DateTime @default(dbgenerated("NOW() + interval '1 hour'"))
+  user                        User     @relation(fields: [email], references: [email], map: "Auth_Email_Exists_Constraint")
 
   @@index(email)
   @@map("auth")

@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'nestjs-prisma';
 import { DateTime } from 'luxon';
 import { lib } from 'crypto-js';
-
+import { AUTH_EMAIL_EXISTS_CONSTRAINT } from 'src/prisma/constraints';
 
 @Injectable()
 export class AuthService {
@@ -56,7 +56,8 @@ export class AuthService {
     return this.jwtTokenService.sign(payload);
   }
 
-  async generateResetToken(email: string): Promise<string> {
+  /** @returns null if no user exists with the passed in email */
+  async generateResetToken(email: string): Promise<string | null> {
     try {
       const resetToken = lib.WordArray.random(16).toString();
 
@@ -67,8 +68,13 @@ export class AuthService {
         },
       });
       return resetToken;
+
     } catch (error) {
-      Logger.error('Failed to generateResetToken');
+      if ((error?.meta?.field_name as string)?.includes(AUTH_EMAIL_EXISTS_CONSTRAINT)){
+        Logger.warn('User attempted forgot password flow for non existent email');
+        return null;
+      }
+      Logger.error('Failed to generateResetToken', error, JSON.stringify(error));
       throw error;
     }
   }

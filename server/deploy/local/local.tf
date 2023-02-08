@@ -24,7 +24,7 @@ resource "aws_sqs_queue" "tune-train-sqs-queue" {
   name      =   "tune-train-listen-sqs-queue-${var.stage}"
 }
 
-# sns
+# SNS
 resource "aws_sns_topic" "tune-train-sns-topic" {
   name      =   "tune-train-listen-sns-topic-${var.stage}"
 }

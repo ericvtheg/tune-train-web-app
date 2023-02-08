@@ -22,7 +22,7 @@ export class ListenConsumer {
       const listen = JSON.parse(unparsedListenMessage) as ToBeCreatedListen;
       await this.listenService.createListen(listen);
     } catch (error) {
-      Logger.error('Failed to consume listen message', JSON.stringify(message));
+      Logger.error('Failed to consume listen message', error, JSON.stringify(body));
       throw new Error(error);
     }
   }
