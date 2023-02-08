@@ -33,6 +33,9 @@ class EnvironmentVariables {
   STAGE: STAGE;
 
   @IsString()
+  FROM_EMAIL_ADDRESS: string;
+
+  @IsString()
   SONG_BUCKET: string;
 
   @IsUrl({ require_tld: false })
@@ -40,6 +43,9 @@ class EnvironmentVariables {
 
   @IsString()
   LISTEN_QUEUE_NAME: string;
+
+  @IsString()
+  LISTEN_TOPIC_ARN: string;
 
   @IsString()
   AWS_REGION: string;
@@ -70,6 +76,11 @@ export interface TransformedConfig {
       name: string;
     }
   }
+  topic: {
+    listenTopic: {
+      arn: string;
+    }
+  }
   stage: STAGE;
   database: {
     host: string;
@@ -81,6 +92,9 @@ export interface TransformedConfig {
   }
   aws: {
     region: string;
+  }
+  email: {
+    fromEmailAddress: string
   }
   jwt: {
     accessTokenSecret: string;
@@ -117,6 +131,11 @@ export const loader = (): TransformedConfig => ({
       name: process.env.LISTEN_QUEUE_NAME as string,
     },
   },
+  topic: {
+    listenTopic: {
+      arn: process.env.LISTEN_TOPIC_ARN as string,
+    },
+  },
   stage: process.env.STAGE as unknown as STAGE,
   database: {
     host: process.env.DATABASE_HOST as string,
@@ -128,6 +147,9 @@ export const loader = (): TransformedConfig => ({
   },
   aws: {
     region: process.env.AWS_REGION as string,
+  },
+  email: {
+    fromEmailAddress: process.env.fromEmailAddress as string,
   },
   jwt: {
     accessTokenSecret: process.env.JWT_ACCESS_TOKEN_SECRET as string,

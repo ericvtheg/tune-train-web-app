@@ -1,0 +1,108 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Artist {
+  stageName: String!
+  bio: String!
+}
+
+type User {
+  username: String!
+  email: String!
+  firstName: String!
+  artist: Artist
+}
+
+type CreateUserResponse {
+  user: User!
+}
+
+type FileDownload {
+  link: String!
+}
+
+"""song"""
+type Song {
+  id: ID!
+  title: String!
+  description: String!
+  fileDownload: FileDownload!
+  artist: Artist!
+}
+
+type DiscoverSongResponse {
+  song: Song
+}
+
+type CreateSongResponse {
+  song: Song!
+}
+
+type ListenToSongResponse {
+  result: String!
+}
+
+type LoginResponse {
+  accessToken: String!
+}
+
+type ResetPasswordResponse {
+  status: String!
+}
+
+type ForgotPasswordResponse {
+  status: String!
+}
+
+type Query {
+  discoverSong: DiscoverSongResponse!
+}
+
+type Mutation {
+  createSong(input: CreateSongInput!): CreateSongResponse!
+  listenToSong(input: ListenToSongInput!): ListenToSongResponse!
+  createUser(input: CreateUserInput!): CreateUserResponse!
+  login(input: LoginInput!): LoginResponse!
+  forgotPassword(input: ForgotPasswordInput!): ForgotPasswordResponse!
+  resetPassword(input: ResetPasswordInput!): ResetPasswordResponse!
+}
+
+input CreateSongInput {
+  title: String!
+  description: String!
+  fileName: String!
+}
+
+input ListenToSongInput {
+  songId: ID!
+  liked: Boolean!
+}
+
+input CreateUserInput {
+  username: String!
+  password: String!
+  email: String!
+  firstName: String!
+  artist: CreateArtistInput
+}
+
+input CreateArtistInput {
+  stageName: String!
+  bio: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input ForgotPasswordInput {
+  email: String!
+}
+
+input ResetPasswordInput {
+  email: String!
+  password: String!
+  resetToken: String!
+}

@@ -13,7 +13,6 @@ async function main() {
       username: randUserName(),
       password: 'somePassword',
       first_name: 'Firstname',
-      last_name: 'Lastname',
     },
   });
 
@@ -23,12 +22,10 @@ async function main() {
       username: randUserName(),
       password: 'somePassword',
       first_name: 'Firstname',
-      last_name: 'Lastname',
       artist: {
         create: {
           stage_name: 'Some Stage Name',
           bio: 'some bio',
-          image: 'someimageurl.com/image',
         },
       },
     },
@@ -47,7 +44,6 @@ async function main() {
       liked: true,
       song_id: song.id,
       user_id: user.id,
-      artist_id: artist.id,
     },
   });
 }

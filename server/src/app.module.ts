@@ -1,33 +1,33 @@
-import { Module } from '@nestjs/common';
-import { UserModule } from 'src/user/user.module';
-import { ArtistModule } from 'src/artist/artist.module';
-import { SongModule } from 'src/song/song.module';
-import { ListenModule } from 'src/listen/listen.module';
+import { Module, Logger } from '@nestjs/common';
+import { UserModule } from 'src/domain-objects/user/user.module';
+import { SongModule } from 'src/domain-objects/song/song.module';
+import { ListenModule } from 'src/domain-objects/listen/listen.module';
 import { CommonModule } from 'src/common/common.module';
-import { HealthCheckModule } from 'src/health-check/health-check.module';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { PrismaModule } from 'nestjs-prisma';
+import { HealthCheckController } from 'src/health-check.controller';
+import { PrismaModule, loggingMiddleware, QueryInfo } from 'nestjs-prisma';
+import { GraphQLModule } from 'src/graphql/graphql.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
     PrismaModule.forRoot({
       isGlobal: true,
       prismaServiceOptions: {
-        // TODO middlewares: [loggingMiddleware(new Logger('PrismaMiddleware'))], // configure your prisma middleware
+        middlewares: [loggingMiddleware({
+          logger: new Logger('PrismaMiddleware'),
+          logLevel: 'debug', // default is `debug`
+          logMessage: (query: QueryInfo) =>
+            `[Prisma Query] ${query.model}.${query.action} - ${query.executionTime}ms`,
+        })],
       },
     }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: `${process.cwd()}/src/schema.gql`,
-    }),
-    PrismaModule,
+    GraphQLModule,
     SongModule,
     ListenModule,
     UserModule,
-    ArtistModule,
+    AuthModule,
     CommonModule,
-    HealthCheckModule,
   ],
+  controllers: [HealthCheckController],
 })
 export class AppModule {}

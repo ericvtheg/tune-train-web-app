@@ -11,53 +11,55 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(cuid())
+  id         Int      @id @default(autoincrement())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   email      String   @unique
   username   String   @unique
   password   String
   first_name String
-  last_name  String?
   artist     Artist?
   listens    Listen[]
+  Auth       Auth[]
 
   @@map("user")
 }
 
 model Artist {
-  id         String   @id @default(cuid())
+  id         Int      @id @default(autoincrement())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   stage_name String
   bio        String
-  image      String
-  user       User     @relation(fields: [id], references: [id])
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    Int
   songs      Song[]
-  socials    Social?
+  // socials    Social?
 
+  @@unique([user_id], map: "user_id_artist_unique_constraint")
   @@map("artist")
 }
 
-model Social {
-  id String   @id @default(cuid())
-  instagram   String?
-  tiktok      String?
-  twitter     String?
-  artist_id   String
-  artist      Artist   @relation(fields: [artist_id], references: [id])
+// model Social {
+//   id String   @id @default(cuid())
+//   instagram   String?
+//   tiktok      String?
+//   twitter     String?
+//   artist_id   String
+//   artist      Artist   @relation(fields: [artist_id], references: [id])
 
-  @@unique([artist_id], map: "artist_id_social_unique_constraint")
-  @@map("social")
-}
+//   @@unique([artist_id], map: "artist_id_social_unique_constraint")
+//   @@map("social")
+// }
 
 model Song {
-  id          String   @id @default(cuid())
+  id          Int      @id @default(autoincrement())
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
   title       String
   description String
-  artist_id   String
+  artist_id   Int
+  file_name   String
   artist      Artist   @relation(fields: [artist_id], references: [id])
   listens     Listen[]
 
@@ -66,17 +68,28 @@ model Song {
 }
 
 model Listen {
-  id         String   @id @default(cuid())
+  id         Int      @id @default(autoincrement())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  song_id    String
-  user_id    String
+  song_id    Int
+  user_id    Int
   liked      Boolean
   user       User     @relation(fields: [user_id], references: [id])
   song       Song     @relation(fields: [song_id], references: [id])
 
   @@unique([song_id, user_id], map: "song_id_user_id_unique_constraint")
-  @@index(song_id)
-  @@index(user_id)
   @@map("listen")
+}
+
+model Auth {
+  id                          Int      @id @default(autoincrement())
+  created_at                  DateTime @default(now())
+  updated_at                  DateTime @updatedAt
+  email                       String
+  reset_password_token        String
+  reset_password_token_expiry DateTime @default(dbgenerated("NOW() + interval '1 hour'"))
+  user                        User     @relation(fields: [email], references: [email], map: "Auth_Email_Exists_Constraint")
+
+  @@index(email)
+  @@map("auth")
 }
