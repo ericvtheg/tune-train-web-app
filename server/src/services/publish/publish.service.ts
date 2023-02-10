@@ -6,10 +6,12 @@ import { TOPIC_ARN } from 'src/common/symbols';
 export class PublishService {
   constructor(
     @Inject(SNS) private readonly sns: SNS,
-    @Inject(TOPIC_ARN) private readonly topicArn: string,
+    @Inject(TOPIC_ARN) private readonly topicArn: string
   ) {}
 
   async publishMessage(message: string): Promise<void> {
-    await this.sns.publish({ TopicArn: this.topicArn, Message: message }).promise();
+    await this.sns
+      .publish({ TopicArn: this.topicArn, Message: message })
+      .promise();
   }
 }

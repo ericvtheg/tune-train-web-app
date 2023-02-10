@@ -12,10 +12,7 @@ import { ConfigService } from '@nestjs/config';
         configService.get<string>('fileStorage.songBucket.name'),
     }),
   ],
-  providers: [
-    SongResolver,
-    SongService,
-  ],
+  providers: [SongResolver, SongService],
   exports: [SongService],
 })
 export class SongModule {}

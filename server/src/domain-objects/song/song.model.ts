@@ -5,48 +5,48 @@ import { DownloadLink } from 'src/services/file-storage/file-storage.service';
 
 @ObjectType()
 export class FileDownload {
-  @Field(type => String)
+  @Field((type) => String)
   link: DownloadLink;
 }
 
-@ObjectType('Song',{ description: 'song' })
+@ObjectType('Song', { description: 'song' })
 export class SongModel {
-  @Field(type => ID)
+  @Field((type) => ID)
   id: SongId;
 
-  @Field(type => String)
+  @Field((type) => String)
   title: string;
 
-  @Field(type => String)
+  @Field((type) => String)
   description: string;
 
-  @Field(type => FileDownload)
+  @Field((type) => FileDownload)
   fileDownload?: FileDownload;
 
-  @Field(type => ArtistModel)
+  @Field((type) => ArtistModel)
   artist?: ArtistModel;
 }
 
 @InputType()
 export class CreateSongInput {
-  @Field(type => String)
+  @Field((type) => String)
   title: string;
 
-  @Field(type => String)
+  @Field((type) => String)
   description: string;
 
-  @Field(type => String)
+  @Field((type) => String)
   fileName: string;
 }
 
 @ObjectType()
 export class DiscoverSongResponse {
-  @Field(type => SongModel, { nullable: true })
+  @Field((type) => SongModel, { nullable: true })
   song: SongModel | null;
 }
 
 @ObjectType()
 export class CreateSongResponse {
-  @Field(type => SongModel)
+  @Field((type) => SongModel)
   song: SongModel;
 }

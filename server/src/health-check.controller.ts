@@ -5,7 +5,7 @@ import { Public } from 'src/common/decorators/public.decorator';
 export class HealthCheckController {
   @Public()
   @Get()
-  async healthCheck(): Promise<string>{
+  async healthCheck(): Promise<string> {
     return 'healthy';
   }
 }

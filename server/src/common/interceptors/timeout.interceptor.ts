@@ -17,11 +17,10 @@ import { REQUEST_TIMEOUT } from 'src/common/decorators/timeout.decorator';
 
 @Injectable()
 export class TimeoutInterceptor implements NestInterceptor {
-  constructor(
-    private readonly reflector: Reflector,
-  ) {}
+  constructor(private readonly reflector: Reflector) {}
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const timeoutTime = this.reflector.get<number>(REQUEST_TIMEOUT, context.getHandler()) || 3000;
+    const timeoutTime =
+      this.reflector.get<number>(REQUEST_TIMEOUT, context.getHandler()) || 3000;
     return next.handle().pipe(
       timeout(timeoutTime),
       catchError((err) => {
@@ -29,7 +28,7 @@ export class TimeoutInterceptor implements NestInterceptor {
           return throwError(() => new RequestTimeoutException());
         }
         return throwError(() => err);
-      }),
+      })
     );
   }
 }

@@ -1,8 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import type { Opaque } from 'type-fest';
 import { UserId } from 'src/domain-objects/user/user.service';
-import { ArtistId, Artist, transform as artistTransform } from 'src/domain-objects/artist/artist.service';
-import { FileStorageService, DownloadLink, UploadLink } from 'src/services/file-storage/file-storage.service';
+import {
+  ArtistId,
+  Artist,
+  transform as artistTransform,
+} from 'src/domain-objects/artist/artist.service';
+import {
+  FileStorageService,
+  DownloadLink,
+  UploadLink,
+} from 'src/services/file-storage/file-storage.service';
 import { PrismaService } from 'nestjs-prisma';
 import { Song as SongEntity, Artist as ArtistEntity } from '@prisma/client';
 
@@ -38,7 +46,10 @@ const getKeyFromId = (fileName: string): string => {
 
 @Injectable()
 export class SongService {
-  constructor(private fileStorageService: FileStorageService, private prisma: PrismaService) {}
+  constructor(
+    private fileStorageService: FileStorageService,
+    private prisma: PrismaService
+  ) {}
 
   async createSong(song: ToBeCreatedSong, userId: UserId): Promise<Song> {
     const songEntity = await this.prisma.song.create({
@@ -59,13 +70,21 @@ export class SongService {
 
   async findUnheardSong(userId: UserId): Promise<Song | null> {
     type queryRawResultType = {
-      id: number, title: string, description: string, file_name: string,
-      artist_id: number, stage_name: string, bio: string,
-      song_created_at: Date, song_updated_at: Date,
-      artist_created_at: Date, artist_updated_at: Date
+      id: number;
+      title: string;
+      description: string;
+      file_name: string;
+      artist_id: number;
+      stage_name: string;
+      bio: string;
+      song_created_at: Date;
+      song_updated_at: Date;
+      artist_created_at: Date;
+      artist_updated_at: Date;
     };
 
-    const queryRawResult = (await this.prisma.$queryRaw<queryRawResultType[]>`
+    const queryRawResult = (
+      await this.prisma.$queryRaw<queryRawResultType[]>`
       SELECT song.id, song.title, song.description, song.fileName, song.created_at as song_created_at, 
         song.updated_at as song_updated_at, artist.id as artist_id, artist.stage_name, artist.bio,
         artist.created_at as artist_created_at, artist.updated_at as artist_updated_at
@@ -79,9 +98,10 @@ export class SongService {
       )
       ORDER BY random()
       LIMIT 1;
-    `)?.[0];
+    `
+    )?.[0];
 
-    if (!queryRawResult){
+    if (!queryRawResult) {
       // TODO handle this error
       throw new Error('No unheard songs found!');
     }

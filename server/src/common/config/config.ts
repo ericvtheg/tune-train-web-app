@@ -1,9 +1,15 @@
 import { plainToInstance } from 'class-transformer';
-import { IsEnum, IsUrl, IsString, IsNumber, validateSync } from 'class-validator';
+import {
+  IsEnum,
+  IsUrl,
+  IsString,
+  IsNumber,
+  validateSync,
+} from 'class-validator';
 
 export enum STAGE {
   local = 'local',
-  prod = 'prod'
+  prod = 'prod',
 }
 
 class EnvironmentVariables {
@@ -68,19 +74,19 @@ export interface TransformedConfig {
   fileStorage: {
     songBucket: {
       name: string;
-    }
-  }
+    };
+  };
   queue: {
     listenQueue: {
       url: string;
       name: string;
-    }
-  }
+    };
+  };
   topic: {
     listenTopic: {
       arn: string;
-    }
-  }
+    };
+  };
   stage: STAGE;
   database: {
     host: string;
@@ -89,28 +95,30 @@ export interface TransformedConfig {
     password: string;
     port: number;
     url: string;
-  }
+  };
   aws: {
     region: string;
-  }
+  };
   email: {
-    fromEmailAddress: string
-  }
+    fromEmailAddress: string;
+  };
   jwt: {
     accessTokenSecret: string;
     accessTokenExpirationTime: string;
     refreshTokenSecret: string;
     refreshTokenExpirationTime: string;
-  }
+  };
 }
 
-export const validate = (config: Record<string, unknown>): EnvironmentVariables => {
-  const validatedConfig = plainToInstance(
-    EnvironmentVariables,
-    config,
-    { enableImplicitConversion: true },
-  );
-  const errors = validateSync(validatedConfig, { skipMissingProperties: false });
+export const validate = (
+  config: Record<string, unknown>
+): EnvironmentVariables => {
+  const validatedConfig = plainToInstance(EnvironmentVariables, config, {
+    enableImplicitConversion: true,
+  });
+  const errors = validateSync(validatedConfig, {
+    skipMissingProperties: false,
+  });
 
   if (errors.length > 0) {
     throw new Error(errors.toString());
@@ -153,8 +161,10 @@ export const loader = (): TransformedConfig => ({
   },
   jwt: {
     accessTokenSecret: process.env.JWT_ACCESS_TOKEN_SECRET as string,
-    accessTokenExpirationTime: process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME as string,
+    accessTokenExpirationTime: process.env
+      .JWT_ACCESS_TOKEN_EXPIRATION_TIME as string,
     refreshTokenSecret: process.env.JWT_REFRESH_TOKEN_SECRET as string,
-    refreshTokenExpirationTime: process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME as string,
+    refreshTokenExpirationTime: process.env
+      .JWT_REFRESH_TOKEN_EXPIRATION_TIME as string,
   },
 });

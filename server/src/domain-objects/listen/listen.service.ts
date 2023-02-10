@@ -32,14 +32,14 @@ const transform = (entity: ListenEntity): Listen => ({
 export class ListenService {
   constructor(
     private prisma: PrismaService,
-    private publishService: PublishService,
+    private publishService: PublishService
   ) {}
 
   async publishMessage(message: ToBeCreatedListen): Promise<void> {
     return await this.publishService.publishMessage(JSON.stringify(message));
   }
 
-  async createListen(listen: ToBeCreatedListen): Promise<Listen > {
+  async createListen(listen: ToBeCreatedListen): Promise<Listen> {
     const listenEntity = await this.prisma.listen.upsert({
       where: {
         song_id_user_id: {

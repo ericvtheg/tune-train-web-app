@@ -5,9 +5,18 @@ import { STAGE } from 'src/common/config/config';
 
 @Injectable()
 export class EmailService {
-  constructor(private readonly ses: SES, private readonly configService: ConfigService) {}
+  constructor(
+    private readonly ses: SES,
+    private readonly configService: ConfigService
+  ) {}
 
-  async sendForgotPasswordEmail({ email, resetToken }: { email: string, resetToken: string }): Promise<void> {
+  async sendForgotPasswordEmail({
+    email,
+    resetToken,
+  }: {
+    email: string;
+    resetToken: string;
+  }): Promise<void> {
     const args = {
       Destination: {
         ToAddresses: [email],
@@ -26,7 +35,7 @@ export class EmailService {
       },
       Source: 'some@email.com',
     };
-    if(this.configService.get('stage') === STAGE.prod){
+    if (this.configService.get('stage') === STAGE.prod) {
       await this.ses.sendEmail().promise();
     } else {
       Logger.log('To be sent email args', args);

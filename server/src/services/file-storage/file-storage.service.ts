@@ -9,16 +9,16 @@ export type UploadLink = Opaque<string, 'UploadLink'>;
 export class FileStorageService {
   constructor(private s3Repository: S3Repository) {}
 
-  async fileExists(key: string): Promise<Boolean> {
+  async fileExists(key: string): Promise<boolean> {
     const result = await this.s3Repository.getHeadObject(key);
     return result ? true : false;
   }
 
   async generateDownloadLink(key: string): Promise<DownloadLink> {
-    return await this.s3Repository.generateDownloadLink(key) as DownloadLink;
+    return (await this.s3Repository.generateDownloadLink(key)) as DownloadLink;
   }
 
   async generateUploadLink(key: string): Promise<UploadLink> {
-    return await this.s3Repository.generateUploadLink(key) as UploadLink;
+    return (await this.s3Repository.generateUploadLink(key)) as UploadLink;
   }
 }

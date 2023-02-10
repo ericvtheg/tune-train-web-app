@@ -1,4 +1,9 @@
-import { Module, DynamicModule, ModuleMetadata, Provider } from '@nestjs/common';
+import {
+  Module,
+  DynamicModule,
+  ModuleMetadata,
+  Provider,
+} from '@nestjs/common';
 import { FileStorageService } from 'src/services/file-storage/file-storage.service';
 import { S3FactoryProvider } from 'src/services/file-storage/s3.factory';
 import { S3Repository } from 'src/services/file-storage/s3.repository';
@@ -6,9 +11,7 @@ import { BUCKET_NAME } from 'src/common/symbols';
 
 export interface FileStorageModuleAsyncOptions
   extends Pick<ModuleMetadata, 'imports'> {
-  useFactory: (
-    ...args: any[]
-  ) => Promise<any> | any;
+  useFactory: (...args: any[]) => Promise<any> | any;
   inject?: any[];
   extraProviders?: Provider[];
 }
@@ -31,13 +34,13 @@ export class FileStorageModule {
   }
 
   private static createAsyncProviders(
-    options: FileStorageModuleAsyncOptions,
+    options: FileStorageModuleAsyncOptions
   ): Provider[] {
     return [this.createAsyncOptionsProvider(options)];
   }
 
   private static createAsyncOptionsProvider(
-    options: FileStorageModuleAsyncOptions,
+    options: FileStorageModuleAsyncOptions
   ): Provider {
     return {
       provide: BUCKET_NAME,

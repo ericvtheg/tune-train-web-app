@@ -17,8 +17,8 @@ export class WrapResponseInterceptor implements NestInterceptor {
         Logger.log({
           duration: `${name}: ${Date.now() - now}ms`,
           data: value,
-        }),
-      ),
+        })
+      )
     );
   }
 }

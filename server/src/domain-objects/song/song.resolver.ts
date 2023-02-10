@@ -1,4 +1,11 @@
-import { Query, Resolver, Args, ResolveField, Parent, Mutation } from '@nestjs/graphql';
+import {
+  Query,
+  Resolver,
+  Args,
+  ResolveField,
+  Parent,
+  Mutation,
+} from '@nestjs/graphql';
 import { Logger, UseGuards } from '@nestjs/common';
 import {
   SongModel,
@@ -16,17 +23,22 @@ import { Id } from 'src/common/decorators/id.decorator';
 
 @Resolver(() => SongModel)
 export class SongResolver {
-  constructor(private songService: SongService, private fileStorageService: FileStorageService) {}
+  constructor(
+    private songService: SongService,
+    private fileStorageService: FileStorageService
+  ) {}
 
-  @Mutation(returns => CreateSongResponse)
+  @Mutation((returns) => CreateSongResponse)
   @UseGuards(JwtAuthGuard)
   async createSong(
     @Args('input') createSongData: CreateSongInput,
-      @Id() userId: UserId,
+    @Id() userId: UserId
   ): Promise<CreateSongResponse> {
     // check that song file exists
-    const fileExists = await this.fileStorageService.fileExists(createSongData.fileName);
-    if(!fileExists){
+    const fileExists = await this.fileStorageService.fileExists(
+      createSongData.fileName
+    );
+    if (!fileExists) {
       Logger.error('Attempted to create song with non existent file');
       throw new Error('Can not create song with non existent file');
     }
@@ -35,7 +47,7 @@ export class SongResolver {
     return { song };
   }
 
-  @Query(returns => DiscoverSongResponse)
+  @Query((returns) => DiscoverSongResponse)
   @UseGuards(JwtAuthGuard)
   async discoverSong(@Id() userId: UserId): Promise<DiscoverSongResponse> {
     // TODO would like to not require auth for this
@@ -43,8 +55,8 @@ export class SongResolver {
     return { song };
   }
 
-  @ResolveField('fileDownload', returns => FileDownload)
-  async downloadLink(@Parent() song: Song): Promise<FileDownload>{
+  @ResolveField('fileDownload', (returns) => FileDownload)
+  async downloadLink(@Parent() song: Song): Promise<FileDownload> {
     const { fileName } = song;
     const link = await this.songService.getSongDownloadLink(fileName);
     return { link };

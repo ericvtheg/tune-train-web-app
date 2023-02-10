@@ -7,5 +7,5 @@ export const Id = createParamDecorator(
     const ctx = GqlExecutionContext.create(context);
     const req = ctx.getContext().req;
     return req.user.id;
-  },
+  }
 );

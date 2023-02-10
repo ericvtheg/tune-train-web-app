@@ -13,12 +13,14 @@ import { AuthModule } from 'src/auth/auth.module';
     PrismaModule.forRoot({
       isGlobal: true,
       prismaServiceOptions: {
-        middlewares: [loggingMiddleware({
-          logger: new Logger('PrismaMiddleware'),
-          logLevel: 'debug', // default is `debug`
-          logMessage: (query: QueryInfo) =>
-            `[Prisma Query] ${query.model}.${query.action} - ${query.executionTime}ms`,
-        })],
+        middlewares: [
+          loggingMiddleware({
+            logger: new Logger('PrismaMiddleware'),
+            logLevel: 'debug', // default is `debug`
+            logMessage: (query: QueryInfo) =>
+              `[Prisma Query] ${query.model}.${query.action} - ${query.executionTime}ms`,
+          }),
+        ],
       },
     }),
     GraphQLModule,

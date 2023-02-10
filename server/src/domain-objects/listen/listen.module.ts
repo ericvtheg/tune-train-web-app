@@ -7,7 +7,6 @@ import { ListenService } from 'src/domain-objects/listen/listen.service';
 import { TransformedConfig } from 'src/common/config/config';
 import { PublishModule } from 'src/services/publish/publish.module';
 
-
 @Module({
   imports: [
     PublishModule.registerAsync({
@@ -18,18 +17,20 @@ import { PublishModule } from 'src/services/publish/publish.module';
     SqsModule.registerAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService<TransformedConfig, true>) => ({
-        consumers: [{
-          name: configService.get<string>('queue.listenQueue.name', { infer: true }),
-          queueUrl: configService.get<string>('queue.listenQueue.url', { infer: true }),
-        }],
+        consumers: [
+          {
+            name: configService.get<string>('queue.listenQueue.name', {
+              infer: true,
+            }),
+            queueUrl: configService.get<string>('queue.listenQueue.url', {
+              infer: true,
+            }),
+          },
+        ],
       }),
     }),
   ],
-  providers: [
-    ListenResolver,
-    ListenService,
-    ListenConsumer,
-  ],
+  providers: [ListenResolver, ListenService, ListenConsumer],
   exports: [ListenService],
 })
 export class ListenModule {}

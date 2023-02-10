@@ -19,16 +19,21 @@ export class AuthResolver {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
-    private readonly emailService: EmailService,
+    private readonly emailService: EmailService
   ) {}
-  @Mutation(returns => LoginResponse)
+  @Mutation((returns) => LoginResponse)
   @UseGuards(LocalAuthGuard)
-  async login(@Args('input') loginData: LoginInput, @AccessToken() accessToken: string): Promise<LoginResponse> {
+  async login(
+    @Args('input') loginData: LoginInput,
+    @AccessToken() accessToken: string
+  ): Promise<LoginResponse> {
     return { accessToken };
   }
 
-  @Mutation(returns => ForgotPasswordResponse)
-  async forgotPassword(@Args('input') forgotPasswordData: ForgotPasswordInput): Promise<ForgotPasswordResponse> {
+  @Mutation((returns) => ForgotPasswordResponse)
+  async forgotPassword(
+    @Args('input') forgotPasswordData: ForgotPasswordInput
+  ): Promise<ForgotPasswordResponse> {
     const { email } = forgotPasswordData;
     const resetToken = await this.authService.generateResetToken(email);
     if (resetToken) {
@@ -38,12 +43,17 @@ export class AuthResolver {
     return { status: 'success' };
   }
 
-  @Mutation(returns => ResetPasswordResponse)
-  async resetPassword(@Args('input') resetPasswordData: ResetPasswordInput): Promise<ResetPasswordResponse> {
+  @Mutation((returns) => ResetPasswordResponse)
+  async resetPassword(
+    @Args('input') resetPasswordData: ResetPasswordInput
+  ): Promise<ResetPasswordResponse> {
     // check if included reset token is in database for specified email AND that expiryTime has not passed
     const { email, password, resetToken } = resetPasswordData;
     console.log(resetPasswordData);
-    const isValidResetToken = await this.authService.validateResetToken(email, resetToken);
+    const isValidResetToken = await this.authService.validateResetToken(
+      email,
+      resetToken
+    );
     if (!isValidResetToken) {
       console.log(isValidResetToken, 'is not valid reset token');
       return { status: 'failure' };

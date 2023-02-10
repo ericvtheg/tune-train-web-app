@@ -1,13 +1,16 @@
-import { Module, DynamicModule, ModuleMetadata, Provider } from '@nestjs/common';
+import {
+  Module,
+  DynamicModule,
+  ModuleMetadata,
+  Provider,
+} from '@nestjs/common';
 import { SnsFactoryProvider } from 'src/services/publish/sns.factory';
 import { TOPIC_ARN } from 'src/common/symbols';
 import { PublishService } from 'src/services/publish/publish.service';
 
 export interface PublishModuleAsyncOptions
   extends Pick<ModuleMetadata, 'imports'> {
-  useFactory: (
-    ...args: any[]
-  ) => Promise<any> | any;
+  useFactory: (...args: any[]) => Promise<any> | any;
   inject?: any[];
   extraProviders?: Provider[];
 }
@@ -29,13 +32,13 @@ export class PublishModule {
   }
 
   private static createAsyncProviders(
-    options: PublishModuleAsyncOptions,
+    options: PublishModuleAsyncOptions
   ): Provider[] {
     return [this.createAsyncOptionsProvider(options)];
   }
 
   private static createAsyncOptionsProvider(
-    options: PublishModuleAsyncOptions,
+    options: PublishModuleAsyncOptions
   ): Provider {
     return {
       provide: TOPIC_ARN,

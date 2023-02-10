@@ -7,7 +7,10 @@ export class GlobalGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const isPublic = this.reflector.get<boolean, string>(IS_PUBLIC_KEY, context.getHandler());
+    const isPublic = this.reflector.get<boolean, string>(
+      IS_PUBLIC_KEY,
+      context.getHandler()
+    );
     if (isPublic) {
       return true;
     }

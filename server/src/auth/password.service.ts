@@ -13,7 +13,10 @@ export class PasswordService {
     return await hash(password, this.saltRounds);
   }
 
-  async validatePassword(password: string, hashedPassword: HashedPassword): Promise<boolean> {
+  async validatePassword(
+    password: string,
+    hashedPassword: HashedPassword
+  ): Promise<boolean> {
     return await compare(password, hashedPassword);
   }
 }

@@ -2,7 +2,11 @@ import { PrismaService } from 'nestjs-prisma';
 import type { Opaque } from 'type-fest';
 import { Injectable, Logger } from '@nestjs/common';
 import { User as UserEntity, Artist as ArtistEntity } from '@prisma/client';
-import { ToBeCreatedArtist, Artist, transform as artistTransform } from 'src/domain-objects/artist/artist.service';
+import {
+  ToBeCreatedArtist,
+  Artist,
+  transform as artistTransform,
+} from 'src/domain-objects/artist/artist.service';
 
 export type UserId = Opaque<number, 'UserId'>;
 
@@ -40,7 +44,7 @@ interface UserEmailObject {
 
 type UpdateUserFilter = UserIdObject | UserEmailObject;
 
-type UserAndArtistEntity = UserEntity & { artist: ArtistEntity | null};
+type UserAndArtistEntity = UserEntity & { artist: ArtistEntity | null };
 
 const transform = (entity: UserAndArtistEntity): User => ({
   id: entity.id as UserId,
@@ -62,12 +66,14 @@ export class UserService {
         email: user.email,
         password: user.password,
         first_name: user.firstName,
-        artist: user?.artist ? {
-          create: {
-            stage_name: user.artist.stageName,
-            bio: user.artist.bio,
-          },
-        } : undefined,
+        artist: user?.artist
+          ? {
+            create: {
+              stage_name: user.artist.stageName,
+              bio: user.artist.bio,
+            },
+          }
+          : undefined,
       },
       include: {
         artist: true,
@@ -86,11 +92,14 @@ export class UserService {
     return userEntity ? transform(userEntity) : null;
   }
 
-  async updateUser(filter: UpdateUserFilter, payload: Partial<UpdatableUserFields>): Promise<User> {
+  async updateUser(
+    filter: UpdateUserFilter,
+    payload: Partial<UpdatableUserFields>
+  ): Promise<User> {
     let idFilter;
     let emailFilter;
 
-    if ('id' in filter){
+    if ('id' in filter) {
       idFilter = filter.id;
     } else if ('email' in filter) {
       emailFilter = filter.email;

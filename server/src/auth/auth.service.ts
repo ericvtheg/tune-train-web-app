@@ -13,17 +13,26 @@ export class AuthService {
     private readonly jwtTokenService: JwtService,
     private readonly passwordService: PasswordService,
     private readonly userService: UserService,
-    private readonly prismaService: PrismaService,
+    private readonly prismaService: PrismaService
   ) {}
 
-  private async validatePassword(inputPassword: string, hashedPassword: HashedPassword): Promise<boolean> {
-    return await this.passwordService.validatePassword(inputPassword, hashedPassword);
+  private async validatePassword(
+    inputPassword: string,
+    hashedPassword: HashedPassword
+  ): Promise<boolean> {
+    return await this.passwordService.validatePassword(
+      inputPassword,
+      hashedPassword
+    );
   }
 
-  async validateUser(email: string, password: string ): Promise<User | null> {
+  async validateUser(email: string, password: string): Promise<User | null> {
     const user = await this.userService.findUserByEmail(email);
     if (user) {
-      const isValidPassword = await this.validatePassword(password, user.password as HashedPassword);
+      const isValidPassword = await this.validatePassword(
+        password,
+        user.password as HashedPassword
+      );
       if (isValidPassword) {
         return user;
       }
@@ -31,7 +40,10 @@ export class AuthService {
     return null;
   }
 
-  async validateResetToken(email: string, resetToken: string): Promise<Boolean> {
+  async validateResetToken(
+    email: string,
+    resetToken: string
+  ): Promise<boolean> {
     const result = await this.prismaService.auth.findFirst({
       where: {
         email,
@@ -68,13 +80,22 @@ export class AuthService {
         },
       });
       return resetToken;
-
     } catch (error) {
-      if ((error?.meta?.field_name as string)?.includes(AUTH_EMAIL_EXISTS_CONSTRAINT)){
-        Logger.warn('User attempted forgot password flow for non existent email');
+      if (
+        (error?.meta?.field_name as string)?.includes(
+          AUTH_EMAIL_EXISTS_CONSTRAINT
+        )
+      ) {
+        Logger.warn(
+          'User attempted forgot password flow for non existent email'
+        );
         return null;
       }
-      Logger.error('Failed to generateResetToken', error, JSON.stringify(error));
+      Logger.error(
+        'Failed to generateResetToken',
+        error,
+        JSON.stringify(error)
+      );
       throw error;
     }
   }

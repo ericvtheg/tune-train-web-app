@@ -35,6 +35,5 @@ import { EmailModule } from 'src/services/email/email.module';
     JwtStrategy,
   ],
   exports: [AuthService, PasswordService],
-
 })
 export class AuthModule {}
