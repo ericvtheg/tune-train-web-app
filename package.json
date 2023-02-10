@@ -13,8 +13,6 @@
   },
   "homepage": "https://github.com/ericvtheg/tune-train-web-app#readme",
   "scripts": {
-    "lint": "yarn eslint --ext .js,.jsx,.ts,.tsx .",
-    "lint:fix": "yarn prettier --write . && yarn lint --fix",
     "prepare": "husky install"
   },
   "husky": {
