@@ -11,7 +11,7 @@ A webapp built to find and connect with upcoming artists!
 * NestJS for inversion of control and other QoL features
 * PassportJs for password management
 
-### Cloud Infrastructure
+### Cloud Infrastructure (AWS)
 
 * s3 for mp3 file storage
 * SES for email correspondence
